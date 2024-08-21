@@ -8,18 +8,12 @@ import { FaustTemplate, flatListToHierarchical } from "@faustwp/core";
 import { FOOTER_LOCATION, PRIMARY_LOCATION } from "@/contains/menu";
 import PageLayout from "@/container/PageLayout";
 import MyWordPressBlockViewer from "@/components/MyWordPressBlockViewer";
-import { Sidebar } from "@/container/singles/Sidebar";
-import { TCategoryCardFull } from "@/components/CardCategory1/CardCategory1";
 
 const Page: FaustTemplate<GetPageQuery> = (props) => {
   // LOADING ----------
   if (props.loading) {
     return <>Loading...</>;
   }
-
-  // Fetch top 10 categories for the sidebar
-  const categories: TCategoryCardFull[] =
-    (props.data?.categories?.nodes as TCategoryCardFull[]) || [];
 
   // for this page
   const { title, editorBlocks, featuredImage, ncPageMeta } =
@@ -53,27 +47,20 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
             isGutenbergPage ? "" : "pb-20 pt-5 sm:pt-10"
           }`}
         >
-          <div className="flex flex-col lg:flex-row">
-            <main
-              className={`prose lg:prose-lg dark:prose-invert mx-auto ${
-                isGutenbergPage ? "max-w-none" : ""
-              } w-full lg:w-3/4`}
-            >
-              {title && !isGutenbergPage && (
-                <>
-                  <EntryHeader title={title} />
-                  <hr />
-                </>
-              )}
+          <main
+            className={`prose lg:prose-lg dark:prose-invert mx-auto ${
+              isGutenbergPage ? "max-w-none" : ""
+            }`}
+          >
+            {title && !isGutenbergPage && (
+              <>
+                <EntryHeader title={title} />
+                <hr />
+              </>
+            )}
 
-              <MyWordPressBlockViewer blocks={blocks} />
-            </main>
-
-            {/* Sidebar for all pages */}
-            <aside className="hidden lg:block w-full lg:w-1/4">
-              <Sidebar categories={categories} />
-            </aside>
-          </div>
+            <MyWordPressBlockViewer blocks={blocks} />
+          </main>
         </div>
       </PageLayout>
     </>
@@ -89,7 +76,7 @@ Page.variables = ({ databaseId }, ctx) => {
   };
 };
 
-// Ensure the query includes categories for the sidebar
+// Note***: tat ca cac query trong cac page deu phai co generalSettings, no duoc su dung o compoent Wrap
 Page.query = gql(`
   query GetPage($databaseId: ID!, $asPreview: Boolean = false, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum!) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
@@ -116,11 +103,7 @@ Page.query = gql(`
         ...CoreColumnFragment
       }
     }
-    categories(first: 10, where: { orderby: COUNT, order: DESC }) {
-      nodes {
-        ...NcmazFcCategoryFullFieldsFragment
-      }
-    }
+    # common query for all page 
     generalSettings {
       ...NcgeneralSettingsFieldsFragment
     }
@@ -138,4 +121,3 @@ Page.query = gql(`
 `);
 
 export default Page;
-
