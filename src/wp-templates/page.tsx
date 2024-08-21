@@ -17,6 +17,10 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
     return <>Loading...</>;
   }
 
+  // Fetch top 10 categories for the sidebar
+  const categories: TCategoryCardFull[] =
+    (props.data?.categories?.nodes as TCategoryCardFull[]) || [];
+
   // for this page
   const { title, editorBlocks, featuredImage, ncPageMeta } =
     props.data?.page || {};
@@ -28,10 +32,6 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
     idKey: "clientId",
     parentKey: "parentClientId",
   });
-
-  // Fetch top 10 categories for the sidebar
-  const categories: TCategoryCardFull[] =
-    (props.data?.categories?.nodes as TCategoryCardFull[]) || [];
 
   return (
     <>
@@ -51,27 +51,29 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
         <div
           className={`container ${
             isGutenbergPage ? "" : "pb-20 pt-5 sm:pt-10"
-          } flex`} // Added "flex" class for sidebar layout
+          }`}
         >
-          <main
-            className={`prose lg:prose-lg dark:prose-invert ${
-              isGutenbergPage ? "max-w-none" : "mx-auto"
-            } w-full lg:w-3/4`} // Adjusted width for sidebar
-          >
-            {title && !isGutenbergPage && (
-              <>
-                <EntryHeader title={title} />
-                <hr />
-              </>
-            )}
+          <div className="flex flex-col lg:flex-row">
+            <main
+              className={`prose lg:prose-lg dark:prose-invert mx-auto ${
+                isGutenbergPage ? "max-w-none" : ""
+              } w-full lg:w-3/4`}
+            >
+              {title && !isGutenbergPage && (
+                <>
+                  <EntryHeader title={title} />
+                  <hr />
+                </>
+              )}
 
-            <MyWordPressBlockViewer blocks={blocks} />
-          </main>
+              <MyWordPressBlockViewer blocks={blocks} />
+            </main>
 
-          {/* Sidebar for all pages */}
-          <aside className="hidden lg:block w-full lg:w-1/4">
-            <Sidebar categories={categories} /> {/* Pass categories to the Sidebar */}
-          </aside>
+            {/* Sidebar for all pages */}
+            <aside className="hidden lg:block w-full lg:w-1/4">
+              <Sidebar categories={categories} />
+            </aside>
+          </div>
         </div>
       </PageLayout>
     </>
@@ -87,7 +89,7 @@ Page.variables = ({ databaseId }, ctx) => {
   };
 };
 
-// Note***: The GraphQL query has been updated to fetch the categories
+// Ensure the query includes categories for the sidebar
 Page.query = gql(`
   query GetPage($databaseId: ID!, $asPreview: Boolean = false, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum!) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
@@ -119,7 +121,6 @@ Page.query = gql(`
         ...NcmazFcCategoryFullFieldsFragment
       }
     }
-    # common query for all page 
     generalSettings {
       ...NcgeneralSettingsFieldsFragment
     }
@@ -137,3 +138,4 @@ Page.query = gql(`
 `);
 
 export default Page;
+
