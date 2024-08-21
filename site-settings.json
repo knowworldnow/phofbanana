@@ -18,7 +18,7 @@
 		"features_list": ["Create a free account.", "Write your stories."]
 	},
 	"top_banner": {
-		"enable": true,
+		"enable": false,
 		"description": "-50% Intro price for the next 72 hours only!.",
 		"end_link": {
 			"url": "https://themeforest.net/item/ncmaz-nextjs-headless-wordpress-blog-magazine/47815656",
@@ -32,18 +32,29 @@
 		"sub_title": "Let's explore the most popular categories"
 	},
 	"site_info": {
-		"site_title": "Ncmaz Nextjs Blog",
-		"site_description": "Ncmaz Nextjs Blog headless WordPress",
-		"site_keywords": "Ncmaz Nextjs Blog",
-		"site_author": "ChisNghiax",
-		"site_email": "Your Email",
+		"site_title": "pH of Banana",
+		"site_description": "The blog for all banana lovers.",
+		"site_keywords": "pH of Banana",
+		"site_authors": [
+			{
+				"name": "Shoumya Chowdhury",
+				"role": "Web Developer & Blogger",
+				"email": "samchy25@gmail.com"
+			},
+			{
+				"name": "Anmita Das",
+				"role": "EEE Engineer & Blogger",
+				"email": "anmitabristi0182@gmail.com"
+			}
+		],
+		"site_email": "admin@phofbanana.com",
 		"site_phone": "Your Phone",
 		"site_address": "Your Address",
 		"site_city": "Your City",
 		"site_state": "Your State",
 		"site_zip": "Your Zip",
 		"site_country": "Your Country",
-		"site_url": "https://www.yoursite.com",
+		"site_url": "https://phofbanana.com",
 		"site_logo": "/logo.png",
 		"site_logo_light": "/logo-light.png",
 		"site_favicon": "/favicon.png"
@@ -51,28 +62,27 @@
 	"site_socials": [
 		{
 			"name": "facebook",
-			"url": "https://www.facebook.com/yourfacebookpage",
+			"url": "https://www.facebook.com/phofbanana",
 			"icon": "/images/socials/facebook.svg",
 			"description": "Follow us on Facebook"
 		},
 		{
 			"name": "twitter",
-			"url": "https://twitter.com/yourtwitterpage",
+			"url": "https://twitter.com/phofbanana",
 			"icon": "/images/socials/x-twitter.svg",
 			"description": "Follow us on Twitter"
 		},
-
 		{
-			"name": "github",
-			"url": "https://www.github.com/yourmediumpage",
-			"icon": "/images/socials/github.svg",
-			"description": "Follow us on Github"
+			"name": "instagram",
+			"url": "https://www.instagram.com/phofbanana",
+			"icon": "/images/socials/instagram.svg",
+			"description": "Follow us on Instagram"
 		},
 		{
-			"name": "tiktok",
-			"url": "https://www.tiktok.com/yourtiktokpage",
-			"icon": "/images/socials/tiktok.svg",
-			"description": "Follow us on Tiktok"
+			"name": "pinterest",
+			"url": "https://www.pinterest.com/phofbanana",
+			"icon": "/images/socials/pinterest.svg",
+			"description": "Follow us on Pinterest"
 		}
 	],
 	"site_header": {
@@ -81,10 +91,10 @@
 		}
 	},
 	"site_footer": {
-		"all_rights_reserved_text": "© 2023 ChisNghiax Company, Inc. All rights reserved."
+		"all_rights_reserved_text": "© 2024 pH of Banana, Inc. All rights reserved."
 	},
 	"single_page": {
-		"show_view_cout": true,
+		"show_view_count": true,
 		"show_comment_count": true
 	},
 	"search_page": {
@@ -118,11 +128,11 @@
 		"show_top_categories": true
 	},
 	"post_card": {
-		"show_view_cout": false,
+		"show_view_count": false,
 		"show_comment_count": true
 	},
 	"submissions-settings": {
-		"enable": true,
+		"enable": false,
 		"max_categories_allowed": 3,
 		"max_tags_allowed": 5,
 		"allow_upload_media": true,
@@ -181,24 +191,24 @@
 		"title": "Lost your password?",
 		"sub_title": "Enter your email below to reset your password.",
 		"blockquote": {
-			"text": "This theme has saved me countless hours of work and helped me deliver stunning designs to my clients faster than ever before.",
-			"author": "Chis agency"
+			"text": "The best spot to find the latest info.",
+			"author": "Shoumya Chowdhury"
 		}
 	},
 	"signUp_page": {
 		"title": "Create an account",
 		"sub_title": "Enter your email below to create your account.",
 		"blockquote": {
-			"text": "This theme has saved me countless hours of work and helped me deliver stunning designs to my clients faster than ever before.",
-			"author": "Chis agency"
+			"text": "The best spot to find the latest info.",
+			"author": "Shoumya Chowdhury"
 		}
 	},
 	"signIn_page": {
 		"title": "Sign in to your account",
 		"sub_title": "Enter your email below to sign in to your account.",
 		"blockquote": {
-			"text": "This theme has saved me countless hours of work and helped me deliver stunning designs to my clients faster than ever before.",
-			"author": "Chis agency"
+			"text": "The best spot to find the latest info.",
+			"author": "Shoumya Chowdhury"
 		},
 		"lost_password": {
 			"is_use_lostpassword_default_of_wp": false,
@@ -207,7 +217,7 @@
 		}
 	},
 	"mobile_nav_sidebar": {
-		"description": "Discover the most outstanding articles on all topics of life. Write your stories and share them with the community. "
+		"description": "Discover the most outstanding articles on all topics of life. Write your stories and share them with the community."
 	},
 	"help_page": {
 		"uri": "/helps",
@@ -262,7 +272,6 @@
 		"uri": "/privacy-policy",
 		"title": "Privacy Policy"
 	},
-
 	"empty_state": {
 		"title": "No results found.",
 		"description": "We couldn’t find any results. Try for something else."
