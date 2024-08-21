@@ -8,6 +8,8 @@ import { FaustTemplate, flatListToHierarchical } from "@faustwp/core";
 import { FOOTER_LOCATION, PRIMARY_LOCATION } from "@/contains/menu";
 import PageLayout from "@/container/PageLayout";
 import MyWordPressBlockViewer from "@/components/MyWordPressBlockViewer";
+import Sidebar from "@/container/singles/Sidebar"; // Import the Sidebar component
+import { TCategoryCardFull } from "@/components/CardCategory1/CardCategory1";
 
 const Page: FaustTemplate<GetPageQuery> = (props) => {
   // LOADING ----------
@@ -27,6 +29,9 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
     parentKey: "parentClientId",
   });
 
+  // Fetch categories for the sidebar
+  const categories: TCategoryCardFull[] = props.data?.categories?.nodes || [];
+
   return (
     <>
       <PageLayout
@@ -45,12 +50,12 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
         <div
           className={`container ${
             isGutenbergPage ? "" : "pb-20 pt-5 sm:pt-10"
-          }`}
+          } flex`} // Added "flex" class for sidebar layout
         >
           <main
-            className={`prose lg:prose-lg dark:prose-invert mx-auto ${
-              isGutenbergPage ? "max-w-none" : ""
-            }`}
+            className={`prose lg:prose-lg dark:prose-invert ${
+              isGutenbergPage ? "max-w-none" : "mx-auto"
+            } w-full lg:w-3/4`} // Adjusted width for sidebar
           >
             {title && !isGutenbergPage && (
               <>
@@ -61,6 +66,11 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
 
             <MyWordPressBlockViewer blocks={blocks} />
           </main>
+
+          {/* Sidebar for all pages */}
+          <aside className="hidden lg:block w-full lg:w-1/4">
+            <Sidebar categories={categories} />
+          </aside>
         </div>
       </PageLayout>
     </>
@@ -115,6 +125,11 @@ Page.query = gql(`
     footerMenuItems: menuItems(where: { location:  $footerLocation  }, first: 40) {
       nodes {
         ...NcFooterMenuFieldsFragment
+      }
+    }
+    categories(first:10, where: { orderby: COUNT, order: DESC }) {
+      nodes {
+        ...NcmazFcCategoryFullFieldsFragment
       }
     }
   }
