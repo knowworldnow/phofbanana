@@ -8,7 +8,7 @@ import { FaustTemplate, flatListToHierarchical } from "@faustwp/core";
 import { FOOTER_LOCATION, PRIMARY_LOCATION } from "@/contains/menu";
 import PageLayout from "@/container/PageLayout";
 import MyWordPressBlockViewer from "@/components/MyWordPressBlockViewer";
-import Sidebar from "@/container/singles/Sidebar"; // Import the Sidebar component
+import { Sidebar } from "@/container/singles/Sidebar"; // Correctly importing Sidebar as a named export
 import { TCategoryCardFull } from "@/components/CardCategory1/CardCategory1";
 
 const Page: FaustTemplate<GetPageQuery> = (props) => {
@@ -136,3 +136,4 @@ Page.query = gql(`
 `);
 
 export default Page;
+
