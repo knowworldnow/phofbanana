@@ -10,7 +10,7 @@ import { NC_SITE_SETTINGS } from '@/contains/site-settings'
 import { usePathname } from 'next/navigation'
 
 export interface PostCardLikeAndCommentProps
-	extends Omit<PostCardLikeActionProps, ''>,
+	extends Omit<PostCardLikeActionProps, 'isATagOnSingle'>,
 		Omit<PostCardCommentBtnProps, 'isATagOnSingle'> {
 	className?: string
 	itemClass?: string
@@ -30,7 +30,8 @@ const PostCardLikeAndComment: FC<PostCardLikeAndCommentProps> = ({
 	commentCount,
 	linkToPost,
 	postDatabseId,
-	showViewCount = NC_SITE_SETTINGS['post_card']?.show_view_cout,
+	// Corrected the typo here
+	showViewCount = NC_SITE_SETTINGS['post_card']?.show_view_count,
 	showCommentCount = NC_SITE_SETTINGS['post_card']?.show_comment_count,
 	viewCount = 0,
 }) => {
@@ -72,3 +73,4 @@ const PostCardLikeAndComment: FC<PostCardLikeAndCommentProps> = ({
 }
 
 export default PostCardLikeAndComment
+
