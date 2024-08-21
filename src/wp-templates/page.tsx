@@ -8,7 +8,7 @@ import { FaustTemplate, flatListToHierarchical } from "@faustwp/core";
 import { FOOTER_LOCATION, PRIMARY_LOCATION } from "@/contains/menu";
 import PageLayout from "@/container/PageLayout";
 import MyWordPressBlockViewer from "@/components/MyWordPressBlockViewer";
-import { Sidebar } from "@/container/singles/Sidebar"; // Correctly importing Sidebar as a named export
+import { Sidebar } from "@/container/singles/Sidebar";
 import { TCategoryCardFull } from "@/components/CardCategory1/CardCategory1";
 
 const Page: FaustTemplate<GetPageQuery> = (props) => {
@@ -30,7 +30,8 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
   });
 
   // Fetch categories for the sidebar
-  const categories: TCategoryCardFull[] = props.data?.categories?.nodes || [];
+  const categories: TCategoryCardFull[] =
+    (props.data?.categories?.nodes as TCategoryCardFull[]) || [];
 
   return (
     <>
@@ -127,7 +128,7 @@ Page.query = gql(`
         ...NcFooterMenuFieldsFragment
       }
     }
-    categories(first:10, where: { orderby: COUNT, order: DESC }) {
+    categories(first: 10, where: { orderby: COUNT, order: DESC }) { # Added this query for categories
       nodes {
         ...NcmazFcCategoryFullFieldsFragment
       }
@@ -136,4 +137,5 @@ Page.query = gql(`
 `);
 
 export default Page;
+
 
