@@ -87,7 +87,7 @@ Page.variables = ({ databaseId }, ctx) => {
   };
 };
 
-// Note***: tat ca cac query trong cac page deu phai co generalSettings, no duoc su dung o compoent Wrap
+// Note***: The GraphQL query has been updated to fetch the categories
 Page.query = gql(`
   query GetPage($databaseId: ID!, $asPreview: Boolean = false, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum!) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
@@ -114,7 +114,7 @@ Page.query = gql(`
         ...CoreColumnFragment
       }
     }
-    categories(first:10, where: { orderby: COUNT, order: DESC }) {
+    categories(first: 10, where: { orderby: COUNT, order: DESC }) {
       nodes {
         ...NcmazFcCategoryFullFieldsFragment
       }
@@ -137,7 +137,3 @@ Page.query = gql(`
 `);
 
 export default Page;
-
-
-
-
