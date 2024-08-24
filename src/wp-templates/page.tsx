@@ -16,11 +16,7 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
   }
 
   // for this page
-  const { title, editorBlocks, featuredImage, ncPageMeta } =
-    props.data?.page || {};
-
-  const isGutenbergPage =
-    !!props.__SEED_NODE__?.isFrontPage || ncPageMeta?.isFullWithPage;
+  const { title, editorBlocks, featuredImage } = props.data?.page || {};
 
   const blocks = flatListToHierarchical(editorBlocks as any, {
     idKey: "clientId",
@@ -42,17 +38,9 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
           <span className="block bg-[#ef233c] w-72 h-72 rounded-full mix-blend-multiply filter blur-3xl opacity-10 lg:w-96 lg:h-96"></span>
           <span className="block bg-[#04868b] w-72 h-72 -ml-20 mt-40 rounded-full mix-blend-multiply filter blur-3xl opacity-10 lg:w-96 lg:h-96 nc-animation-delay-2000"></span>
         </div>
-        <div
-          className={`container ${
-            isGutenbergPage ? "" : "pb-20 pt-5 sm:pt-10"
-          }`}
-        >
-          <main
-            className={`prose lg:prose-lg dark:prose-invert mx-auto ${
-              isGutenbergPage ? "max-w-none" : ""
-            }`}
-          >
-            {title && !isGutenbergPage && (
+        <div className="container pb-20 pt-5 sm:pt-10">
+          <main className="prose lg:prose-lg dark:prose-invert mx-auto">
+            {title && (
               <>
                 <EntryHeader title={title} />
                 <hr />
@@ -81,9 +69,6 @@ Page.query = gql(`
   query GetPage($databaseId: ID!, $asPreview: Boolean = false, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum!) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
       title
-      ncPageMeta {
-        isFullWithPage
-      }
       featuredImage {
         node {
           altText
