@@ -1,4 +1,4 @@
-import { gql } from "@/__generated__";
+import { gql } from "@apollo/client";
 import EntryHeader from "../components/entry-header";
 import {
   GetPageQuery,
@@ -10,12 +10,10 @@ import PageLayout from "@/container/PageLayout";
 import MyWordPressBlockViewer from "@/components/MyWordPressBlockViewer";
 
 const Page: FaustTemplate<GetPageQuery> = (props) => {
-  // LOADING ----------
   if (props.loading) {
     return <>Loading...</>;
   }
 
-  // for this page
   const { title, editorBlocks, featuredImage } = props.data?.page || {};
 
   const blocks = flatListToHierarchical(editorBlocks as any, {
@@ -46,7 +44,6 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
                 <hr />
               </>
             )}
-
             <MyWordPressBlockViewer blocks={blocks} />
           </main>
         </div>
@@ -64,8 +61,7 @@ Page.variables = ({ databaseId }, ctx) => {
   };
 };
 
-// Note***: tat ca cac query trong cac page deu phai co generalSettings, no duoc su dung o compoent Wrap
-Page.query = gql(`
+Page.query = gql`
   query GetPage($databaseId: ID!, $asPreview: Boolean = false, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum!) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
       title
@@ -88,21 +84,20 @@ Page.query = gql(`
         ...CoreColumnFragment
       }
     }
-    # common query for all page 
     generalSettings {
       ...NcgeneralSettingsFieldsFragment
     }
-    primaryMenuItems: menuItems(where: { location:  $headerLocation  }, first: 80) {
+    primaryMenuItems: menuItems(where: { location: $headerLocation }, first: 80) {
       nodes {
         ...NcPrimaryMenuFieldsFragment
       }
     }
-    footerMenuItems: menuItems(where: { location:  $footerLocation  }, first: 40) {
+    footerMenuItems: menuItems(where: { location: $footerLocation }, first: 40) {
       nodes {
         ...NcFooterMenuFieldsFragment
       }
     }
   }
-`);
+`;
 
 export default Page;
