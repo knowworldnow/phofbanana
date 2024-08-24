@@ -42,7 +42,9 @@ const PageLayout: FC<Props> = ({
         menuItems={headerMenuItems || []}
       />
 
-      {children}
+      <div className="container pb-20 pt-5 sm:pt-10">
+        {children}
+      </div>
 
       <Footer menuItems={footerMenuItems || []} />
     </>
@@ -50,3 +52,4 @@ const PageLayout: FC<Props> = ({
 };
 
 export default PageLayout;
+
