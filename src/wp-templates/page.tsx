@@ -14,7 +14,11 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
     return <>Loading...</>;
   }
 
-  const { title, editorBlocks, featuredImage } = props.data?.page || {};
+  const { title, editorBlocks, featuredImage, ncPageMeta } =
+    props.data?.page || {};
+
+  // This change removes the condition for isFrontPage
+  const isGutenbergPage = ncPageMeta?.isFullWithPage;
 
   const blocks = flatListToHierarchical(editorBlocks as any, {
     idKey: "clientId",
@@ -32,10 +36,9 @@ const Page: FaustTemplate<GetPageQuery> = (props) => {
           props.data?.generalSettings as NcgeneralSettingsFieldsFragmentFragment
         }
       >
-        {/* Removed full-width logic and enforced standard container width */}
-        <div className="container pb-20 pt-5 sm:pt-10 mx-auto max-w-screen-lg">
-          <main className="prose lg:prose-lg dark:prose-invert mx-auto">
-            {title && (
+        <div className={`container ${isGutenbergPage ? "" : "pb-20 pt-5 sm:pt-10"}`}>
+          <main className={`prose lg:prose-lg dark:prose-invert mx-auto ${isGutenbergPage ? "max-w-none" : ""}`}>
+            {title && !isGutenbergPage && (
               <>
                 <EntryHeader title={title} />
                 <hr />
@@ -64,6 +67,9 @@ Page.query = gql`
   query GetPage($databaseId: ID!, $asPreview: Boolean = false, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum!) {
     page(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
       title
+      ncPageMeta {
+        isFullWithPage
+      }
       featuredImage {
         node {
           altText
