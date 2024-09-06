@@ -1,33 +1,38 @@
 import Image from 'next/image';
 import { FC } from 'react';
 
+export const SOCIALS_DATA = [
+  {
+    name: 'Facebook',
+    url: 'https://facebook.com',
+    icon: '/images/socials/facebook.svg',
+  },
+  {
+    name: 'Twitter',
+    url: 'https://twitter.com',
+    icon: '/images/socials/x-twitter.svg',
+  },
+  {
+    name: 'Instagram',
+    url: 'https://instagram.com',
+    icon: '/images/socials/instagram.svg',
+  },
+  {
+    name: 'Pinterest',
+    url: 'https://pinterest.com',
+    icon: '/images/socials/pinterest.svg',
+  },
+];
+
 interface SocialsShareProps {
   link: string;
 }
 
 const SocialsShare: FC<SocialsShareProps> = ({ link }) => {
-  const socials = [
-    {
-      name: 'Facebook',
-      url: `https://facebook.com/sharer/sharer.php?u=${link}`,
-      icon: '/images/socials/facebook.svg',
-    },
-    {
-      name: 'Twitter',
-      url: `https://twitter.com/intent/tweet?url=${link}`,
-      icon: '/images/socials/x-twitter.svg',
-    },
-    {
-      name: 'Instagram',
-      url: `https://instagram.com`,
-      icon: '/images/socials/instagram.svg',
-    },
-    {
-      name: 'Pinterest',
-      url: `https://pinterest.com/pin/create/button/?url=${link}`,
-      icon: '/images/socials/pinterest.svg',
-    },
-  ];
+  const socials = SOCIALS_DATA.map((social) => ({
+    ...social,
+    url: `${social.url}?u=${link}`,
+  }));
 
   return (
     <div className="nc-SocialsShare flex items-center gap-4">
