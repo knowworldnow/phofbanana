@@ -26,6 +26,7 @@ import { TCategoryCardFull } from "@/components/CardCategory1/CardCategory1";
 import SingleTypeAudio from "@/container/singles/single-audio/single-audio";
 import SingleTypeVideo from "@/container/singles/single-video/single-video";
 import SingleTypeGallery from "@/container/singles/single-gallery/single-gallery";
+import SocialsShare from "@/components/SocialsShare/SocialsShare";
 
 const DynamicSingleRelatedPosts = dynamic(
   () => import("@/container/singles/SingleRelatedPosts")
@@ -194,6 +195,7 @@ const Component: FaustTemplate<GetPostSiglePageQuery> = (props) => {
               <div className="container flex flex-col my-10 lg:flex-row ">
                 <div className="w-full lg:w-3/5 xl:w-2/3 xl:pe-20">
                   <SingleContent post={_post} />
+                  <SocialsShare link={router.asPath} />
                 </div>
                 <div className="w-full mt-12 lg:mt-0 lg:w-2/5 lg:ps-10 xl:ps-0 xl:w-1/3">
                   <Sidebar categories={_top10Categories} />
@@ -214,6 +216,7 @@ const Component: FaustTemplate<GetPostSiglePageQuery> = (props) => {
             <div className="container mt-10">
               {/* SINGLE MAIN CONTENT */}
               <SingleContent post={_post} />
+              <SocialsShare link={router.asPath} />
             </div>
 
             {/* RELATED POSTS */}
