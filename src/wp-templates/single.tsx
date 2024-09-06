@@ -84,9 +84,11 @@ const Component: FaustTemplate<GetPostSiglePageQuery> = (props) => {
     excerpt,
   } = getPostDataFromPostFragment(_post);
 
+  //
   const {} = useGetPostsNcmazMetaByIds({
     posts: (IS_PREVIEW ? [] : [_post]) as TPostCard[],
   });
+  //
 
   // Query update post view count
   const [handleUpdateReactionCount, { reset }] = useMutation(
