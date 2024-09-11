@@ -9,7 +9,6 @@ import {
 import {
 	Bars3Icon,
 	FolderIcon,
-	LightBulbIcon,
 	PowerIcon,
 	UserCircleIcon,
 	XMarkIcon,
@@ -34,7 +33,6 @@ interface NavigationItem {
 		| TDashBoardEditProfileTab
 		| 'posts'
 		| 'edit profile'
-		| 'documents'
 	title: string
 	href: string
 	icon?: any
@@ -123,14 +121,6 @@ const navigation: NavigationItem[] = [
 			},
 		],
 	},
-	{
-		name: 'documents',
-		title: T['Documents'],
-		href: NC_SITE_SETTINGS.document_page?.enable
-			? NC_SITE_SETTINGS.document_page?.uri || ''
-			: '',
-		icon: LightBulbIcon,
-	},
 ]
 
 interface Props {
@@ -145,9 +135,6 @@ export default function DashboardLayout({ children }: Props) {
 
 	const renderItem = (item: NavigationItem) => {
 		const isCurrent = item.name === currentTab
-		if (item.name === 'documents' && !item.href) {
-			return null
-		}
 
 		return (
 			<li key={item.name}>
@@ -283,7 +270,7 @@ export default function DashboardLayout({ children }: Props) {
 	return (
 		<>
 			<div className="bg-white dark:bg-neutral-800">
-				<Transition show={sidebarOpen} as={Fragment}>
+				 <Transition show={sidebarOpen} as={Fragment}>
 					<Dialog
 						as="div"
 						className="relative z-50 lg:hidden"
@@ -342,7 +329,7 @@ export default function DashboardLayout({ children }: Props) {
 							</TransitionChild>
 						</div>
 					</Dialog>
-				</Transition>
+				</Transition> 
 
 				{/* Static sidebar for desktop */}
 				<div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
