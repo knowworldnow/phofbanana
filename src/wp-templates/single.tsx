@@ -1,7 +1,7 @@
 import { gql } from "../__generated__";
 import {
   GetPostSiglePageQuery,
-  NcgeneralSettingsFieldsFragmentFragment,
+  NcgeneralSettingsFieldsFragmentFragment, 
 } from "../__generated__/graphql";
 import { FaustTemplate } from "@faustwp/core";
 import SingleContent from "@/container/singles/SingleContent";
