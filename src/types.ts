@@ -67,12 +67,20 @@ export interface Page {
   title: string;
   content: string;
   date: string;
+  modified: string;
   slug: string;
   excerpt: string;
   featuredImage?: {
     node: {
       sourceUrl: string;
       altText: string;
+    };
+  };
+  seo?: {
+    title: string;
+    metaDesc: string;
+    opengraphImage: {
+      sourceUrl: string;
     };
   };
 }
