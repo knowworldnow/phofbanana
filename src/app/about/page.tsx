@@ -2,19 +2,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'About Us - Daily Fornex',
-  description: 'Meet the passionate team behind Daily Fornex, delivering insightful content on finance, technology, and more.',
+  title: 'About Us - pH of Banana',
+  description: 'Meet the passionate team behind pH of Banana, delivering insightful content on finance, technology, and more.',
   openGraph: {
-    title: 'About Us - Daily Fornex',
-    description: 'Meet the passionate team behind Daily Fornex, delivering insightful content on finance, technology, and more.',
-    url: 'https://dailyfornex.com/about',
-    siteName: 'Daily Fornex',
+    title: 'About Us - pH of Banana',
+    description: 'Meet the passionate team behind pH of Banana, delivering insightful content on finance, technology, and more.',
+    url: 'https://phofbanana.com/about',
+    siteName: 'pH of Banana',
     images: [
       {
-        url: 'https://dailyfornex.com/og-image-about.jpg',
+        url: 'https://phofbanana.com/og-image-about.jpg',
         width: 1200,
         height: 630,
-        alt: 'Daily Fornex Team',
+        alt: 'pH of Banana Team',
       },
     ],
     locale: 'en_US',
@@ -72,7 +72,7 @@ export default function AboutPage() {
       <div className="bg-gray-100 dark:bg-gray-700 rounded-lg shadow-lg p-8 mb-16">
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Our Mission</h2>
         <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-center">
-          At Daily Fornex, we are dedicated to delivering accurate, insightful, and engaging content across a wide spectrum of topics. Our team of passionate writers and researchers work tirelessly to bring you the latest information and in-depth analysis on subjects that matter most to you. We strive to be your trusted source for knowledge and inspiration in the digital age.
+          At pH of Banana, we are dedicated to delivering accurate, insightful, and engaging content across a wide spectrum of topics. Our team of passionate writers and researchers work tirelessly to bring you the latest information and in-depth analysis on subjects that matter most to you. We strive to be your trusted source for knowledge and inspiration in the digital age.
         </p>
       </div>
 
