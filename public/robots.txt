@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /category/
+Disallow: /tag/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+
+Sitemap: https://phofbanana.com/sitemap.xml
