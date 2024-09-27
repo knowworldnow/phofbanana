@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     description: page.excerpt || '',
     openGraph: {
       type: 'website',
-      url: `https://dailyfornex.com/${page.slug}`,
+      url: `https://phofbanana.com/${page.slug}`,
       title: page.title,
       description: page.excerpt || '',
       images: [
@@ -47,11 +47,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <SEO 
         title={page.title}
         description={page.excerpt || ''}
-        canonicalUrl={`https://dailyfornex.com/${page.slug}`}
+        canonicalUrl={`https://phofbanana.com/${page.slug}`}
         ogType="website"
-        ogImage={page.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg'}
+        ogImage={page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg'}
         ogImageAlt={page.title}
-        siteName="Daily Fornex"
+        siteName="pH of Banana"
       />
       <article className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-6">{page.title}</h1>
