@@ -20,20 +20,20 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Daily Fornex",
-    template: "%s | Daily Fornex",
+    default: "pH of Banana",
+    template: "%s | pH of Banana",
   },
-  description: "Your source for forex news and analysis",
+  description: "Learn about the pH of bananas and their acidity levels",
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-icon.png',
   },
   openGraph: {
     type: 'website',
-    siteName: 'Daily Fornex',
+    siteName: 'pH of Banana',
     images: [
       {
-        url: 'https://dailyfornex.com/default-og-image.jpg',
+        url: 'https://phofbanana.com/default-og-image.jpg',
         width: 1200,
         height: 630,
       },
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@dailyfornex',
+    site: '@phofbanana',
   },
 };
 
