@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --link-color: #00FFFF;
+  --link-hover-color: #00CCCC;
+  --soft-bg: #f0f0f0;
+  --soft-text-color: #626262;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --link-color: #00FFFF;
+  --link-hover-color: #00CCCC;
+  --soft-bg: #1f273a;
+  --soft-text-color: #a6a6a6;
+}
+
+@layer base { 
+  body { 
+    @apply text-base text-foreground bg-background font-sans m-0 p-0; 
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-foreground font-semibold mb-4;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  h5 {
+    @apply text-lg;
+  }
+
+  h6 {
+    @apply text-base;
+  }
+
+  p {
+    @apply mb-4;
+  }
+
+  a {
+    @apply text-foreground transition-colors duration-200 ease-in-out;
+  }
+
+  a:hover {
+    @apply underline;
+  }
+
+  .prose a {
+    @apply font-bold text-[var(--link-color)] no-underline hover:underline;
+  }
+
+  img {
+    @apply mx-auto my-4 rounded-lg shadow-md;
+  }
+
+  figure {
+    @apply text-center mb-8;
+  }
+
+  figcaption {
+    @apply mt-2 text-sm text-gray-600 dark:text-gray-400;
+  }
+
+  ul, ol {
+    @apply mb-4 pl-6;
+  }
+
+  li {
+    @apply mb-2;
+  }
+
+  blockquote {
+    @apply border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic my-4;
+  }
+
+  pre {
+    @apply bg-soft-bg text-soft-text-color p-4 rounded-lg overflow-x-auto mb-4;
+  }
+
+  code {
+    @apply bg-soft-bg text-soft-text-color px-1 py-0.5 rounded;
+  }
+}
+
+@layer components { 
+  .container { 
+    @apply min-h-screen bg-background text-foreground; 
+  }
+
+  .wrapper {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .theme-toggle-btn {
+    @apply p-2 rounded-full transition-colors duration-200 ease-in-out;
+  }
+
+  .dark .theme-toggle-btn {
+    @apply bg-gray-800 text-gray-200 hover:bg-gray-700;
+  }
+
+  .light .theme-toggle-btn {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+  }
+
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose img {
+    @apply mx-auto rounded-lg shadow-md;
+  }
+
+  .site-header {
+    @apply py-2;
+  }
+
+  /* Add styles for the Table of Contents */
+  .table-of-contents {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-6 shadow-md;
+  }
+
+  .table-of-contents h2 {
+    @apply text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200;
+  }
+
+  .table-of-contents ul {
+    @apply space-y-2;
+  }
+
+  .table-of-contents li {
+    @apply py-1;
+  }
+
+  .table-of-contents a {
+    @apply text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-vertical-space {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    @apply px-4;
+  }
+}
