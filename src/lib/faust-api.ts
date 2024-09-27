@@ -2,6 +2,43 @@ import { gql } from '@apollo/client';
 import { client } from './apollo-client';
 import { Post, Category, Page, GetAllPostsResult, GetPageBySlugResult, GetPostBySlugResult, GetCategoriesResult, GetPostsByCategoryResult, GetCategoryBySlugResult, GetAllCategoriesResult, SearchPostsResult } from '../types';
 
+export async function getHomePage(): Promise<Page | null> {
+  const { data } = await client.query<{ generalSettings: { frontPage: { node: Page } } }>({
+    query: gql`
+      query GetHomePage {
+        generalSettings {
+          frontPage {
+            node {
+              id
+              title
+              content
+              date
+              modified
+              slug
+              excerpt
+              featuredImage {
+                node {
+                  sourceUrl
+                  altText
+                }
+              }
+              seo {
+                title
+                metaDesc
+                opengraphImage {
+                  sourceUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
+
+  return data.generalSettings.frontPage.node;
+}
+
 export async function getLatestPosts({ first = 20, after = null }: { first?: number; after?: string | null } = {}): Promise<GetAllPostsResult> {
   const { data } = await client.query<GetAllPostsResult>({
     query: gql`
