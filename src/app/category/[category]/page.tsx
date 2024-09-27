@@ -112,19 +112,19 @@ export async function generateMetadata({ params }: { params: { category: string 
   }
 
   return {
-    title: `${category.name} - Daily Fornex`,
-    description: `Explore the latest posts in the ${category.name} category on Daily Fornex. Stay informed with our curated content on forex news, financial updates, and market analysis.`,
+    title: `${category.name} - pH of Banana`,
+    description: `Explore the latest posts in the ${category.name} category on pH Of Banana. Stay informed with our curated content on bananas.`,
     openGraph: {
-      title: `${category.name} - Daily Fornex`,
-      description: `Discover articles in the ${category.name} category on Daily Fornex. Get insights on forex news, financial trends, and market analysis.`,
-      url: `https://dailyfornex.com/category/${categorySlug}`,
-      siteName: 'Daily Fornex',
+      title: `${category.name} - pH of Banana`,
+      description: `Discover articles in the ${category.name} category on pH of Banana. Get insights on bananas and all you need to know about them.`,
+      url: `https://phofbanana.com/category/${categorySlug}`,
+      siteName: 'pH of Banana',
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${category.name} - Daily Fornex`,
-      description: `Explore ${category.name} articles on Daily Fornex for the latest in forex news and financial insights.`,
+      title: `${category.name} - pH of Banana`,
+      description: `Explore ${category.name} articles on pH of Banana for all the information on Bananas .`,
     },
   };
 }
