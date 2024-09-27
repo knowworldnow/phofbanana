@@ -61,6 +61,6 @@ export default async function CategoriesPage() {
 }
 
 export const metadata = {
-  title: 'Categories - Daily Fornex',
-  description: 'Explore all categories on Daily Fornex',
+  title: 'Categories - pH of Banana',
+  description: 'Explore all categories on pH of Banana',
 };
