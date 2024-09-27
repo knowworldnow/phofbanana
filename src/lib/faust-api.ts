@@ -45,65 +45,65 @@ export async function getLatestPosts({ first = 20, after = null }: { first?: num
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const { data } = await client.query<GetPostBySlugResult>({
-    query: gql`
-      query GetPostBySlug($slug: ID!) {
-        post(id: $slug, idType: SLUG) {
-          id
-          title
-          content
-          date
-          excerpt
-          slug
-          featuredImage {
-            node {
-              sourceUrl
-              altText
-            }
-          }
-          author {
-            node {
-              name
-              avatar {
-                url
+  try {
+    const { data } = await client.query<GetPostBySlugResult>({
+      query: gql`
+        query GetPostBySlug($slug: ID!) {
+          post(id: $slug, idType: SLUG) {
+            id
+            title
+            content
+            date
+            excerpt
+            slug
+            featuredImage {
+              node {
+                sourceUrl
+                altText
               }
             }
-          }
-          categories {
-            nodes {
-              id
-              name
-              slug
+            author {
+              node {
+                name
+                avatar {
+                  url
+                }
+              }
             }
-          }
-          comments(where: { status: "APPROVE" }) {
-            nodes {
-              id
-              content
-              date
-              author {
-                node {
-                  name
-                  email
-                  isRestricted
-                  avatar {
-                    url
+            categories {
+              nodes {
+                id
+                name
+                slug
+              }
+            }
+            comments(where: { status: "APPROVE" }) {
+              nodes {
+                id
+                content
+                date
+                author {
+                  node {
+                    name
+                    email
+                    isRestricted
+                    avatar {
+                      url
+                    }
                   }
                 }
               }
             }
           }
-          faqItems {
-            question
-            answer
-          }
         }
-      }
-    `,
-    variables: { slug },
-  });
-
-  return data.post;
+      `,
+      variables: { slug },
+    });
+    return data.post;
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    return null;
+  }
 }
 
 export async function getRelatedPosts(categoryId: string, currentPostId: string, first: number = 4): Promise<Post[]> {
