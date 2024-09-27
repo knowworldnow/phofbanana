@@ -5,8 +5,21 @@ interface FAQSchemaProps {
   faqItems: FAQItem[];
 }
 
+interface FAQSchemaData {
+  '@context': string;
+  '@type': string;
+  mainEntity: Array<{
+    '@type': string;
+    name: string;
+    acceptedAnswer: {
+      '@type': string;
+      text: string;
+    };
+  }>;
+}
+
 const FAQSchema: React.FC<FAQSchemaProps> = ({ faqItems }) => {
-  const schemaData = {
+  const schemaData: FAQSchemaData = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: faqItems.map((item) => ({
