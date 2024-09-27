@@ -99,9 +99,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
         author={post.author.node.name}
         siteName="Daily Fornex"
       />
-      {post.faqItems && post.faqItems.length > 0 && (
-        <FAQSchema faqItems={post.faqItems} />
-      )}
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
@@ -125,9 +122,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
               className="prose max-w-none mt-8"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
-            {post.faqItems && post.faqItems.length > 0 && (
-              <FAQ faqItems={post.faqItems} />
-            )}
             <AuthorBox authorName={post.author.node.name} />
             {post.comments && <CommentList comments={post.comments.nodes} />}
             <CommentForm postId={post.id} />
