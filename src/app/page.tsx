@@ -1,5 +1,3 @@
-// src/app/page.tsx
-
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { getHomePage } from '../lib/faust-api';
@@ -20,16 +18,16 @@ export async function generateMetadata(): Promise<Metadata> {
   const ogImageUrl = page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   return {
-    title: `${page.title} | pH of Banana`,
-    description: 'Learn about the pH of bananas',
+    title: page.seo?.title || `${page.title} | pH of Banana`,
+    description: page.seo?.metaDesc || 'Learn about the pH of bananas',
     openGraph: {
-      title: page.title,
-      description: 'Learn about the pH of bananas',
+      title: page.seo?.title || page.title,
+      description: page.seo?.metaDesc || 'Learn about the pH of bananas',
       url: 'https://phofbanana.com',
       type: 'article',
       images: [
         {
-          url: ogImageUrl,
+          url: page.seo?.opengraphImage?.sourceUrl || ogImageUrl,
           width: 1200,
           height: 630,
           alt: page.title,
@@ -39,9 +37,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: page.title,
-      description: 'Learn about the pH of bananas',
-      images: [ogImageUrl],
+      title: page.seo?.title || page.title,
+      description: page.seo?.metaDesc || 'Learn about the pH of bananas',
+      images: [page.seo?.opengraphImage?.sourceUrl || ogImageUrl],
     },
   };
 }
@@ -68,6 +66,9 @@ export default async function Home() {
           />
         )}
         <div dangerouslySetInnerHTML={{ __html: page.content }} />
+        <p className="text-sm text-gray-500 mt-4">
+          Last updated: {new Date(page.modified).toLocaleDateString()}
+        </p>
       </article>
     </div>
   );
