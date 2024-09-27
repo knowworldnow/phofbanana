@@ -1,46 +1,74 @@
-import { Metadata } from 'next';
-import HomePage from './HomePage';
-import { getLatestPosts } from '../lib/faust-api';
-import { Post, GetAllPostsResult } from '../types';
+// src/app/page.tsx
 
-export const revalidate = 300;
+import { Metadata } from 'next';
+import Image from 'next/image';
+import { getHomePage } from '../lib/faust-api';
+import { Page } from '../types';
+
+export const revalidate = 3600; // Revalidate every hour
 
 export async function generateMetadata(): Promise<Metadata> {
-  const result: GetAllPostsResult = await getLatestPosts({ first: 5 });
-  const latestPosts = result.posts.nodes;
-  const postTitles = latestPosts.map(post => post.title).join(', ');
+  const page = await getHomePage();
+
+  if (!page) {
+    return {
+      title: 'pH of Banana',
+      description: 'Learn about the pH of bananas',
+    };
+  }
+
+  const ogImageUrl = page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   return {
-    title: 'Daily Fornex - Your daily dose of informative updates',
-    description: `Stay informed with the latest forex news and analysis. Recent topics: ${postTitles}`,
+    title: `${page.title} | pH of Banana`,
+    description: 'Learn about the pH of bananas',
     openGraph: {
-      title: 'Daily Fornex - Your daily dose of informative updates',
-      description: `Stay informed with the latest forex news and analysis. Recent topics: ${postTitles}`,
-      url: 'https://dailyfornex.com',
-      siteName: 'Daily Fornex',
+      title: page.title,
+      description: 'Learn about the pH of bananas',
+      url: 'https://phofbanana.com',
+      type: 'article',
       images: [
         {
-          url: 'https://dailyfornex.com/og-image.jpg',
+          url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: 'Daily Fornex - Your daily dose of informative updates',
+          alt: page.title,
         },
       ],
-      locale: 'en_US',
-      type: 'website',
+      siteName: 'pH of Banana',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Daily Fornex - Your daily dose of informative updates',
-      description: `Stay informed with the latest forex news and analysis. Recent topics: ${postTitles}`,
-      images: ['https://dailyfornex.com/og-image.jpg'],
+      title: page.title,
+      description: 'Learn about the pH of bananas',
+      images: [ogImageUrl],
     },
   };
 }
 
 export default async function Home() {
-  const result: GetAllPostsResult = await getLatestPosts({ first: 24 });
-  const initialPosts: Post[] = result.posts.nodes;
-  const initialPageInfo = result.posts.pageInfo;
-  return <HomePage initialPosts={initialPosts} initialPageInfo={initialPageInfo} />;
+  const page = await getHomePage();
+
+  if (!page) {
+    return <div>Page not found</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <article className="prose prose-lg dark:prose-invert max-w-none">
+        <h1 className="text-4xl font-bold mb-6">{page.title}</h1>
+        {page.featuredImage && (
+          <Image
+            src={page.featuredImage.node.sourceUrl}
+            alt={page.featuredImage.node.altText || page.title}
+            width={1200}
+            height={630}
+            className="w-full h-auto object-cover rounded-lg mb-8"
+            priority
+          />
+        )}
+        <div dangerouslySetInnerHTML={{ __html: page.content }} />
+      </article>
+    </div>
+  );
 }
