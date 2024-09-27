@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server'
 
 const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL
 const SITE_URL = process.env.NEXT_PUBLIC_URL
-const SITE_TITLE = 'Daily Fornex' // Replace with your site title
-const SITE_DESCRIPTION = 'Your daily dose of informative updates' 
+const SITE_TITLE = 'pH of Banana' // Replace with your site title
+const SITE_DESCRIPTION = 'A blog for all banana lovers' 
 
 async function fetchRecentPosts() {
   const response = await fetch(`${WORDPRESS_URL}/wp-json/wp/v2/posts?_fields=id,title,excerpt,slug,date,modified&per_page=10&orderby=date&order=desc`)
