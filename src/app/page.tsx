@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: page.seo?.title || page.title,
       description: page.seo?.metaDesc || 'Learn about the pH of bananas',
       url: 'https://phofbanana.com',
-      type: 'article',
+      type: 'website',
       images: [
         {
           url: page.seo?.opengraphImage?.sourceUrl || ogImageUrl,
