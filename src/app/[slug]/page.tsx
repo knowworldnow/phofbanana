@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
-  const ogImageUrl = page.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
+  const ogImageUrl = page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   return {
     title: page.title,
