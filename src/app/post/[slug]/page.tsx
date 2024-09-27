@@ -10,8 +10,6 @@ import TableOfContents from '../../../components/TableOfContents';
 import SocialSharePanel from '../../../components/SocialSharePanel';
 import AuthorBox from '../../../components/AuthorBox';
 import RelatedPosts from '../../../components/RelatedPosts';
-import FAQ from '../../../components/FAQ';
-import FAQSchema from '../../../components/FAQSchema';
 import SEO from '../../../components/Seo';
 
 export const revalidate = 3600; // Revalidate this page every hour
