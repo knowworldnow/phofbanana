@@ -1,16 +1,11 @@
-export interface FAQItem {
-  question: string;
-  answer: string;
-}
-
 export interface Post {
   id: string;
   title: string;
-  slug: string;
-  excerpt: string;
-  date: string;
   content: string;
-  featuredImage?: {
+  date: string;
+  excerpt: string;
+  slug: string;
+  featuredImage: {
     node: {
       sourceUrl: string;
       altText: string;
@@ -19,18 +14,35 @@ export interface Post {
   author: {
     node: {
       name: string;
-      avatar?: {
+      avatar: {
         url: string;
       };
     };
   };
   categories: {
-    nodes: Category[];
+    nodes: {
+      id: string;
+      name: string;
+      slug: string;
+    }[];
   };
-  comments?: {
-    nodes: Comment[];
+  comments: {
+    nodes: {
+      id: string;
+      content: string;
+      date: string;
+      author: {
+        node: {
+          name: string;
+          email: string;
+          isRestricted: boolean;
+          avatar: {
+            url: string;
+          };
+        };
+      };
+    }[];
   };
-  faqItems?: FAQItem[];
 }
 
 export interface Category {
