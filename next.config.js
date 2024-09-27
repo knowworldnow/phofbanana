@@ -5,7 +5,7 @@ const { createSecureHeaders } = require('next-secure-headers');
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['forestgreen-pig-914075.hostingersite.com'],
+    domains: ['wordpress-1082925-3789442.cloudwaysapps.com'],
   },
   async headers() {
     return [
