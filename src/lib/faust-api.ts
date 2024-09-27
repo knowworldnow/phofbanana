@@ -3,32 +3,27 @@ import { client } from './apollo-client';
 import { Post, Category, Page, GetAllPostsResult, GetPageBySlugResult, GetPostBySlugResult, GetCategoriesResult, GetPostsByCategoryResult, GetCategoryBySlugResult, GetAllCategoriesResult, SearchPostsResult } from '../types';
 
 export async function getHomePage(): Promise<Page | null> {
-  const { data } = await client.query<{ generalSettings: { frontPage: { node: Page } } }>({
+  const { data } = await client.query<{ page: Page }>({
     query: gql`
       query GetHomePage {
-        generalSettings {
-          frontPage {
+        page(id: "/", idType: URI) {
+          id
+          title
+          content
+          date
+          modified
+          slug
+          featuredImage {
             node {
-              id
-              title
-              content
-              date
-              modified
-              slug
-              excerpt
-              featuredImage {
-                node {
-                  sourceUrl
-                  altText
-                }
-              }
-              seo {
-                title
-                metaDesc
-                opengraphImage {
-                  sourceUrl
-                }
-              }
+              sourceUrl
+              altText
+            }
+          }
+          seo {
+            title
+            metaDesc
+            opengraphImage {
+              sourceUrl
             }
           }
         }
@@ -36,7 +31,7 @@ export async function getHomePage(): Promise<Page | null> {
     `,
   });
 
-  return data.generalSettings.frontPage.node;
+  return data.page;
 }
 
 export async function getLatestPosts({ first = 20, after = null }: { first?: number; after?: string | null } = {}): Promise<GetAllPostsResult> {
