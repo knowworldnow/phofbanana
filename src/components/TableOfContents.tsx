@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { debounce } from 'lodash';
 
 interface TOCItem {
@@ -16,6 +16,8 @@ interface TableOfContentsProps {
 export default function TableOfContents({ content }: TableOfContentsProps) {
   const [toc, setToc] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState<string>('');
+  const tocRef = useRef<HTMLDivElement>(null);
+  const clickListenerRef = useRef<((e: MouseEvent) => void) | null>(null);
 
   useEffect(() => {
     const generateTOC = () => {
@@ -63,7 +65,39 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
     return () => window.removeEventListener('scroll', debouncedHandleScroll);
   }, [handleScroll]);
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'A' && target.closest('.toc-container') === tocRef.current) {
+        e.preventDefault();
+        const id = target.getAttribute('href')?.slice(1);
+        if (id) {
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            setActiveId(id);
+          }
+        }
+      }
+    };
+
+    // Remove previous listener if it exists
+    if (clickListenerRef.current) {
+      document.removeEventListener('click', clickListenerRef.current);
+    }
+
+    // Add new listener
+    document.addEventListener('click', handleClick);
+    clickListenerRef.current = handleClick;
+
+    return () => {
+      if (clickListenerRef.current) {
+        document.removeEventListener('click', clickListenerRef.current);
+      }
+    };
+  }, [toc]); // Re-add listener when toc changes
+
+  const handleItemClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
@@ -74,7 +108,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
 
   return (
     <nav className="sticky top-8 hidden lg:block max-h-[calc(100vh-4rem)] overflow-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md border border-gray-200 dark:border-gray-700">
+      <div ref={tocRef} className="toc-container bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md border border-gray-200 dark:border-gray-700">
         <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Table of Contents</h2>
         <ul className="space-y-2">
           {toc.map((item) => (
@@ -88,7 +122,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
                 className={`block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 ${
                   activeId === item.id ? 'text-blue-600 dark:text-blue-400' : ''
                 }`}
-                onClick={(e) => handleClick(e, item.id)}
+                onClick={(e) => handleItemClick(e, item.id)}
               >
                 {item.text}
               </a>
