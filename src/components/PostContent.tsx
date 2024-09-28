@@ -1,6 +1,8 @@
 import React from 'react';
 import { Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from './Table';
-import OptimizedImage from './OptimizedImage';
+import dynamic from 'next/dynamic';
+
+const OptimizedImage = dynamic(() => import('./OptimizedImage'), { ssr: false });
 
 interface PostContentProps {
   content: string;
