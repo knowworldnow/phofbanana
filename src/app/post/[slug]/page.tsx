@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
-  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
+  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   return {
-    title: `${post.title} | Daily Fornex`,
+    title: `${post.title} | pH of Banana`,
     description: post.excerpt || '',
     openGraph: {
       title: post.title,
       description: post.excerpt || '',
-      url: `https://dailyfornex.com/${post.slug}`,
+      url: `https://phofbanana.com/${post.slug}`,
       type: 'article',
       publishedTime: post.date,
       authors: [post.author.node.name],
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
           alt: post.title,
         },
       ],
-      siteName: 'Daily Fornex',
+      siteName: 'pH of Banana',
     },
     twitter: {
       card: 'summary_large_image',
@@ -70,8 +70,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
     notFound();
   }
 
-  const postUrl = `https://dailyfornex.com/${post.slug}`;
-  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
+  const postUrl = `https://phofbanana.com/${post.slug}`;
+  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
@@ -90,7 +90,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
   return (
     <>
       <SEO
-        title={`${post.title} | Daily Fornex`}
+        title={`${post.title} | pH of Banana`}
         description={post.excerpt || ''}
         canonicalUrl={postUrl}
         ogType="article"
@@ -99,7 +99,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         publishedTime={post.date}
         modifiedTime={post.date}
         author={post.author.node.name}
-        siteName="Daily Fornex"
+        siteName="pH of Banana"
       />
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
@@ -135,22 +135,16 @@ export default async function PostPage({ params }: { params: { slug: string } })
             <CommentForm postId={post.id} />
           </article>
           <aside className="lg:w-1/3 mt-8 lg:mt-0">
-            <div className="sticky top-4 space-y-8">
-              <TableOfContents content={post.content} />
-              <SocialSharePanel 
-                url={postUrl}
-                title={post.title}
-                description={post.excerpt || ''}
-                imageUrl={imageUrl}
-              />
-            </div>
+            <TableOfContents content={post.content} />
           </aside>
         </div>
-        {relatedPosts.length > 0 && (
-          <div className="mt-12">
-            <RelatedPosts posts={relatedPosts} />
-          </div>
-        )}
+        <SocialSharePanel 
+          url={postUrl}
+          title={post.title}
+          description={post.excerpt || ''}
+          imageUrl={imageUrl}
+        />
+        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
       </div>
     </>
   );
