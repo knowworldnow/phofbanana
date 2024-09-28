@@ -121,7 +121,7 @@ const PostCard = ({ post }: { post: Post }) => (
   </article>
 );
 
-interface HomePageClientProps {
+interface HomePageProps {
   initialPosts: Post[];
   initialPageInfo: {
     hasNextPage: boolean;
@@ -129,7 +129,7 @@ interface HomePageClientProps {
   };
 }
 
-export default function HomePageClient({ initialPosts, initialPageInfo }: HomePageClientProps) {
+export default function HomePage({ initialPosts, initialPageInfo }: HomePageProps) {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [pageInfo, setPageInfo] = useState(initialPageInfo);
   const [loading, setLoading] = useState(false);
