@@ -11,9 +11,9 @@ import AuthorBox from '../../../components/AuthorBox';
 import RelatedPosts from '../../../components/RelatedPosts';
 import SEO from '../../../components/Seo';
 import dynamic from 'next/dynamic';
-import { PostContent } from '../../../components/PostContent';
 
 const OptimizedImage = dynamic(() => import('../../../components/OptimizedImage'), { ssr: false });
+const PostContent = dynamic(() => import('../../../components/PostContent'), { ssr: false });
 
 export const revalidate = 3600; // Revalidate this page every hour
 
