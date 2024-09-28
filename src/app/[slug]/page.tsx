@@ -2,7 +2,14 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import SEO from '../../components/Seo';
 import { PostContent } from '../../components/PostContent';
-import { getPageBySlug } from '../../lib/faust-api';
+import { getPageBySlug, getAllPageSlugs } from '../../lib/faust-api';
+
+export async function generateStaticParams() {
+  const pages = await getAllPageSlugs();
+  return pages.map((page) => ({
+    slug: page.slug,
+  }));
+}
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const page = await getPageBySlug(params.slug);
