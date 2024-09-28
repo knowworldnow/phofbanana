@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getPostBySlug, getAllPosts, getRelatedPosts } from '../../../lib/faust-api';
 import { Post } from '../../../types';
@@ -11,6 +10,10 @@ import SocialSharePanel from '../../../components/SocialSharePanel';
 import AuthorBox from '../../../components/AuthorBox';
 import RelatedPosts from '../../../components/RelatedPosts';
 import SEO from '../../../components/Seo';
+import dynamic from 'next/dynamic';
+import { PostContent } from '../../../components/PostContent';
+
+const OptimizedImage = dynamic(() => import('../../../components/OptimizedImage'), { ssr: false });
 
 export const revalidate = 3600; // Revalidate this page every hour
 
@@ -103,11 +106,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
             {post.featuredImage && (
-              <Image
+              <OptimizedImage
                 src={post.featuredImage.node.sourceUrl}
                 alt={post.featuredImage.node.altText || post.title}
-                width={1200}
-                height={630}
                 className="w-full h-auto object-cover rounded-lg mb-8"
                 priority
               />
@@ -118,10 +119,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
               date={post.date}
               category={post.categories.nodes[0]}
             />
-            <div 
-              className="prose max-w-none mt-8"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            <PostContent content={post.content} />
             <AuthorBox authorName={post.author.node.name} />
             {post.comments && <CommentList comments={post.comments.nodes} />}
             <CommentForm postId={post.id} />
