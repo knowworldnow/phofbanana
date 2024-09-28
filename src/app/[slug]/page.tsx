@@ -6,9 +6,7 @@ import { getPageBySlug, getAllPageSlugs } from '../../lib/faust-api';
 
 export async function generateStaticParams() {
   const pages = await getAllPageSlugs();
-  return pages.map((page) => ({
-    slug: page.slug,
-  }));
+  return pages;
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -20,7 +18,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
-  const ogImageUrl = page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
+  const ogImageUrl = page.seo?.opengraphImage?.sourceUrl || page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   return {
     title: page.seo?.title || page.title,
@@ -43,10 +41,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  if (params.slug === 'ph-of-banana') {
-    notFound();
-  }
-
   const page = await getPageBySlug(params.slug);
 
   if (!page) {
