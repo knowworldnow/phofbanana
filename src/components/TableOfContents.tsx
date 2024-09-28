@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { debounce } from 'lodash';
 
 interface TOCItem {
@@ -16,6 +16,7 @@ interface TableOfContentsProps {
 export default function TableOfContents({ content }: TableOfContentsProps) {
   const [toc, setToc] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState<string>('');
+  const tocRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const generateTOC = () => {
@@ -63,17 +64,17 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
     return () => window.removeEventListener('scroll', debouncedHandleScroll);
   }, [handleScroll]);
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
       setActiveId(id);
     }
-  };
+  }, []);
 
   return (
-    <nav className="sticky top-8 hidden lg:block max-h-[calc(100vh-4rem)] overflow-auto">
+    <nav className="sticky top-8 hidden lg:block max-h-[calc(100vh-4rem)] overflow-auto" ref={tocRef}>
       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md border border-gray-200 dark:border-gray-700">
         <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Table of Contents</h2>
         <ul className="space-y-2">
