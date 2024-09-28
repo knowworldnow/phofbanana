@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from './Table';
+import OptimizedImage from './OptimizedImage';
 
 interface PostContentProps {
   content: string;
@@ -20,6 +21,14 @@ export function PostContent({ content }: PostContentProps) {
         const children = Array.from(element.childNodes).map(processNode);
 
         switch (element.tagName.toLowerCase()) {
+          case 'img':
+            return (
+              <OptimizedImage
+                src={element.getAttribute('src') || ''}
+                alt={element.getAttribute('alt') || ''}
+                className="w-full h-auto"
+              />
+            );
           case 'table':
             return <Table>{children}</Table>;
           case 'thead':
