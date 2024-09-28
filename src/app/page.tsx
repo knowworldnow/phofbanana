@@ -1,7 +1,12 @@
 import { Metadata } from 'next';
-import HomePage from './HomePage';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 import { getLatestPosts } from '../lib/faust-api';
 import { Post, GetAllPostsResult } from '../types';
+
+const HomePage = dynamic(() => import('./HomePage'), {
+  loading: () => <div>Loading homepage...</div>
+});
 
 export const revalidate = 300;
 
@@ -42,5 +47,10 @@ export default async function Home() {
   const result: GetAllPostsResult = await getLatestPosts({ first: 24 });
   const initialPosts: Post[] = result.posts.nodes;
   const initialPageInfo = result.posts.pageInfo;
-  return <HomePage initialPosts={initialPosts} initialPageInfo={initialPageInfo} />;
+
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePage initialPosts={initialPosts} initialPageInfo={initialPageInfo} />
+    </Suspense>
+  );
 }
