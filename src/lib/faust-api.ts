@@ -3,16 +3,16 @@ import { client } from './apollo-client';
 import { Post, Category, Page, GetAllPostsResult, GetPageBySlugResult, GetPostBySlugResult, GetCategoriesResult, GetPostsByCategoryResult, GetCategoryBySlugResult, GetAllCategoriesResult, SearchPostsResult } from '../types';
 
 export async function getHomePage(): Promise<Page | null> {
-  const { data } = await client.query<{ page: Page }>({
+  const { data } = await client.query<GetPageBySlugResult>({
     query: gql`
       query GetHomePage {
-        page(id: "/", idType: URI) {
+        page(id: "ph-of-banana", idType: URI) {
           id
           title
           content
           date
-          modified
           slug
+          excerpt
           featuredImage {
             node {
               sourceUrl
@@ -443,7 +443,7 @@ export async function getAllPageSlugs(): Promise<{ slug: string }[]> {
   const { data } = await client.query<{ pages: { nodes: { slug: string }[] } }>({
     query: gql`
       query GetAllPageSlugs {
-        pages(first: 10000) {
+        pages(first: 10000, where: { exclude: "ph-of-banana" }) {
           nodes {
             slug
           }
