@@ -30,15 +30,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
-  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
+  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   return {
-    title: `${post.title} | Daily Fornex`,
+    title: `${post.title} | pH of Banana`,
     description: post.excerpt || '',
     openGraph: {
       title: post.title,
       description: post.excerpt || '',
-      url: `https://dailyfornex.com/${post.slug}`,
+      url: `https://phofbanana.com/${post.slug}`,
       type: 'article',
       publishedTime: post.date,
       authors: [post.author.node.name],
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
           alt: post.title,
         },
       ],
-      siteName: 'Daily Fornex',
+      siteName: 'pH of Banana',
     },
     twitter: {
       card: 'summary_large_image',
@@ -68,8 +68,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
     notFound();
   }
 
-  const postUrl = `https://dailyfornex.com/${post.slug}`;
-  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
+  const postUrl = `https://phofbanana.com/${post.slug}`;
+  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
@@ -88,7 +88,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
   return (
     <>
       <SEO
-        title={`${post.title} | Daily Fornex`}
+        title={`${post.title} | pH of Banana`}
         description={post.excerpt || ''}
         canonicalUrl={postUrl}
         ogType="article"
@@ -97,7 +97,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         publishedTime={post.date}
         modifiedTime={post.date}
         author={post.author.node.name}
-        siteName="Daily Fornex"
+        siteName="pH of Banana"
       />
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
