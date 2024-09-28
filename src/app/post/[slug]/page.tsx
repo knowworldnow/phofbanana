@@ -13,7 +13,7 @@ import SEO from '../../../components/Seo';
 import dynamic from 'next/dynamic';
 
 const OptimizedImage = dynamic(() => import('../../../components/OptimizedImage'), { ssr: false });
-const PostContent = dynamic(() => import('../../../components/PostContent'), { ssr: false });
+const PostContent = dynamic(() => import('../../../components/PostContent').then(mod => mod.PostContent), { ssr: false });
 
 export const revalidate = 3600; // Revalidate this page every hour
 
