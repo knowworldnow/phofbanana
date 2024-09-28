@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import HomePageClient from '../components/HomePageClient';
+import HomePage from './HomePage';
 import { getLatestPosts } from '../lib/faust-api';
 import { Post, GetAllPostsResult } from '../types';
 
@@ -42,5 +42,5 @@ export default async function Home() {
   const result: GetAllPostsResult = await getLatestPosts({ first: 24 });
   const initialPosts: Post[] = result.posts.nodes;
   const initialPageInfo = result.posts.pageInfo;
-  return <HomePageClient initialPosts={initialPosts} initialPageInfo={initialPageInfo} />;
+  return <HomePage initialPosts={initialPosts} initialPageInfo={initialPageInfo} />;
 }
