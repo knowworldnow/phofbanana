@@ -440,17 +440,19 @@ export async function getAllPages(): Promise<Page[]> {
 }
 
 export async function getAllPageSlugs(): Promise<{ slug: string }[]> {
-  const { data } = await client.query<{ pages: { nodes: { slug: string }[] } }>({
+  const { data } = await client.query<{ pages: { nodes: { slug: string; title: string }[] } }>({
     query: gql`
       query GetAllPageSlugs {
-        pages(first: 10000, where: { exclude: "ph-of-banana" }) {
+        pages(first: 10000) {
           nodes {
             slug
+            title
           }
         }
       }
     `,
   });
 
-  return data.pages.nodes;
+  // Filter out the homepage
+  return data.pages.nodes.filter(page => page.title !== "pH of Banana").map(page => ({ slug: page.slug }));
 }
