@@ -20,12 +20,23 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
   useEffect(() => {
     const doc = new DOMParser().parseFromString(content, 'text/html');
     const headings = doc.querySelectorAll('h2, h3, h4, h5, h6');
-    const tocItems: TOCItem[] = Array.from(headings).map((heading) => ({
-      id: heading.id,
-      text: heading.textContent || '',
-      level: parseInt(heading.tagName.charAt(1)),
-    }));
+    const tocItems: TOCItem[] = Array.from(headings).map((heading, index) => {
+      const id = heading.id || `heading-${index}`;
+      return {
+        id,
+        text: heading.textContent || '',
+        level: parseInt(heading.tagName.charAt(1)),
+      };
+    });
     setToc(tocItems);
+
+    // Add IDs to the actual content
+    const contentHeadings = document.querySelectorAll('h2, h3, h4, h5, h6');
+    contentHeadings.forEach((heading, index) => {
+      if (!heading.id) {
+        heading.id = `heading-${index}`;
+      }
+    });
   }, [content]);
 
   const handleScroll = useCallback(() => {
@@ -44,8 +55,18 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
   useEffect(() => {
     const debouncedHandleScroll = debounce(handleScroll, 100);
     window.addEventListener('scroll', debouncedHandleScroll);
+    handleScroll(); // Call once to set initial active state
     return () => window.removeEventListener('scroll', debouncedHandleScroll);
   }, [handleScroll]);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveId(id);
+    }
+  };
 
   return (
     <nav className="sticky top-8 hidden lg:block max-h-[calc(100vh-4rem)] overflow-auto">
@@ -63,13 +84,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
                 className={`block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 ${
                   activeId === item.id ? 'text-blue-600 dark:text-blue-400' : ''
                 }`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const element = document.getElementById(item.id);
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
+                onClick={(e) => handleClick(e, item.id)}
               >
                 {item.text}
               </a>
