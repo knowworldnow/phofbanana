@@ -23,7 +23,7 @@ const Logo = () => {
     <Link href="/" className="flex items-center">
       <Image
         src={logoSrc}
-        alt="Daily Fornex Logo"
+        alt="pH of Banana Logo"
         width={240}
         height={80}
         className="w-auto h-12 md:h-16" // Adjusted for larger size
