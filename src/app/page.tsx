@@ -5,22 +5,29 @@ import { getLatestPosts } from '../lib/faust-api';
 import { Post, GetAllPostsResult } from '../types';
 
 const HomePage = dynamic(() => import('./HomePage'), {
-  loading: () => <div>Loading homepage...</div>
+  loading: () => <div>Loading homepage...</div>,
+  ssr: true,
 });
 
 export const revalidate = 300;
 
-export async function generateMetadata(): Promise<Metadata> {
+async function getLatestPostTitles() {
   const result: GetAllPostsResult = await getLatestPosts({ first: 5 });
-  const latestPosts = result.posts.nodes;
-  const postTitles = latestPosts.map(post => post.title).join(', ');
+  return result.posts.nodes.map(post => post.title).join(', ');
+}
 
-  return {
+export async function generateMetadata(): Promise<Metadata> {
+  const postTitles = await getLatestPostTitles();
+
+  const baseMetadata = {
     title: 'pH of Banana - Understanding Banana Acidity',
     description: `Learn about the pH levels of different types of bananas and how they affect your health. Recent topics: ${postTitles}`,
+  };
+
+  return {
+    ...baseMetadata,
     openGraph: {
-      title: 'pH of Banana - Understanding Banana Acidity',
-      description: `Learn about the pH levels of different types of bananas and how they affect your health. Recent topics: ${postTitles}`,
+      ...baseMetadata,
       url: 'https://phofbanana.com',
       siteName: 'pH of Banana',
       images: [
@@ -35,9 +42,8 @@ export async function generateMetadata(): Promise<Metadata> {
       type: 'website',
     },
     twitter: {
+      ...baseMetadata,
       card: 'summary_large_image',
-      title: 'pH of Banana - Understanding Banana Acidity',
-      description: `Learn about the pH levels of different types of bananas and how they affect your health. Recent topics: ${postTitles}`,
       images: ['https://phofbanana.com/og-image.jpg'],
     },
   };
