@@ -1,113 +1,46 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
-import { getHomePage } from '../lib/faust-api';
-import { Page } from '../types';
-import PostHeader from '../components/PostHeader';
-import TableOfContents from '../components/TableOfContents';
-import SocialSharePanel from '../components/SocialSharePanel';
-import AuthorBox from '../components/AuthorBox';
-import SEO from '../components/Seo';
+import HomePage from './HomePage';
+import { getLatestPosts } from '../lib/faust-api';
+import { Post, GetAllPostsResult } from '../types';
 
-export const revalidate = 3600; // Revalidate this page every hour
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getHomePage();
-
-  if (!page) {
-    return {
-      title: 'pH of Banana',
-      description: 'Learn about the pH levels of different types of bananas',
-    };
-  }
-
-  const ogImageUrl = page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
+  const result: GetAllPostsResult = await getLatestPosts({ first: 5 });
+  const latestPosts = result.posts.nodes;
+  const postTitles = latestPosts.map(post => post.title).join(', ');
 
   return {
-    title: page.seo?.title || `${page.title} | pH of Banana`,
-    description: page.seo?.metaDesc || page.excerpt || '',
+    title: 'pH of Banana - Understanding Banana Acidity',
+    description: `Learn about the pH levels of different types of bananas and how they affect your health. Recent topics: ${postTitles}`,
     openGraph: {
-      title: page.seo?.title || page.title,
-      description: page.seo?.metaDesc || page.excerpt || '',
+      title: 'pH of Banana - Understanding Banana Acidity',
+      description: `Learn about the pH levels of different types of bananas and how they affect your health. Recent topics: ${postTitles}`,
       url: 'https://phofbanana.com',
-      type: 'website',
+      siteName: 'pH of Banana',
       images: [
         {
-          url: ogImageUrl,
+          url: 'https://phofbanana.com/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: page.title,
+          alt: 'pH of Banana - Understanding Banana Acidity',
         },
       ],
-      siteName: 'pH of Banana',
+      locale: 'en_US',
+      type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: page.seo?.title || page.title,
-      description: page.seo?.metaDesc || page.excerpt || '',
-      images: [ogImageUrl],
+      title: 'pH of Banana - Understanding Banana Acidity',
+      description: `Learn about the pH levels of different types of bananas and how they affect your health. Recent topics: ${postTitles}`,
+      images: ['https://phofbanana.com/og-image.jpg'],
     },
   };
 }
 
-export default async function HomePage() {
-  const page: Page | null = await getHomePage();
-
-  if (!page) {
-    return <div>Homepage not found</div>;
-  }
-
-  const pageUrl = 'https://phofbanana.com';
-  const imageUrl = page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
-
-  return (
-    <>
-      <SEO
-        title={page.seo?.title || `${page.title} | pH of Banana`}
-        description={page.seo?.metaDesc || page.excerpt || ''}
-        canonicalUrl={pageUrl}
-        ogType="website"
-        ogImage={imageUrl}
-        ogImageAlt={page.title}
-        publishedTime={page.date}
-        modifiedTime={page.modified}
-        author={page.author?.node.name || 'pH of Banana'}
-        siteName="pH of Banana"
-      />
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row lg:space-x-8">
-          <article className="lg:w-2/3">
-            {page.featuredImage && (
-              <Image
-                src={page.featuredImage.node.sourceUrl}
-                alt={page.featuredImage.node.altText || page.title}
-                width={1200}
-                height={630}
-                className="w-full h-auto object-cover rounded-lg mb-8"
-                priority
-              />
-            )}
-            <PostHeader
-              title={page.title}
-              author={page.author?.node ? { name: page.author.node.name } : { name: 'pH of Banana' }}
-              date={page.date}
-            />
-            <div 
-              className="prose max-w-none mt-8"
-              dangerouslySetInnerHTML={{ __html: page.content }}
-            />
-            {page.author?.node && <AuthorBox authorName={page.author.node.name} />}
-          </article>
-          <aside className="lg:w-1/3 mt-8 lg:mt-0">
-            <TableOfContents content={page.content} />
-          </aside>
-        </div>
-        <SocialSharePanel 
-          url={pageUrl}
-          title={page.title}
-          description={page.excerpt || ''}
-          imageUrl={imageUrl}
-        />
-      </div>
-    </>
-  );
+export default async function Home() {
+  const result: GetAllPostsResult = await getLatestPosts({ first: 24 });
+  const initialPosts: Post[] = result.posts.nodes;
+  const initialPageInfo = result.posts.pageInfo;
+  return <HomePage initialPosts={initialPosts} initialPageInfo={initialPageInfo} />;
 }
