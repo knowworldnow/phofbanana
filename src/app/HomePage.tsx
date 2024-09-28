@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -52,6 +50,27 @@ const FeaturedPost = () => (
         </div>
       </div>
     </div>
+  </section>
+);
+
+const AuthorSection = () => (
+  <section className="mb-16 bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
+    <div className="flex items-center">
+      <Image
+        src="/shoumya.webp"
+        alt="Shoumya Chowdhury"
+        width={64}
+        height={64}
+        className="rounded-full mr-4"
+      />
+      <div>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white">Shoumya Chowdhury</h3>
+        <p className="text-gray-600 dark:text-gray-300">Author and Banana pH Expert</p>
+      </div>
+    </div>
+    <p className="mt-4 text-gray-700 dark:text-gray-200">
+      Shoumya is passionate about exploring the science behind everyday fruits. With years of research in food chemistry, he brings complex concepts to life in easy-to-understand articles.
+    </p>
   </section>
 );
 
@@ -135,6 +154,7 @@ export default function HomePage({ initialPosts, initialPageInfo }: HomePageProp
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-white">pH of Banana</h1>
       <FeaturedPost />
+      <AuthorSection />
       <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">Latest and Hottest</h2>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
