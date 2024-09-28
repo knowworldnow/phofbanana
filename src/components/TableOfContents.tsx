@@ -18,25 +18,29 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('');
 
   useEffect(() => {
-    const doc = new DOMParser().parseFromString(content, 'text/html');
-    const headings = doc.querySelectorAll('h2, h3, h4, h5, h6');
-    const tocItems: TOCItem[] = Array.from(headings).map((heading, index) => {
-      const id = heading.id || `heading-${index}`;
-      return {
-        id,
-        text: heading.textContent || '',
-        level: parseInt(heading.tagName.charAt(1)),
-      };
-    });
-    setToc(tocItems);
+    const generateTOC = () => {
+      const doc = new DOMParser().parseFromString(content, 'text/html');
+      const headings = doc.querySelectorAll('h2, h3, h4, h5, h6');
+      const tocItems: TOCItem[] = [];
 
-    // Add IDs to the actual content
-    const contentHeadings = document.querySelectorAll('h2, h3, h4, h5, h6');
-    contentHeadings.forEach((heading, index) => {
-      if (!heading.id) {
-        heading.id = `heading-${index}`;
-      }
-    });
+      headings.forEach((heading, index) => {
+        const id = heading.id || `toc-heading-${index}`;
+        const text = heading.textContent || '';
+        const level = parseInt(heading.tagName.charAt(1));
+
+        tocItems.push({ id, text, level });
+
+        // Update the actual content with IDs
+        const contentHeading = document.querySelector(`${heading.tagName}:nth-of-type(${index + 1})`);
+        if (contentHeading && !contentHeading.id) {
+          contentHeading.id = id;
+        }
+      });
+
+      setToc(tocItems);
+    };
+
+    generateTOC();
   }, [content]);
 
   const handleScroll = useCallback(() => {
