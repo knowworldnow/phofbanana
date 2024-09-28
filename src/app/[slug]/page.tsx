@@ -23,13 +23,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const ogImageUrl = page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   return {
-    title: page.title,
-    description: page.excerpt || '',
+    title: page.seo?.title || page.title,
+    description: page.seo?.metaDesc || page.excerpt || '',
     openGraph: {
       type: 'website',
       url: `https://phofbanana.com/${page.slug}`,
-      title: page.title,
-      description: page.excerpt || '',
+      title: page.seo?.title || page.title,
+      description: page.seo?.metaDesc || page.excerpt || '',
       images: [
         {
           url: ogImageUrl,
@@ -43,6 +43,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
+  if (params.slug === 'ph-of-banana') {
+    notFound();
+  }
+
   const page = await getPageBySlug(params.slug);
 
   if (!page) {
@@ -52,11 +56,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <>
       <SEO 
-        title={page.title}
-        description={page.excerpt || ''}
+        title={page.seo?.title || page.title}
+        description={page.seo?.metaDesc || page.excerpt || ''}
         canonicalUrl={`https://phofbanana.com/${page.slug}`}
         ogType="website"
-        ogImage={page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg'}
+        ogImage={page.seo?.opengraphImage?.sourceUrl || page.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg'}
         ogImageAlt={page.title}
         siteName="pH of Banana"
       />
