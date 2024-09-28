@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "./globals.css";
 import "../styles/wordpress-styles.css";
+import Script from 'next/script';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,6 +44,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@phofbanana',
   },
+  verification: {
+    google: "c-dvHrELIe8dzXS1ZqfZc1lEgpBbfZZ0BdKyclij2SQ",
+  },
 };
 
 export default function RootLayout({
@@ -54,6 +58,12 @@ export default function RootLayout({
     <html lang="en" dir={process.env.NEXT_PUBLIC_SITE_DIRECTION || 'ltr'} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144697979680971"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen no-vertical-space`}
