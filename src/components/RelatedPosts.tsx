@@ -27,7 +27,6 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   width={600}
                   height={400}
-                  layout="responsive"
                 />
               </div>
               <div className="p-4">
