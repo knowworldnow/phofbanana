@@ -366,6 +366,13 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
               altText
             }
           }
+          seo {
+            title
+            metaDesc
+            opengraphImage {
+              sourceUrl
+            }
+          }
         }
       }
     `,
@@ -423,6 +430,22 @@ export async function getAllPages(): Promise<Page[]> {
             slug
             date
             excerpt
+          }
+        }
+      }
+    `,
+  });
+
+  return data.pages.nodes;
+}
+
+export async function getAllPageSlugs(): Promise<{ slug: string }[]> {
+  const { data } = await client.query<{ pages: { nodes: { slug: string }[] } }>({
+    query: gql`
+      query GetAllPageSlugs {
+        pages(first: 10000) {
+          nodes {
+            slug
           }
         }
       }
