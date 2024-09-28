@@ -16,27 +16,29 @@ const FeaturedPost = () => (
           <Image
             src="/pH of Banana.webp"
             alt="Banana pH Level"
-            width={600}
-            height={400}
-            className="h-64 w-full object-cover md:h-full md:w-96"
+            width={900}
+            height={600}
+            className="h-96 w-full object-cover md:h-full md:w-[600px]"
           />
         </div>
-        <div className="p-8">
-          <div className="uppercase tracking-wide text-sm text-yellow-400 font-semibold">Featured Article</div>
-          <h2 className="block mt-1 text-2xl leading-tight font-bold text-white">
-            Banana pH Level: Understanding Acidity and Alkalinity of Bananas
-          </h2>
-          <p className="mt-2 text-gray-300">
-            What is the pH of a Banana? Its pH typically is between 4.4-5.2 for unripe bananas, which makes them acidic in the natural environment. On the other hand, the pH of ripe bananas is approximately 6.5-6.6, which is less acidic.
-          </p>
+        <div className="p-8 flex flex-col justify-between">
+          <div>
+            <div className="uppercase tracking-wide text-sm text-yellow-400 font-semibold">Featured Article</div>
+            <h2 className="block mt-1 text-2xl leading-tight font-bold text-white">
+              Banana pH Level: Understanding Acidity and Alkalinity of Bananas
+            </h2>
+            <p className="mt-2 text-gray-300">
+              What is the pH of a Banana? Its pH typically is between 4.4-5.2 for unripe bananas, which makes them acidic in the natural environment. On the other hand, the pH of ripe bananas is approximately 6.5-6.6, which is less acidic.
+            </p>
+          </div>
           <div className="mt-4 flex items-center justify-between">
             <div className="flex items-center">
               <Image
                 src="/shoumya.webp"
                 alt="Shoumya Chowdhury"
-                width={40}
-                height={40}
-                className="rounded-full mr-2"
+                width={48}
+                height={48}
+                className="rounded-full mr-3"
               />
               <div>
                 <p className="text-sm font-medium text-white">Shoumya Chowdhury</p>
