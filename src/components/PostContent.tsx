@@ -80,7 +80,9 @@ export function PostContent({ content }: PostContentProps) {
 
   return (
     <div className="prose prose-lg dark:prose-invert max-w-none wp-content">
-      {processedContent}
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl xl:max-w-5xl">
+        {processedContent}
+      </div>
     </div>
   );
 }
