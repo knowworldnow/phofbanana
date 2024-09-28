@@ -10,38 +10,40 @@ const POSTS_PER_PAGE = 24;
 
 const FeaturedPost = () => (
   <section className="mb-16">
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+    <div className="bg-gray-900 rounded-lg shadow-lg overflow-hidden">
       <div className="md:flex">
-        <div className="md:flex-shrink-0">
+        <div className="md:flex-shrink-0 relative">
           <Image
             src="/pH of Banana.webp"
             alt="Banana pH Level"
             width={600}
             height={400}
-            className="h-48 w-full object-cover md:h-full md:w-96"
+            className="h-64 w-full object-cover md:h-full md:w-96"
           />
-        </div>
-        <div className="p-8">
-          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Featured Article</div>
-          <Link href="/banana-ph" className="block mt-1 text-2xl leading-tight font-bold text-gray-900 dark:text-white hover:underline">
-            Banana pH Level: Understanding Acidity and Alkalinity of Bananas
-          </Link>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
-            What is the pH of a Banana? Its pH typically is between 4.4-5.2 for unripe bananas, which makes them acidic in the natural environment. On the other hand, the pH of ripe bananas is approximately 6.5-6.6, which is less acidic.
-          </p>
-          <div className="mt-4 flex items-center">
-            <Image
-              src="/author-avatar.jpg"
-              alt="Shoumya Chowdhury"
-              width={40}
-              height={40}
-              className="rounded-full mr-2"
-            />
-            <div>
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-200">Shoumya Chowdhury</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">September 28, 2024</p>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent p-4">
+            <div className="flex items-center">
+              <Image
+                src="/shoumya.webp"
+                alt="Shoumya Chowdhury"
+                width={40}
+                height={40}
+                className="rounded-full mr-2"
+              />
+              <div>
+                <p className="text-sm font-medium text-white">Shoumya Chowdhury</p>
+                <p className="text-xs text-gray-300">September 28, 2024</p>
+              </div>
             </div>
           </div>
+        </div>
+        <div className="p-8">
+          <div className="uppercase tracking-wide text-sm text-yellow-400 font-semibold">Featured Article</div>
+          <Link href="/banana-ph" className="block mt-1 text-2xl leading-tight font-bold text-white hover:underline">
+            Banana pH Level: Understanding Acidity and Alkalinity of Bananas
+          </Link>
+          <p className="mt-2 text-gray-300">
+            What is the pH of a Banana? Its pH typically is between 4.4-5.2 for unripe bananas, which makes them acidic in the natural environment. On the other hand, the pH of ripe bananas is approximately 6.5-6.6, which is less acidic.
+          </p>
           <div className="mt-4">
             <Link href="/banana-ph" className="inline-block bg-yellow-400 text-gray-800 font-bold py-2 px-4 rounded hover:bg-yellow-500 transition duration-300">
               Read More
