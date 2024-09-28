@@ -2,47 +2,6 @@ import { gql } from '@apollo/client';
 import { client } from './apollo-client';
 import { Post, Category, Page, GetAllPostsResult, GetPageBySlugResult, GetPostBySlugResult, GetCategoriesResult, GetPostsByCategoryResult, GetCategoryBySlugResult, GetAllCategoriesResult, SearchPostsResult } from '../types';
 
-export async function getHomePage(): Promise<Page | null> {
-  const { data } = await client.query<GetPageBySlugResult>({
-    query: gql`
-      query GetHomePage {
-        page(id: "ph-of-banana", idType: URI) {
-          id
-          title
-          content
-          date
-          modified
-          slug
-          excerpt
-          featuredImage {
-            node {
-              sourceUrl
-              altText
-            }
-          }
-          author {
-            node {
-              name
-              avatar {
-                url
-              }
-            }
-          }
-          seo {
-            title
-            metaDesc
-            opengraphImage {
-              sourceUrl
-            }
-          }
-        }
-      }
-    `,
-  });
-
-  return data.page;
-}
-
 export async function getLatestPosts({ first = 20, after = null }: { first?: number; after?: string | null } = {}): Promise<GetAllPostsResult> {
   const { data } = await client.query<GetAllPostsResult>({
     query: gql`
@@ -86,65 +45,65 @@ export async function getLatestPosts({ first = 20, after = null }: { first?: num
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  try {
-    const { data } = await client.query<GetPostBySlugResult>({
-      query: gql`
-        query GetPostBySlug($slug: ID!) {
-          post(id: $slug, idType: SLUG) {
-            id
-            title
-            content
-            date
-            excerpt
-            slug
-            featuredImage {
-              node {
-                sourceUrl
-                altText
+  const { data } = await client.query<GetPostBySlugResult>({
+    query: gql`
+      query GetPostBySlug($slug: ID!) {
+        post(id: $slug, idType: SLUG) {
+          id
+          title
+          content
+          date
+          excerpt
+          slug
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          author {
+            node {
+              name
+              avatar {
+                url
               }
             }
-            author {
-              node {
-                name
-                avatar {
-                  url
-                }
-              }
+          }
+          categories {
+            nodes {
+              id
+              name
+              slug
             }
-            categories {
-              nodes {
-                id
-                name
-                slug
-              }
-            }
-            comments(where: { status: "APPROVE" }) {
-              nodes {
-                id
-                content
-                date
-                author {
-                  node {
-                    name
-                    email
-                    isRestricted
-                    avatar {
-                      url
-                    }
+          }
+          comments(where: { status: "APPROVE" }) {
+            nodes {
+              id
+              content
+              date
+              author {
+                node {
+                  name
+                  email
+                  isRestricted
+                  avatar {
+                    url
                   }
                 }
               }
             }
           }
+          faqItems {
+            question
+            answer
+          }
         }
-      `,
-      variables: { slug },
-    });
-    return data.post;
-  } catch (error) {
-    console.error('Error fetching post:', error);
-    return null;
-  }
+      }
+    `,
+    variables: { slug },
+  });
+
+  return data.post;
 }
 
 export async function getRelatedPosts(categoryId: string, currentPostId: string, first: number = 4): Promise<Post[]> {
@@ -375,13 +334,6 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
               altText
             }
           }
-          seo {
-            title
-            metaDesc
-            opengraphImage {
-              sourceUrl
-            }
-          }
         }
       }
     `,
@@ -446,22 +398,4 @@ export async function getAllPages(): Promise<Page[]> {
   });
 
   return data.pages.nodes;
-}
-
-export async function getAllPageSlugs(): Promise<{ slug: string }[]> {
-  const { data } = await client.query<{ pages: { nodes: { slug: string; title: string }[] } }>({
-    query: gql`
-      query GetAllPageSlugs {
-        pages(first: 10000) {
-          nodes {
-            slug
-            title
-          }
-        }
-      }
-    `,
-  });
-
-  // Filter out the homepage
-  return data.pages.nodes.filter(page => page.title !== "pH of Banana").map(page => ({ slug: page.slug }));
 }
