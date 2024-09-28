@@ -132,21 +132,25 @@ export default async function PostPage({ params }: { params: { slug: string } })
                 date={post.date}
                 category={post.categories?.nodes?.[0]}
               />
-              <PostContent content={post.content || ''} />
+              <div className="prose prose-lg dark:prose-invert max-w-none">
+                <PostContent content={post.content || ''} />
+              </div>
               <AuthorBox authorName={post.author?.node?.name || 'Unknown Author'} />
               {post.comments?.nodes && <CommentList comments={post.comments.nodes} />}
               <CommentForm postId={post.id} />
             </article>
             <aside className="lg:w-1/3 mt-8 lg:mt-0">
-              <TableOfContents content={post.content || ''} />
+              <div className="sticky top-4">
+                <TableOfContents content={post.content || ''} />
+                <SocialSharePanel 
+                  url={postUrl}
+                  title={post.title}
+                  description={post.excerpt || ''}
+                  imageUrl={imageUrl}
+                />
+              </div>
             </aside>
           </div>
-          <SocialSharePanel 
-            url={postUrl}
-            title={post.title}
-            description={post.excerpt || ''}
-            imageUrl={imageUrl}
-          />
           {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
         </div>
       </>
