@@ -1,22 +1,28 @@
 import type { Metadata } from "next";
+import { Suspense, lazy } from 'react';
 import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Script from 'next/script';
 import "./globals.css";
 import "../styles/wordpress-styles.css";
-import Script from 'next/script';
+
+const Header = lazy(() => import("../components/Header"));
+const Footer = lazy(() => import("../components/Footer"));
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
+  display: 'swap',
+  preload: true,
 });
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+  display: 'swap',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -58,21 +64,29 @@ export default function RootLayout({
     <html lang="en" dir={process.env.NEXT_PUBLIC_SITE_DIRECTION || 'ltr'} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144697979680971"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
+        <link
+          rel="preconnect"
+          href="https://pagead2.googlesyndication.com"
         />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen no-vertical-space`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
+          <Suspense fallback={<div>Loading header...</div>}>
+            <Header />
+          </Suspense>
           <main className="flex-grow">{children}</main>
-          <Footer />
+          <Suspense fallback={<div>Loading footer...</div>}>
+            <Footer />
+          </Suspense>
         </ThemeProvider>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144697979680971"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );
