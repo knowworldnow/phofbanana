@@ -135,16 +135,22 @@ export default async function PostPage({ params }: { params: { slug: string } })
             <CommentForm postId={post.id} />
           </article>
           <aside className="lg:w-1/3 mt-8 lg:mt-0">
-            <TableOfContents content={post.content} />
+            <div className="sticky top-4 space-y-8">
+              <TableOfContents content={post.content} />
+              <SocialSharePanel 
+                url={postUrl}
+                title={post.title}
+                description={post.excerpt || ''}
+                imageUrl={imageUrl}
+              />
+            </div>
           </aside>
         </div>
-        <SocialSharePanel 
-          url={postUrl}
-          title={post.title}
-          description={post.excerpt || ''}
-          imageUrl={imageUrl}
-        />
-        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+        {relatedPosts.length > 0 && (
+          <div className="mt-12">
+            <RelatedPosts posts={relatedPosts} />
+          </div>
+        )}
       </div>
     </>
   );
