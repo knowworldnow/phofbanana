@@ -1,8 +1,10 @@
+'use client';
+
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getLatestPosts } from '../lib/faust-api';
 import { Post, GetAllPostsResult } from '../types';
+import { getLatestPosts } from '../lib/faust-api';
 
 const POSTS_PER_PAGE = 24;
 
@@ -119,7 +121,7 @@ const PostCard = ({ post }: { post: Post }) => (
   </article>
 );
 
-interface HomePageProps {
+interface HomePageClientProps {
   initialPosts: Post[];
   initialPageInfo: {
     hasNextPage: boolean;
@@ -127,7 +129,7 @@ interface HomePageProps {
   };
 }
 
-export default function HomePage({ initialPosts, initialPageInfo }: HomePageProps) {
+export default function HomePageClient({ initialPosts, initialPageInfo }: HomePageClientProps) {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [pageInfo, setPageInfo] = useState(initialPageInfo);
   const [loading, setLoading] = useState(false);
