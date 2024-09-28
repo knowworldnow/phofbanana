@@ -11,12 +11,21 @@ export async function getHomePage(): Promise<Page | null> {
           title
           content
           date
+          modified
           slug
           excerpt
           featuredImage {
             node {
               sourceUrl
               altText
+            }
+          }
+          author {
+            node {
+              name
+              avatar {
+                url
+              }
             }
           }
           seo {
