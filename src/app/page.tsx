@@ -70,7 +70,7 @@ export default async function HomePage() {
         ogImageAlt={page.title}
         publishedTime={page.date}
         modifiedTime={page.modified}
-        author={page.author?.node.name}
+        author={page.author?.node.name || 'pH of Banana'}
         siteName="pH of Banana"
       />
       <div className="container mx-auto px-4 py-8">
@@ -88,14 +88,14 @@ export default async function HomePage() {
             )}
             <PostHeader
               title={page.title}
-              author={page.author?.node}
+              author={page.author?.node ? { name: page.author.node.name } : { name: 'pH of Banana' }}
               date={page.date}
             />
             <div 
               className="prose max-w-none mt-8"
               dangerouslySetInnerHTML={{ __html: page.content }}
             />
-            {page.author && <AuthorBox authorName={page.author.node.name} />}
+            {page.author?.node && <AuthorBox authorName={page.author.node.name} />}
           </article>
           <aside className="lg:w-1/3 mt-8 lg:mt-0">
             <TableOfContents content={page.content} />
