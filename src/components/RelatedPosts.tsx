@@ -1,9 +1,28 @@
 import Link from 'next/link';
 import OptimizedImage from './OptimizedImage';
-import { Post } from '../types';
+
+interface RelatedPost {
+  __typename: string;
+  id: string;
+  title: string;
+  slug: string;
+  featuredImage: {
+    __typename: string;
+    node: {
+      sourceUrl: string;
+      altText?: string;
+    };
+  };
+  author: {
+    __typename: string;
+    node: {
+      name: string;
+    };
+  };
+}
 
 interface RelatedPostsProps {
-  posts: Post[];
+  posts: RelatedPost[];
 }
 
 export default function RelatedPosts({ posts }: RelatedPostsProps) {
@@ -22,8 +41,8 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
             <Link href={`/${post.slug}`} className="block cursor-pointer">
               <div className="relative aspect-video overflow-hidden">
                 <OptimizedImage
-                  src={post.featuredImage?.node.sourceUrl || '/placeholder.jpg'}
-                  alt={post.featuredImage?.node.altText || post.title}
+                  src={post.featuredImage?.node?.sourceUrl || '/placeholder.jpg'}
+                  alt={post.featuredImage?.node?.altText || post.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
