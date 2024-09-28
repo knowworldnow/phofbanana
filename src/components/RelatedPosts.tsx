@@ -1,28 +1,9 @@
 import Link from 'next/link';
 import OptimizedImage from './OptimizedImage';
-
-interface RelatedPost {
-  __typename: string;
-  id: string;
-  title: string;
-  slug: string;
-  featuredImage: {
-    __typename: string;
-    node: {
-      sourceUrl: string;
-      altText?: string;
-    };
-  };
-  author: {
-    __typename: string;
-    node: {
-      name: string;
-    };
-  };
-}
+import { Post } from '../types'; // Ensure this import path is correct
 
 interface RelatedPostsProps {
-  posts: RelatedPost[];
+  posts: Post[];
 }
 
 export default function RelatedPosts({ posts }: RelatedPostsProps) {
