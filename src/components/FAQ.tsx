@@ -6,6 +6,10 @@ interface FAQProps {
 }
 
 const FAQ: React.FC<FAQProps> = ({ faqItems }) => {
+  if (!faqItems || faqItems.length === 0) {
+    return null;
+  }
+
   return (
     <section className="faq-section my-8">
       <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
