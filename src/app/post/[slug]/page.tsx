@@ -32,15 +32,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
-  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
+  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
 
   return {
-    title: `${post.title} | pH of Banana`,
+    title: `${post.title} | Daily Fornex`,
     description: post.excerpt || '',
     openGraph: {
       title: post.title,
       description: post.excerpt || '',
-      url: `https://phofbanana.com/${post.slug}`,
+      url: `https://dailyfornex.com/${post.slug}`,
       type: 'article',
       publishedTime: post.date,
       authors: [post.author.node.name],
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
           alt: post.title,
         },
       ],
-      siteName: 'pH of Banana',
+      siteName: 'Daily Fornex',
     },
     twitter: {
       card: 'summary_large_image',
@@ -70,8 +70,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
     notFound();
   }
 
-  const postUrl = `https://phofbanana.com/${post.slug}`;
-  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
+  const postUrl = `https://dailyfornex.com/${post.slug}`;
+  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
 
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
@@ -90,7 +90,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
   return (
     <>
       <SEO
-        title={`${post.title} | pH of Banana`}
+        title={`${post.title} | Daily Fornex`}
         description={post.excerpt || ''}
         canonicalUrl={postUrl}
         ogType="article"
@@ -99,12 +99,12 @@ export default async function PostPage({ params }: { params: { slug: string } })
         publishedTime={post.date}
         modifiedTime={post.date}
         author={post.author.node.name}
-        siteName="pH of Banana"
+        siteName="Daily Fornex"
       />
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
       )}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pl-12 sm:pl-16">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
             {post.featuredImage && (
