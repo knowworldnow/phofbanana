@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import ToggleTheme from './ToggleTheme';
 import SearchBar from './SearchBar';
-import Logo from './Logo';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,17 +44,19 @@ export default function Header() {
           </div>
 
           <div className="flex-shrink-0">
-            <Logo />
+            <Link href="/">
+              <Image src="/logo.png" alt="pH of Banana" width={100} height={40} />
+            </Link>
           </div>
 
           <div className="flex items-center">
             <ToggleTheme />
             <button 
-              className="md:hidden ml-2 text-foreground"
+              className="md:hidden ml-2 text-foreground p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
               onClick={toggleSearch}
               aria-label="Toggle search"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
