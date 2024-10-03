@@ -75,9 +75,9 @@ const SocialSharePanel: React.FC<SocialSharePanelProps> = ({ url, title, descrip
             <Image 
               src={link.icon} 
               alt={`${link.name} icon`} 
-              width={24} 
-              height={24} 
-              className="w-6 h-6" 
+              width={28} 
+              height={28} 
+              className="w-7 h-7" 
             />
           </a>
         ))}
