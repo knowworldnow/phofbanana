@@ -100,52 +100,54 @@ export default async function PostPage({ params }: { params: { slug: string } })
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
       )}
-      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row lg:space-x-8">
-          <article className="lg:w-2/3">
-            <div className="aspect-w-16 aspect-h-9 mb-8">
-              {post.featuredImage && (
-                <Image
-                  src={post.featuredImage.node.sourceUrl}
-                  alt={post.featuredImage.node.altText || post.title}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                  priority
-                />
+      <main className="flex-grow">
+        <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row lg:space-x-8">
+            <article className="lg:w-2/3">
+              <div className="aspect-w-16 aspect-h-9 mb-8">
+                {post.featuredImage && (
+                  <Image
+                    src={post.featuredImage.node.sourceUrl}
+                    alt={post.featuredImage.node.altText || post.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-lg"
+                    priority
+                  />
+                )}
+              </div>
+              <PostHeader
+                title={post.title}
+                author={post.author.node}
+                date={post.date}
+                category={post.categories.nodes[0]}
+              />
+              <div 
+                className="prose max-w-none mt-8"
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
+              {post.faqItems && post.faqItems.length > 0 && (
+                <FAQ faqItems={post.faqItems} />
               )}
-            </div>
-            <PostHeader
-              title={post.title}
-              author={post.author.node}
-              date={post.date}
-              category={post.categories.nodes[0]}
-            />
-            <div 
-              className="prose max-w-none mt-8"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
-            {post.faqItems && post.faqItems.length > 0 && (
-              <FAQ faqItems={post.faqItems} />
-            )}
-            <AuthorBox authorName={post.author.node.name} />
-            {post.comments && <CommentList comments={post.comments.nodes} />}
-            <CommentForm postId={post.id} />
-          </article>
-          <aside className="lg:w-1/3 mt-8 lg:mt-0">
-            <div className="sticky top-8">
-              <TableOfContents content={post.content} />
-            </div>
-          </aside>
+              <AuthorBox authorName={post.author.node.name} />
+              {post.comments && <CommentList comments={post.comments.nodes} />}
+              <CommentForm postId={post.id} />
+            </article>
+            <aside className="lg:w-1/3 mt-8 lg:mt-0">
+              <div className="sticky top-8">
+                <TableOfContents content={post.content} />
+              </div>
+            </aside>
+          </div>
+          <SocialSharePanel 
+            url={postUrl}
+            title={post.title}
+            description={post.excerpt || ''}
+            imageUrl={imageUrl}
+          />
+          {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
         </div>
-        <SocialSharePanel 
-          url={postUrl}
-          title={post.title}
-          description={post.excerpt || ''}
-          imageUrl={imageUrl}
-        />
-        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
-      </div>
+      </main>
     </>
   );
 }
