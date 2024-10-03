@@ -87,6 +87,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
     console.log('No categories found for this post');
   }
 
+  console.log('FAQ Items:', post.faqItems); // Debug log for FAQ items
+
   return (
     <>
       <SEO
@@ -127,11 +129,17 @@ export default async function PostPage({ params }: { params: { slug: string } })
               className="prose max-w-none mt-8"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
-            {post.faqItems && post.faqItems.length > 0 && (
+            {post.faqItems && post.faqItems.length > 0 ? (
               <FAQ faqItems={post.faqItems} />
+            ) : (
+              <p className="mt-8 text-gray-600 dark:text-gray-400">No FAQ items available for this post.</p>
             )}
             <AuthorBox authorName={post.author.node.name} />
-            {post.comments && <CommentList comments={post.comments.nodes} />}
+            {post.comments && post.comments.nodes.length > 0 ? (
+              <CommentList comments={post.comments.nodes} />
+            ) : (
+              <p className="mt-8 text-gray-600 dark:text-gray-400">No comments yet. Be the first to comment!</p>
+            )}
             <CommentForm postId={post.id} />
           </article>
           <aside className="lg:w-1/3 mt-8 lg:mt-0">
@@ -144,7 +152,11 @@ export default async function PostPage({ params }: { params: { slug: string } })
           description={post.excerpt || ''}
           imageUrl={imageUrl}
         />
-        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+        {relatedPosts.length > 0 ? (
+          <RelatedPosts posts={relatedPosts} />
+        ) : (
+          <p className="mt-8 text-gray-600 dark:text-gray-400">No related posts found.</p>
+        )}
       </div>
     </>
   );
