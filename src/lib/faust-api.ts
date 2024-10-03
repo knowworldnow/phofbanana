@@ -93,6 +93,10 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
               }
             }
           }
+          faqItems {
+            question
+            answer
+          }
         }
       }
     `,
