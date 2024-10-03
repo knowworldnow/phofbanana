@@ -76,11 +76,15 @@ export default async function PostPage({ params }: { params: { slug: string } })
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
     const categoryId = post.categories.nodes[0].id;
+    console.log('Fetching related posts for category:', categoryId);
     try {
       relatedPosts = await getRelatedPosts(categoryId, post.id);
+      console.log('Related posts:', relatedPosts);
     } catch (error) {
       console.error('Error fetching related posts:', error);
     }
+  } else {
+    console.log('No categories found for this post');
   }
 
   return (
@@ -100,56 +104,48 @@ export default async function PostPage({ params }: { params: { slug: string } })
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
       )}
-      <main className="flex-grow">
-        <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row lg:space-x-8">
-            <article className="lg:w-2/3">
-              <div className="mb-8 w-full">
-                {post.featuredImage && (
-                  <Image
-                    src={post.featuredImage.node.sourceUrl}
-                    alt={post.featuredImage.node.altText || post.title}
-                    width={800}
-                    height={450}
-                    layout="responsive"
-                    objectFit="cover"
-                    className="rounded-lg"
-                    priority
-                  />
-                )}
-              </div>
-              <PostHeader
-                title={post.title}
-                author={post.author.node}
-                date={post.date}
-                category={post.categories.nodes[0]}
+      <div className="container mx-auto px-4 py-8 pl-12 sm:pl-16">
+        <div className="flex flex-col lg:flex-row lg:space-x-8">
+          <article className="lg:w-2/3">
+            {post.featuredImage && (
+              <Image
+                src={post.featuredImage.node.sourceUrl}
+                alt={post.featuredImage.node.altText || post.title}
+                width={1200}
+                height={630}
+                className="w-full h-auto object-cover rounded-lg mb-8"
+                priority
               />
-              <div 
-                className="prose max-w-none mt-8"
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
-              {post.faqItems && post.faqItems.length > 0 && (
-                <FAQ faqItems={post.faqItems} />
-              )}
-              <AuthorBox authorName={post.author.node.name} />
-              {post.comments && <CommentList comments={post.comments.nodes} />}
-              <CommentForm postId={post.id} />
-            </article>
-            <aside className="lg:w-1/3 mt-8 lg:mt-0">
-              <div className="sticky top-8">
-                <TableOfContents content={post.content} />
-              </div>
-            </aside>
-          </div>
-          <SocialSharePanel 
-            url={postUrl}
-            title={post.title}
-            description={post.excerpt || ''}
-            imageUrl={imageUrl}
-          />
-          {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+            )}
+            <PostHeader
+              title={post.title}
+              author={post.author.node}
+              date={post.date}
+              category={post.categories.nodes[0]}
+            />
+            <div 
+              className="prose max-w-none mt-8"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+            {post.faqItems && post.faqItems.length > 0 && (
+              <FAQ faqItems={post.faqItems} />
+            )}
+            <AuthorBox authorName={post.author.node.name} />
+            {post.comments && <CommentList comments={post.comments.nodes} />}
+            <CommentForm postId={post.id} />
+          </article>
+          <aside className="lg:w-1/3 mt-8 lg:mt-0">
+            <TableOfContents content={post.content} />
+          </aside>
         </div>
-      </main>
+        <SocialSharePanel 
+          url={postUrl}
+          title={post.title}
+          description={post.excerpt || ''}
+          imageUrl={imageUrl}
+        />
+        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+      </div>
     </>
   );
 }
