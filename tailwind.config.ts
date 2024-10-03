@@ -23,9 +23,15 @@ const config: Config = {
       backgroundColor: {
         "soft-bg": "var(--soft-bg)",
       },
+      aspectRatio: {
+        'w-16': '16',
+        'h-9': '9',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
   darkMode: "class",
 };
 
