@@ -1,5 +1,5 @@
 {
-  "name": "daily-fornex",
+  "name": "phofbanana",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,7 +17,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hooks-global-state": "^2.1.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "rss": "^1.2.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
