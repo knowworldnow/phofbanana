@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const rssUrl = `${process.env.NEXT_PUBLIC_URL}/api/rss`
-  return NextResponse.redirect(rssUrl)
+  const rssUrl = `${process.env.NEXT_PUBLIC_URL}/api/rss`;
+  return NextResponse.redirect(rssUrl, { status: 301 });
 }
