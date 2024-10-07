@@ -76,6 +76,11 @@ const nextConfig = {
         destination: '/how-to-keep-bananas-fresh-after-peeling',
         permanent: true,
       },
+      {
+        source: '/do-bananas-fit-on-a-ketogenic-diet',
+        destination: '/are-bananas-keto-friendly',
+        permanent: true,
+      },
     ];
   },
 };
