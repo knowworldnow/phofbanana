@@ -44,6 +44,40 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/types-of-bananas',
+        destination: '/different-types-of-bananas',
+        permanent: true,
+      },
+      {
+        source: '/can-you-eat-banana-peels',
+        destination: '/banana-peels-edible',
+        permanent: true,
+      },
+      {
+        source: '/reduce-dark-circles-and-wrinkles-with-banana-peels',
+        destination: '/banana-peel-for-dark-circles',
+        permanent: true,
+      },
+      {
+        source: '/root-to-leaves-all-the-parts-of-banana-tree',
+        destination: '/parts-of-banana-tree',
+        permanent: true,
+      },
+      {
+        source: '/large-banana-calories-more-strength',
+        destination: '/large-banana-calories',
+        permanent: true,
+      },
+      {
+        source: '/how-to-keep-bananas-fresh-after-peelingbest-tips-and-hacks',
+        destination: '/how-to-keep-bananas-fresh-after-peeling',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = withFaust(nextConfig);
