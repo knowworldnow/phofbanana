@@ -1,0 +1,6 @@
+{
+  "crons": [{
+    "path": "/api/cron-indexnow?token=8f3a9c7b1e5d2f6a0e4b8c2d9a7f1e3b5c6d0a2f4e8b7c1d9a3f5e0b2c7d6a1f",
+    "schedule": "0 */6 * * *"
+  }]
+}
