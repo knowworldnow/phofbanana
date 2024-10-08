@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { getPageBySlug, getAllPages } from '../../lib/faust-api';
+import { Page as PageType } from '../../types';
 import ClientPage from './ClientPage';
 
 export const revalidate = 3600; // Revalidate this page every hour
@@ -51,7 +53,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const page = await getPageBySlug(params.slug);
 
   if (!page) {
-    return null; // or handle the 404 case
+    notFound();
   }
 
   return <ClientPage page={page} />;
