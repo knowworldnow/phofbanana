@@ -1,10 +1,14 @@
+'use client'
+
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import SEO from '../../components/Seo';
 import { PostContent } from '../../components/PostContent';
 import { getPageBySlug, getAllPages } from '../../lib/faust-api';
 import { Page as PageType } from '../../types';
+import { useIndexNow } from '../../hooks/useIndexNow';
 
 export const revalidate = 3600; // Revalidate this page every hour
 
@@ -51,8 +55,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const page = await getPageBySlug(params.slug);
+export default function Page({ params }: { params: { slug: string } }) {
+  const pathname = usePathname();
+  const fullUrl = `https://phofbanana.com${pathname}`;
+  
+  useIndexNow(fullUrl);
+
+  const page = getPageBySlug(params.slug);
 
   if (!page) {
     notFound();
