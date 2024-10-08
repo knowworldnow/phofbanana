@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { main as submitToIndexNow } from '@/lib/indexnow';
+import { main as submitToIndexNowAndGoogle } from '@/lib/indexnow';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,10 +10,20 @@ export async function GET(request: Request) {
   }
 
   try {
-    await submitToIndexNow();
-    return NextResponse.json({ message: 'IndexNow submission completed successfully' });
+    const result = await submitToIndexNowAndGoogle();
+    return NextResponse.json({
+      message: 'IndexNow and Google Search Console submission completed successfully',
+      result
+    });
   } catch (error) {
-    console.error('Error during IndexNow submission:', error);
-    return NextResponse.json({ error: 'Failed to complete IndexNow submission' }, { status: 500 });
+    console.error('Error during IndexNow and Google Search Console submission:', error);
+    return NextResponse.json({
+      error: 'Failed to complete IndexNow and Google Search Console submission',
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 });
   }
+}
+
+export async function POST(request: Request) {
+  return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
 }
