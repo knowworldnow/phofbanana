@@ -1,7 +1,6 @@
-// File: lib/indexnow.js
-
 const https = require('https');
 const xml2js = require('xml2js');
+const { submitUrl } = require('./googleIndexing');
 
 const sitemapUrl = `${process.env.NEXT_PUBLIC_URL}/sitemap.xml`;
 const host = new URL(process.env.NEXT_PUBLIC_URL).hostname;
@@ -61,6 +60,26 @@ async function submitToIndexNow(urlList) {
   });
 }
 
+async function submitToIndexNowAndGoogle(urlList) {
+  const indexNowResponse = await submitToIndexNow(urlList);
+  
+  const googleResponses = await Promise.all(urlList.map(async (url) => {
+    try {
+      const response = await submitUrl(url);
+      console.log('URL submitted to Google Search Console:', url);
+      return { url, success: true, response };
+    } catch (error) {
+      console.error('Error submitting to Google Search Console:', url, error);
+      return { url, success: false, error: error.message };
+    }
+  }));
+
+  return {
+    indexNow: indexNowResponse,
+    googleSearchConsole: googleResponses
+  };
+}
+
 async function main(modifiedSinceDate = '1970-01-01') {
   try {
     const xmlData = await fetchSitemap(sitemapUrl);
@@ -68,8 +87,8 @@ async function main(modifiedSinceDate = '1970-01-01') {
     const filteredUrls = filterUrlsByDate(sitemap, new Date(modifiedSinceDate));
 
     if (filteredUrls.length > 0) {
-      const response = await submitToIndexNow(filteredUrls);
-      console.log('IndexNow API Response:', response);
+      const response = await submitToIndexNowAndGoogle(filteredUrls);
+      console.log('IndexNow and Google Search Console API Response:', response);
     } else {
       console.log('No URLs modified since the specified date.');
     }
