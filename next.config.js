@@ -81,6 +81,11 @@ const nextConfig = {
         destination: '/are-bananas-keto-friendly',
         permanent: true,
       },
+      {
+        source: '/how-much-do-bananas-have-protein',
+        destination: '/banana-protein',
+        permanent: true,
+      },
     ];
   },
 };
