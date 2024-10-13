@@ -5,13 +5,11 @@ const key = {
   private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
 };
 
-const jwtClient = new google.auth.JWT(
-  key.client_email,
-  null,
-  key.private_key,
-  ['https://www.googleapis.com/auth/indexing'],
-  null
-);
+const jwtClient = new google.auth.JWT({
+  email: key.client_email,
+  key: key.private_key,
+  scopes: ['https://www.googleapis.com/auth/indexing'],
+});
 
 const searchconsole = google.indexing({ version: 'v3', auth: jwtClient });
 
