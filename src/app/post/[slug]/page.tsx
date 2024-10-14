@@ -73,16 +73,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
   const postUrl = `https://phofbanana.com/${post.slug}`;
   const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
-  // Submit URL to search engines
-  if (process.env.NODE_ENV === 'production') {
-    try {
-      await submitUrl(postUrl);
-      console.log(`Submitted URL to search engines: ${postUrl}`);
-    } catch (error) {
-      console.error('Failed to submit URL:', error);
-    }
-  }
-
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
     const categoryId = post.categories.nodes[0].id;
