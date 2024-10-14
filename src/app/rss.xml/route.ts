@@ -51,7 +51,7 @@ export async function GET(): Promise<NextResponse> {
       image_url: `${SITE_URL}/favicon.ico`,
       language: 'en',
       pubDate: new Date(),
-      ttl: '60'
+      ttl: 60
     });
 
     for (const post of posts) {
