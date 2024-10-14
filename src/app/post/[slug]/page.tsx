@@ -13,7 +13,6 @@ import RelatedPosts from '../../../components/RelatedPosts';
 import FAQ from '../../../components/FAQ';
 import FAQSchema from '../../../components/FAQSchema';
 import SEO from '../../../components/Seo';
-import { submitUrl } from '../../../lib/submitUrl';
 
 export const revalidate = 3600; // Revalidate this page every hour
 
@@ -33,15 +32,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
-  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
+  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   return {
-    title: `${post.title} | Daily Fornex`,
+    title: `${post.title} | pH of Banana`,
     description: post.excerpt || '',
     openGraph: {
       title: post.title,
       description: post.excerpt || '',
-      url: `https://dailyfornex.com/${post.slug}`,
+      url: `https://phofbanana.com/${post.slug}`,
       type: 'article',
       publishedTime: post.date,
       authors: [post.author.node.name],
@@ -53,7 +52,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
           alt: post.title,
         },
       ],
-      siteName: 'Daily Fornex',
+      siteName: 'pH of Banana',
     },
     twitter: {
       card: 'summary_large_image',
@@ -71,8 +70,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
     notFound();
   }
 
-  const postUrl = `https://dailyfornex.com/${post.slug}`;
-  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://dailyfornex.com/default-og-image.jpg';
+  const postUrl = `https://phofbanana.com/${post.slug}`;
+  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
 
   // Submit URL to search engines
   if (process.env.NODE_ENV === 'production') {
@@ -101,7 +100,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
   return (
     <>
       <SEO
-        title={`${post.title} | Daily Fornex`}
+        title={`${post.title} | pH of Banana`}
         description={post.excerpt || ''}
         canonicalUrl={postUrl}
         ogType="article"
@@ -110,7 +109,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         publishedTime={post.date}
         modifiedTime={post.date}
         author={post.author.node.name}
-        siteName="Daily Fornex"
+        siteName="pH of Banana"
       />
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
