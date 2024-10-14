@@ -15,7 +15,9 @@ interface Category {
 
 interface Author {
   name: string;
-  databaseId: number;
+  avatar?: {
+    url: string;
+  };
 }
 
 interface FeaturedImage {
@@ -50,14 +52,6 @@ async function fetchCategories(categoryIds: string[]): Promise<Category[]> {
   return response.json();
 }
 
-async function fetchAuthor(authorId: number): Promise<Author> {
-  const response = await fetch(`${WORDPRESS_URL}/wp-json/wp/v2/users/${authorId}`);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch author: ${response.status} ${response.statusText}`);
-  }
-  return response.json();
-}
-
 export async function GET(): Promise<NextResponse> {
   try {
     const posts = await getAllPosts();
@@ -74,10 +68,7 @@ export async function GET(): Promise<NextResponse> {
     });
 
     for (const post of posts) {
-      const [categories, author] = await Promise.all([
-        fetchCategories(post.categories.nodes.map(cat => cat.id)),
-        fetchAuthor(post.author.node.databaseId)
-      ]);
+      const categories = await fetchCategories(post.categories.nodes.map(cat => cat.id));
 
       feed.item({
         title: post.title,
@@ -85,7 +76,7 @@ export async function GET(): Promise<NextResponse> {
         url: `${SITE_URL}/${post.slug}`,
         guid: post.id,
         categories: categories.map(cat => cat.name),
-        author: author.name,
+        author: post.author.node.name,
         date: new Date(post.date),
         enclosure: post.featuredImage ? {
           url: post.featuredImage.node.sourceUrl,
