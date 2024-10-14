@@ -23,7 +23,6 @@ interface Author {
 interface FeaturedImage {
   sourceUrl: string;
   altText: string;
-  mimeType: string;
 }
 
 interface Post {
@@ -80,7 +79,7 @@ export async function GET(): Promise<NextResponse> {
         date: new Date(post.date),
         enclosure: post.featuredImage ? {
           url: post.featuredImage.node.sourceUrl,
-          type: post.featuredImage.node.mimeType
+          type: 'image/jpeg' // Default to JPEG if mimeType is not available
         } : undefined
       });
     }
