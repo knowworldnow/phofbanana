@@ -26,6 +26,15 @@ const nextConfig = {
           referrerPolicy: 'strict-origin-when-cross-origin',
         }),
       },
+      {
+        source: '/5bef1020134546269a110813c3a28880.txt',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/plain',
+          },
+        ],
+      },
     ];
   },
   async rewrites() {
