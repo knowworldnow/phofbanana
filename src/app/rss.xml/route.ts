@@ -7,15 +7,42 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://phofbanana.com';
 const SITE_TITLE = 'pH of Banana';
 const SITE_DESCRIPTION = 'A blog for all banana lovers';
 
-async function fetchRecentPosts(): Promise<any[]> {
-  const response = await fetch(`${WORDPRESS_URL}/wp-json/wp/v2/posts?_fields=id,title,excerpt,slug,date,modified,categories,author,featured_media&per_page=20&orderby=date&order=desc`);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch posts: ${response.status} ${response.statusText}`);
-  }
-  return response.json();
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
 }
 
-async function fetchCategories(categoryIds: number[]): Promise<any[]> {
+interface Author {
+  name: string;
+  databaseId: number;
+}
+
+interface FeaturedImage {
+  sourceUrl: string;
+  altText: string;
+  mimeType: string;
+}
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  excerpt: string;
+  slug: string;
+  date: string;
+  categories: {
+    nodes: Category[];
+  };
+  author: {
+    node: Author;
+  };
+  featuredImage: {
+    node: FeaturedImage;
+  } | null;
+}
+
+async function fetchCategories(categoryIds: string[]): Promise<Category[]> {
   const response = await fetch(`${WORDPRESS_URL}/wp-json/wp/v2/categories?include=${categoryIds.join(',')}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch categories: ${response.status} ${response.statusText}`);
@@ -23,18 +50,10 @@ async function fetchCategories(categoryIds: number[]): Promise<any[]> {
   return response.json();
 }
 
-async function fetchAuthor(authorId: number): Promise<any> {
+async function fetchAuthor(authorId: number): Promise<Author> {
   const response = await fetch(`${WORDPRESS_URL}/wp-json/wp/v2/users/${authorId}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch author: ${response.status} ${response.statusText}`);
-  }
-  return response.json();
-}
-
-async function fetchFeaturedMedia(mediaId: number): Promise<any> {
-  const response = await fetch(`${WORDPRESS_URL}/wp-json/wp/v2/media/${mediaId}`);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch media: ${response.status} ${response.statusText}`);
   }
   return response.json();
 }
@@ -55,10 +74,9 @@ export async function GET(): Promise<NextResponse> {
     });
 
     for (const post of posts) {
-      const [categories, author, featuredMedia] = await Promise.all([
-        fetchCategories(post.categories.nodes.map(cat => cat.databaseId)),
-        fetchAuthor(post.author.node.databaseId),
-        post.featuredImage ? fetchFeaturedMedia(post.featuredImage.node.databaseId) : null
+      const [categories, author] = await Promise.all([
+        fetchCategories(post.categories.nodes.map(cat => cat.id)),
+        fetchAuthor(post.author.node.databaseId)
       ]);
 
       feed.item({
@@ -69,9 +87,9 @@ export async function GET(): Promise<NextResponse> {
         categories: categories.map(cat => cat.name),
         author: author.name,
         date: new Date(post.date),
-        enclosure: featuredMedia ? {
-          url: featuredMedia.source_url,
-          type: featuredMedia.mime_type
+        enclosure: post.featuredImage ? {
+          url: post.featuredImage.node.sourceUrl,
+          type: post.featuredImage.node.mimeType
         } : undefined
       });
     }
