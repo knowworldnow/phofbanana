@@ -347,28 +347,32 @@ export async function getAllPosts(): Promise<Post[]> {
   const { data } = await client.query<GetAllPostsResult>({
     query: gql`
       query GetAllPosts {
-        posts(first: 1000) {
+        posts(first: 1000, where: { orderby: { field: DATE, order: DESC } }) {
           nodes {
             id
             title
             slug
             excerpt
             date
+            content
             featuredImage {
               node {
                 sourceUrl
                 altText
+                mimeType
               }
             }
             author {
               node {
                 name
+                databaseId
               }
             }
             categories {
               nodes {
                 name
                 slug
+                databaseId
               }
             }
           }
@@ -379,7 +383,6 @@ export async function getAllPosts(): Promise<Post[]> {
 
   return data.posts.nodes;
 }
-
 export async function getAllPages(): Promise<Page[]> {
   const { data } = await client.query<{ pages: { nodes: Page[] } }>({
     query: gql`
