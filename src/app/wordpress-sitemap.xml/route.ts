@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, gql, QueryResult } from '@apollo/client';
 
 const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://your-wordpress-url.com';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://phofbanana.com';
@@ -44,7 +44,7 @@ interface PageInfo {
   endCursor: string | null;
 }
 
-interface QueryResult {
+interface SitemapQueryResult {
   posts: {
     pageInfo: PageInfo;
     nodes: ContentNode[];
@@ -62,13 +62,15 @@ async function getAllContent(): Promise<ContentNode[]> {
   let afterPages: string | null = null;
 
   while (hasNextPage) {
-    const { data } = await client.query<QueryResult>({
+    const result = await client.query<{ data: SitemapQueryResult }>({
       query: SITEMAP_QUERY,
       variables: {
         first: 100, // Fetch 100 items at a time
         after: afterPosts,
       },
     });
+
+    const { data } = result;
 
     allContent = [...allContent, ...data.posts.nodes, ...data.pages.nodes];
 
