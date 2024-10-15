@@ -62,7 +62,7 @@ async function getAllContent(): Promise<ContentNode[]> {
   let afterPages: string | null = null;
 
   while (hasNextPage) {
-    const result = await client.query<{ data: SitemapQueryResult }>({
+    const result: QueryResult<SitemapQueryResult> = await client.query<SitemapQueryResult>({
       query: SITEMAP_QUERY,
       variables: {
         first: 100, // Fetch 100 items at a time
