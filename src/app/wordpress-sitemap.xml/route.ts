@@ -39,6 +39,22 @@ interface ContentNode {
   modifiedGmt: string;
 }
 
+interface PageInfo {
+  hasNextPage: boolean;
+  endCursor: string | null;
+}
+
+interface QueryResult {
+  posts: {
+    pageInfo: PageInfo;
+    nodes: ContentNode[];
+  };
+  pages: {
+    pageInfo: PageInfo;
+    nodes: ContentNode[];
+  };
+}
+
 async function getAllContent(): Promise<ContentNode[]> {
   let allContent: ContentNode[] = [];
   let hasNextPage = true;
@@ -46,7 +62,7 @@ async function getAllContent(): Promise<ContentNode[]> {
   let afterPages: string | null = null;
 
   while (hasNextPage) {
-    const { data } = await client.query({
+    const { data } = await client.query<QueryResult>({
       query: SITEMAP_QUERY,
       variables: {
         first: 100, // Fetch 100 items at a time
