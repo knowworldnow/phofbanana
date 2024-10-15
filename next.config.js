@@ -55,10 +55,6 @@ const nextConfig = {
         source: '/rss.xml',
         destination: '/api/rss',
       },
-      {
-        source: '/wordpress-sitemap.xml',
-        destination: '/api/wordpress-sitemap',
-      },
     ];
   },
   async redirects() {
