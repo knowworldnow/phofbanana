@@ -62,7 +62,7 @@ async function getAllContent(): Promise<ContentNode[]> {
   let afterPages: string | null = null;
 
   while (hasNextPage) {
-    const { data } = await client.query<QueryResult>({
+    const { data } = await client.query<{ data: QueryResult }>({
       query: SITEMAP_QUERY,
       variables: {
         first: 100,
