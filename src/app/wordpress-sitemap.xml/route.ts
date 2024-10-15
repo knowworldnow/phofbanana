@@ -10,12 +10,18 @@ const client = new ApolloClient({
 });
 
 const SITEMAP_QUERY = gql`
-  query SitemapQuery($after: String) {
-    contentNodes(
-      where: { contentTypes: [POST, PAGE] }
-      first: 50
-      after: $after
-    ) {
+  query SitemapQuery($after: String, $first: Int!) {
+    posts(first: $first, after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        uri
+        modifiedGmt
+      }
+    }
+    pages(first: $first, after: $after) {
       pageInfo {
         hasNextPage
         endCursor
@@ -33,30 +39,38 @@ interface ContentNode {
   modifiedGmt: string;
 }
 
-async function getAllWPContent(after: string | null = null, acc: ContentNode[] = []): Promise<ContentNode[]> {
-  const { data } = await client.query({
-    query: SITEMAP_QUERY,
-    variables: {
-      after,
-    },
-  });
+async function getAllContent(): Promise<ContentNode[]> {
+  let allContent: ContentNode[] = [];
+  let hasNextPage = true;
+  let afterPosts: string | null = null;
+  let afterPages: string | null = null;
 
-  acc = [...acc, ...data.contentNodes.nodes];
+  while (hasNextPage) {
+    const { data } = await client.query({
+      query: SITEMAP_QUERY,
+      variables: {
+        first: 100, // Fetch 100 items at a time
+        after: afterPosts,
+      },
+    });
 
-  if (data.contentNodes.pageInfo.hasNextPage) {
-    return getAllWPContent(data.contentNodes.pageInfo.endCursor, acc);
+    allContent = [...allContent, ...data.posts.nodes, ...data.pages.nodes];
+
+    hasNextPage = data.posts.pageInfo.hasNextPage || data.pages.pageInfo.hasNextPage;
+    afterPosts = data.posts.pageInfo.endCursor;
+    afterPages = data.pages.pageInfo.endCursor;
   }
 
-  return acc;
+  return allContent;
 }
 
 export async function GET() {
   try {
-    const nodes = await getAllWPContent();
+    const allContent = await getAllContent();
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-        ${nodes
+        ${allContent
           .map((node) => {
             if (!node.uri) return '';
             return `
