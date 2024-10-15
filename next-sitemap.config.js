@@ -7,6 +7,13 @@ module.exports = {
   generateRobotsTxt: true,
   exclude: ['/wordpress-sitemap.xml'],
   robotsTxtOptions: {
+    policies: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/category/', '/tag/', '/wp-admin/', '/wp-includes/'],
+      },
+    ],
     additionalSitemaps: [
       `${SITE_URL}/wordpress-sitemap.xml`,
     ],
