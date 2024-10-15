@@ -14,7 +14,7 @@ async function fetchPosts(pageNo: number, postType: string, perPage: number) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const totalPages = await fetchTotalPages()
+  const totalPagesData = await fetchTotalPages()
   const sitemapEntries: MetadataRoute.Sitemap = []
 
   // Add static pages
@@ -25,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   )
 
   // Fetch and add blog posts
-  const totalPosts = parseInt(totalPages.post)
+  const totalPosts = parseInt(totalPagesData.post)
   const postsPerPage = 100
   const totalPages = Math.ceil(totalPosts / postsPerPage)
 
