@@ -32,8 +32,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (let page = 1; page <= totalPages; page++) {
     const posts = await fetchPosts(page, 'post', postsPerPage)
     posts.forEach((post: any) => {
-      // Remove the duplicate domain from the URL
-      const cleanUrl = post.url.replace(/^https?:\/\/[^\/]+/, '')
+      // Remove the trailing slash and ensure the URL doesn't have a duplicate domain
+      const cleanUrl = post.url.replace(/^https?:\/\/[^\/]+/, '').replace(/\/$/, '')
       sitemapEntries.push({
         url: `${SITE_URL}${cleanUrl}`,
         lastModified: new Date(post.post_modified_date)
