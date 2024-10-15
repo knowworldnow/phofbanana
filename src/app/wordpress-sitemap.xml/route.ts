@@ -25,7 +25,12 @@ const SITEMAP_QUERY = gql`
   }
 `;
 
-async function getAllWPContent(after = null, acc: any[] = []) {
+interface ContentNode {
+  uri: string;
+  modifiedGmt: string;
+}
+
+async function getAllWPContent(after: string | null = null, acc: ContentNode[] = []): Promise<ContentNode[]> {
   const { data } = await client.query({
     query: SITEMAP_QUERY,
     variables: {
@@ -36,7 +41,7 @@ async function getAllWPContent(after = null, acc: any[] = []) {
   acc = [...acc, ...data.contentNodes.nodes];
 
   if (data.contentNodes.pageInfo.hasNextPage) {
-    acc = await getAllWPContent(data.contentNodes.pageInfo.endCursor, acc);
+    return getAllWPContent(data.contentNodes.pageInfo.endCursor, acc);
   }
 
   return acc;
