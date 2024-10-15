@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ApolloClient, InMemoryCache, gql, ApolloQueryResult } from '@apollo/client';
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://your-wordpress-url.com';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://phofbanana.com';
@@ -44,7 +44,7 @@ interface PageInfo {
   endCursor: string | null;
 }
 
-interface SitemapQueryResult {
+interface QueryResult {
   posts: {
     pageInfo: PageInfo;
     nodes: ContentNode[];
@@ -62,15 +62,13 @@ async function getAllContent(): Promise<ContentNode[]> {
   let afterPages: string | null = null;
 
   while (hasNextPage) {
-    const result: ApolloQueryResult<SitemapQueryResult> = await client.query<SitemapQueryResult>({
+    const { data } = await client.query<QueryResult>({
       query: SITEMAP_QUERY,
       variables: {
-        first: 100, // Fetch 100 items at a time
+        first: 100,
         after: afterPosts,
       },
     });
-
-    const { data } = result;
 
     allContent = [
       ...allContent,
@@ -92,6 +90,11 @@ async function getAllContent(): Promise<ContentNode[]> {
 export async function GET() {
   try {
     const allContent = await getAllContent();
+    
+    // Ensure we have all 153 posts
+    if (allContent.length < 153) {
+      console.warn(`Warning: Only ${allContent.length} posts found. Expected 153.`);
+    }
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -108,6 +111,8 @@ export async function GET() {
           .join('')}
       </urlset>
     `;
+
+    console.log(`Generated sitemap with ${allContent.length} URLs.`);
 
     return new NextResponse(sitemap, {
       status: 200,
