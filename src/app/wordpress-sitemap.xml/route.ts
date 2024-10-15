@@ -72,7 +72,14 @@ async function getAllContent(): Promise<ContentNode[]> {
 
     const { data } = result;
 
-    allContent = [...allContent, ...data.posts.nodes, ...data.pages.nodes];
+    allContent = [
+      ...allContent,
+      ...data.posts.nodes.map(node => ({
+        ...node,
+        uri: node.uri.replace(/^\/post\//, '/') // Remove '/post/' from the beginning of the URI
+      })),
+      ...data.pages.nodes
+    ];
 
     hasNextPage = data.posts.pageInfo.hasNextPage || data.pages.pageInfo.hasNextPage;
     afterPosts = data.posts.pageInfo.endCursor;
