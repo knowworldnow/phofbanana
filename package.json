@@ -11,6 +11,7 @@
     "codegen": "graphql-codegen"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.1",
     "@faustwp/core": "^3.1.0",
     "googleapis": "^118.0.0",
     "lodash": "^4.17.21",
