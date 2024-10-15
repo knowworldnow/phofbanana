@@ -6,10 +6,10 @@ const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL;
 async function getAccessToken() {
   const jwtClient = new google.auth.JWT(
     GOOGLE_CLIENT_EMAIL,
-    null,
+    undefined, // Changed from null to undefined
     GOOGLE_PRIVATE_KEY,
     ['https://www.googleapis.com/auth/indexing'],
-    null
+    undefined // Changed from null to undefined
   );
 
   try {
