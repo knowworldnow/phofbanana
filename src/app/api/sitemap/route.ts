@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { ApolloClient, InMemoryCache, gql, ApolloQueryResult } from '@apollo/client';
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://your-wordpress-url.com';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://phofbanana.com';
-const POSTS_PER_SITEMAP = 1000; // Adjust this value based on your needs
+const POSTS_PER_SITEMAP = 1000;
 
 const client = new ApolloClient({
   uri: `${WORDPRESS_URL}/graphql`,
@@ -36,26 +36,13 @@ interface ContentNode {
   modifiedGmt: string;
 }
 
-interface QueryResult {
-  posts: {
-    pageInfo: {
-      hasNextPage: boolean;
-      endCursor: string | null;
-    };
-    nodes: ContentNode[];
-  };
-  pages: {
-    nodes: ContentNode[];
-  };
-}
-
 async function getAllContent(): Promise<ContentNode[]> {
   let allContent: ContentNode[] = [];
   let hasNextPage = true;
   let after: string | null = null;
 
   while (hasNextPage) {
-    const result: ApolloQueryResult<QueryResult> = await client.query<QueryResult>({
+    const result = await client.query({
       query: SITEMAP_QUERY,
       variables: { first: 100, after },
     });
