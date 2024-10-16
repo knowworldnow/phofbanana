@@ -1,29 +1,79 @@
+import fetch from 'node-fetch';
+
+const INDEXNOW_API_ENDPOINT = 'https://api.indexnow.org/v1/submit';
+const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
 const SITE_URL = process.env.NEXT_PUBLIC_URL || 'https://phofbanana.com';
-const INDEXNOW_KEY = '5bef1020134546269a110813c3a28880';
 
 export async function submitUrlToIndexNow(url: string) {
-  return submitUrlsToIndexNow([url]);
-}
+  if (!INDEXNOW_KEY) {
+    console.error('IndexNow API key is not set');
+    return;
+  }
 
-export async function submitUrlsToIndexNow(urls: string[]) {
-  const indexNowUrl = new URL('https://api.indexnow.org/v1/submit');
-  indexNowUrl.searchParams.append('key', INDEXNOW_KEY);
-  indexNowUrl.searchParams.append('keyLocation', `${SITE_URL}/${INDEXNOW_KEY}.txt`);
+  const fullUrl = new URL(url, SITE_URL).toString();
 
-  urls.forEach(url => indexNowUrl.searchParams.append('url', url));
+  const payload = {
+    host: new URL(SITE_URL).hostname,
+    key: INDEXNOW_KEY,
+    urlList: [fullUrl],
+  };
 
   try {
-    const response = await fetch(indexNowUrl.toString(), { method: 'GET' });
-    
+    const response = await fetch(INDEXNOW_API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(`IndexNow API responded with status ${response.status}: ${errorText}`);
     }
 
-    const result = await response.text();
-    console.log('IndexNow submission result:', result);
+    const result = await response.json();
+    console.log('IndexNow submission successful:', result);
     return result;
   } catch (error) {
     console.error('Error submitting to IndexNow:', error);
+    throw error;
+  }
+}
+
+export async function submitUrlsToIndexNow(urls: string[]) {
+  if (!INDEXNOW_KEY) {
+    console.error('IndexNow API key is not set');
+    return;
+  }
+
+  const fullUrls = urls.map(url => new URL(url, SITE_URL).toString());
+
+  const payload = {
+    host: new URL(SITE_URL).hostname,
+    key: INDEXNOW_KEY,
+    urlList: fullUrls,
+  };
+
+  try {
+    const response = await fetch(INDEXNOW_API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`IndexNow API responded with status ${response.status}: ${errorText}`);
+    }
+
+    const result = await response.json();
+    console.log('IndexNow batch submission successful:', result);
+    return result;
+  } catch (error) {
+    console.error('Error submitting batch to IndexNow:', error);
     throw error;
   }
 }
