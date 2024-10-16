@@ -66,12 +66,12 @@ export default function Header() {
       </div>
 
       {/* Mobile search bar */}
-      <div className={`md:hidden px-4 pb-4 overflow-hidden transition-max-height duration-300 ease-in-out ${isSearchOpen ? 'max-h-20' : 'max-h-0'}`}>
+      <div className={`md:hidden px-4 pb-4 overflow-hidden transition-all duration-300 ease-in-out ${isSearchOpen ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
         <SearchBar />
       </div>
 
       {/* Mobile menu */}
-      <nav className={`md:hidden bg-background overflow-hidden transition-max-height duration-300 ease-in-out ${isMenuOpen ? 'max-h-64' : 'max-h-0'}`}>
+      <nav className={`md:hidden bg-background overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'}`}>
         <Link href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Home</Link>
         <Link href="/about" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">About</Link>
         <Link href="/contact" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Contact</Link>
