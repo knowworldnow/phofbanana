@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
+import { JSDOM } from 'jsdom';
 import { getPostBySlug, getAllPosts, getRelatedPosts } from '../../../lib/faust-api';
 import { Post } from '../../../types';
 import CommentForm from '../../../components/CommentForm';
@@ -88,9 +89,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
   // Function to insert ads into the content
   const insertAds = (content: string) => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(content, 'text/html');
-    const paragraphs = doc.querySelectorAll('p');
+    const dom = new JSDOM(content);
+    const document = dom.window.document;
+    const paragraphs = document.querySelectorAll('p');
 
     if (paragraphs.length >= 10) {
       const adElement1 = document.createElement('div');
@@ -104,7 +105,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
       paragraphs[19].insertAdjacentElement('afterend', adElement2);
     }
 
-    return doc.body.innerHTML;
+    return document.body.innerHTML;
   };
 
   const contentWithAds = insertAds(post.content);
