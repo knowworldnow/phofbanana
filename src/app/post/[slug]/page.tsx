@@ -117,15 +117,17 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
             {post.featuredImage && (
-              <div className="relative w-full max-w-3xl mx-auto mb-8 aspect-w-16 aspect-h-9">
-                <Image
-                  src={post.featuredImage.node.sourceUrl}
-                  alt={post.featuredImage.node.altText || post.title}
-                  fill
-                  className="object-cover rounded-lg"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-                  priority
-                />
+              <div className="relative w-full max-w-3xl mx-auto mb-8 hidden sm:block">
+                <div className="aspect-w-16 aspect-h-9">
+                  <Image
+                    src={post.featuredImage.node.sourceUrl}
+                    alt={post.featuredImage.node.altText || post.title}
+                    fill
+                    className="object-cover rounded-lg"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                    priority
+                  />
+                </div>
               </div>
             )}
             <PostHeader
