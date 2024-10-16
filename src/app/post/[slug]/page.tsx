@@ -115,7 +115,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
             {post.featuredImage && (
-              <div className="relative w-full max-w-3xl mx-auto mb-8">
+              <div className="relative w-full max-w-3xl mx-auto mb-8 hidden sm:block">
                 <div className="aspect-w-3 aspect-h-2">
                   <Image
                     src={post.featuredImage.node.sourceUrl}
