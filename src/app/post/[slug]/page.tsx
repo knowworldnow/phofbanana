@@ -1,21 +1,19 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import { getPostBySlug, getAllPosts, getRelatedPosts } from '../../../lib/faust-api';
 import { submitUrlToIndexNow } from '../../../lib/indexnow';
 import { Post } from '../../../types';
+import CommentForm from '../../../components/CommentForm';
+import CommentList from '../../../components/CommentList';
 import PostHeader from '../../../components/PostHeader';
 import TableOfContents from '../../../components/TableOfContents';
+import SocialSharePanel from '../../../components/SocialSharePanel';
 import AuthorBox from '../../../components/AuthorBox';
+import RelatedPosts from '../../../components/RelatedPosts';
 import FAQ from '../../../components/FAQ';
 import FAQSchema from '../../../components/FAQSchema';
 import SEO from '../../../components/Seo';
-
-const CommentForm = dynamic(() => import('../../../components/CommentForm'));
-const CommentList = dynamic(() => import('../../../components/CommentList'));
-const SocialSharePanel = dynamic(() => import('../../../components/SocialSharePanel'));
-const RelatedPosts = dynamic(() => import('../../../components/RelatedPosts'));
 
 export const revalidate = 3600; // Revalidate this page every hour
 
@@ -117,17 +115,16 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
             {post.featuredImage && (
-              <div className="relative w-full max-w-3xl mx-auto mb-8">
-                <div className="aspect-w-16 aspect-h-5">
-                  <Image
-                    src={post.featuredImage.node.sourceUrl}
-                    alt={post.featuredImage.node.altText || post.title}
-                    fill
-                    className="object-cover rounded-lg"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-                    priority
-                  />
-                </div>
+              <div className="relative w-full max-w-3xl mx-auto mb-8 hidden sm:block">
+                <Image
+                  src={post.featuredImage.node.sourceUrl}
+                  alt={post.featuredImage.node.altText || post.title}
+                  width={1200}
+                  height={800}
+                  className="object-cover rounded-lg"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                  priority
+                />
               </div>
             )}
             <PostHeader
