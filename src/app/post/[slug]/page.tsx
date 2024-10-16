@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import { getPostBySlug, getAllPosts, getRelatedPosts } from '../../../lib/faust-api';
-import { submitUrlToIndexNow } from '../../../lib/indexnow';
 import { Post } from '../../../types';
 import CommentForm from '../../../components/CommentForm';
 import CommentList from '../../../components/CommentList';
@@ -76,16 +75,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
   const postUrl = `https://phofbanana.com/${post.slug}`;
   const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
-
-  // Submit URL to IndexNow
-  if (process.env.NODE_ENV === 'production') {
-    try {
-      await submitUrlToIndexNow(postUrl);
-      console.log(`Submitted URL to IndexNow: ${postUrl}`);
-    } catch (error) {
-      console.error('Failed to submit URL to IndexNow:', error);
-    }
-  }
 
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
