@@ -115,15 +115,17 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
             {post.featuredImage && (
-              <div className="aspect-w-16 aspect-h-9 mb-8">
-                <Image
-                  src={post.featuredImage.node.sourceUrl}
-                  alt={post.featuredImage.node.altText || post.title}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                  priority
-                />
+              <div className="relative w-full max-w-3xl mx-auto mb-8">
+                <div className="aspect-w-3 aspect-h-2">
+                  <Image
+                    src={post.featuredImage.node.sourceUrl}
+                    alt={post.featuredImage.node.altText || post.title}
+                    fill
+                    className="object-cover rounded-lg"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                    priority
+                  />
+                </div>
               </div>
             )}
             <PostHeader
