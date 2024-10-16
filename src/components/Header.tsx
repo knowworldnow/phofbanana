@@ -66,22 +66,18 @@ export default function Header() {
       </div>
 
       {/* Mobile search bar */}
-      {isSearchOpen && (
-        <div className="md:hidden px-4 pb-4">
-          <SearchBar />
-        </div>
-      )}
+      <div className={`md:hidden px-4 pb-4 overflow-hidden transition-max-height duration-300 ease-in-out ${isSearchOpen ? 'max-h-20' : 'max-h-0'}`}>
+        <SearchBar />
+      </div>
 
       {/* Mobile menu */}
-      {isMenuOpen && (
-        <nav className="md:hidden bg-background py-2">
-          <Link href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Home</Link>
-          <Link href="/about" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">About</Link>
-          <Link href="/contact" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Contact</Link>
-          <Link href="/categories" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Categories</Link>
-          <Link href="/rss.xml" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">RSS Feed</Link>
-        </nav>
-      )}
+      <nav className={`md:hidden bg-background overflow-hidden transition-max-height duration-300 ease-in-out ${isMenuOpen ? 'max-h-64' : 'max-h-0'}`}>
+        <Link href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Home</Link>
+        <Link href="/about" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">About</Link>
+        <Link href="/contact" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Contact</Link>
+        <Link href="/categories" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Categories</Link>
+        <Link href="/rss.xml" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">RSS Feed</Link>
+      </nav>
     </header>
   );
 }
