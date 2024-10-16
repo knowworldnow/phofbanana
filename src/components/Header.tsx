@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import ToggleTheme from './ToggleTheme';
-import SearchBar from './SearchBar';
+import dynamic from 'next/dynamic';
 import Logo from './Logo';
+
+const ToggleTheme = dynamic(() => import('./ToggleTheme'), { ssr: false });
+const SearchBar = dynamic(() => import('./SearchBar'));
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,7 +40,9 @@ export default function Header() {
 
           {/* Center section: Logo */}
           <div className="flex-1 flex justify-center">
-            <Logo />
+            <div className="w-[240px] h-[80px]">
+              <Logo />
+            </div>
           </div>
 
           {/* Right section: Theme Toggle and Search Icon (mobile) */}
