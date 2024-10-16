@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
+import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import { getPostBySlug, getAllPosts, getRelatedPosts } from '../../../lib/faust-api';
 import { submitUrlToIndexNow } from '../../../lib/indexnow';
@@ -14,6 +15,8 @@ import RelatedPosts from '../../../components/RelatedPosts';
 import FAQ from '../../../components/FAQ';
 import FAQSchema from '../../../components/FAQSchema';
 import SEO from '../../../components/Seo';
+import InArticleAd from '../../../components/InArticleAd';
+import BananaAd from '../../../components/BananaAd';
 
 export const revalidate = 3600; // Revalidate this page every hour
 
@@ -94,8 +97,36 @@ export default async function PostPage({ params }: { params: { slug: string } })
     }
   }
 
+  // Function to insert ads into the content
+  const insertAds = (content: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+    const paragraphs = doc.querySelectorAll('p');
+
+    if (paragraphs.length >= 10) {
+      const adElement1 = document.createElement('div');
+      adElement1.id = 'in-article-ad';
+      paragraphs[9].insertAdjacentElement('afterend', adElement1);
+    }
+
+    if (paragraphs.length >= 20) {
+      const adElement2 = document.createElement('div');
+      adElement2.id = 'banana-ad';
+      paragraphs[19].insertAdjacentElement('afterend', adElement2);
+    }
+
+    return doc.body.innerHTML;
+  };
+
+  const contentWithAds = insertAds(post.content);
+
   return (
     <>
+      <Script
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144697979680971"
+        strategy="lazyOnload"
+        crossOrigin="anonymous"
+      />
       <SEO
         title={`${post.title} | pH of Banana`}
         description={post.excerpt || ''}
@@ -135,8 +166,10 @@ export default async function PostPage({ params }: { params: { slug: string } })
             />
             <div 
               className="prose max-w-none mt-8"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: contentWithAds }}
             />
+            <InArticleAd />
+            <BananaAd />
             {post.faqItems && post.faqItems.length > 0 && (
               <FAQ faqItems={post.faqItems} />
             )}
@@ -156,6 +189,12 @@ export default async function PostPage({ params }: { params: { slug: string } })
         />
         {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
       </div>
+      <Script id="ad-script">
+        {`
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        `}
+      </Script>
     </>
   );
 }
