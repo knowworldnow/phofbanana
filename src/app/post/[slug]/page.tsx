@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getPostBySlug(params.slug);
 
-  if (!post) {
+  if  (!post) {
     return {
       title: 'Post Not Found',
     };
