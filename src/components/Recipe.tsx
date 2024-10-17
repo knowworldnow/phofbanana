@@ -16,10 +16,10 @@ const Recipe: React.FC<RecipeType> = ({
   image
 }) => {
   return (
-    <div className="recipe">
+    <div className="recipe bg-white shadow-md rounded-lg p-6 my-8">
       <h3 className="text-2xl font-bold mb-2">{name}</h3>
-      <p className="mb-4">{description}</p>
-      <div className="recipe-meta mb-4">
+      <p className="mb-4 text-gray-600">{description}</p>
+      <div className="recipe-meta mb-4 grid grid-cols-2 gap-2">
         <p><strong>Prep Time:</strong> {prepTime}</p>
         <p><strong>Cook Time:</strong> {cookTime}</p>
         <p><strong>Total Time:</strong> {totalTime}</p>
@@ -32,13 +32,13 @@ const Recipe: React.FC<RecipeType> = ({
       <h4 className="text-xl font-semibold mb-2">Ingredients:</h4>
       <ul className="list-disc list-inside mb-4">
         {ingredients.map((ingredient, index) => (
-          <li key={index}>{ingredient}</li>
+          <li key={index} className="mb-1">{ingredient}</li>
         ))}
       </ul>
       <h4 className="text-xl font-semibold mb-2">Instructions:</h4>
       <ol className="list-decimal list-inside">
         {instructions.map((instruction, index) => (
-          <li key={index}>{instruction}</li>
+          <li key={index} className="mb-2">{instruction}</li>
         ))}
       </ol>
     </div>
