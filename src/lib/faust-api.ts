@@ -97,6 +97,20 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
             question
             answer
           }
+          recipes {
+            name
+            description
+            prepTime
+            cookTime
+            totalTime
+            recipeYield
+            ingredients
+            instructions
+            recipeCategory
+            recipeCuisine
+            author
+            image
+          }
         }
       }
     `,
