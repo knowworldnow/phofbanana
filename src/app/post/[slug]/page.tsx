@@ -77,11 +77,15 @@ export default async function PostPage({ params }: { params: { slug: string } })
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
     const categoryId = post.categories.nodes[0].id;
+    console.log('Fetching related posts for category:', categoryId);
     try {
       relatedPosts = await getRelatedPosts(categoryId, post.id);
+      console.log('Related posts:', relatedPosts);
     } catch (error) {
       console.error('Error fetching related posts:', error);
     }
+  } else {
+    console.log('No categories found for this post');
   }
 
   const articleStructuredData = {
@@ -128,7 +132,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
       )}
-      <div className="container mx-auto px-4 py-8 pl-4 sm:pl-12 lg:pl-16">
+      <div className="container mx-auto px-4 py-8 pl-12 sm:pl-16">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
             {post.featuredImage && (
