@@ -3,6 +3,7 @@ import { Suspense, lazy } from 'react';
 import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
 import Script from 'next/script';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import "../styles/wordpress-styles.css";
 
@@ -87,7 +88,9 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
+        <SpeedInsights />
       </body>
     </html>
   );
 }
+
