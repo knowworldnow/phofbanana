@@ -1,4 +1,5 @@
 import React from 'react';
+import JsonLd from './JsonLd';
 import { FAQItem } from '../types';
 
 interface FAQSchemaProps {
@@ -19,12 +20,7 @@ const FAQSchema: React.FC<FAQSchemaProps> = ({ faqItems }) => {
     })),
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-    />
-  );
+  return <JsonLd data={schemaData} />;
 };
 
 export default FAQSchema;
