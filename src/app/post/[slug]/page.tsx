@@ -17,6 +17,7 @@ import FAQSchema from '../../../components/FAQSchema';
 import SEO from '../../../components/Seo';
 import InArticleAd from '../../../components/InArticleAd';
 import BananaAd from '../../../components/BananaAd';
+import JsonLd from '../../../components/JsonLd';
 
 export const revalidate = 3600; // Revalidate this page every hour
 
@@ -110,6 +111,32 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
   const contentWithAds = insertAds(post.content);
 
+  const articleStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt || '',
+    image: imageUrl,
+    datePublished: post.date,
+    dateModified: post.modified || post.date,
+    author: {
+      '@type': 'Person',
+      name: post.author.node.name,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'pH of Banana',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://phofbanana.com/logo.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': postUrl,
+    },
+  };
+
   return (
     <>
       <Script
@@ -125,10 +152,11 @@ export default async function PostPage({ params }: { params: { slug: string } })
         ogImage={imageUrl}
         ogImageAlt={post.title}
         publishedTime={post.date}
-        modifiedTime={post.date}
+        modifiedTime={post.modified || post.date}
         author={post.author.node.name}
         siteName="pH of Banana"
       />
+      <JsonLd data={articleStructuredData} />
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
       )}
