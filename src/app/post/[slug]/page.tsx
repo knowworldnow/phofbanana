@@ -118,7 +118,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
     description: post.excerpt || '',
     image: imageUrl,
     datePublished: post.date,
-    dateModified: post.modified || post.date,
+    dateModified: post.date, // Use post.date as fallback since 'modified' is not available
     author: {
       '@type': 'Person',
       name: post.author.node.name,
@@ -152,7 +152,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         ogImage={imageUrl}
         ogImageAlt={post.title}
         publishedTime={post.date}
-        modifiedTime={post.modified || post.date}
+        modifiedTime={post.date} // Use post.date as fallback since 'modified' is not available
         author={post.author.node.name}
         siteName="pH of Banana"
       />
