@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import Script from 'next/script';
 import { notFound } from 'next/navigation';
-import { JSDOM } from 'jsdom';
 import { getPostBySlug, getAllPosts, getRelatedPosts } from '../../../lib/faust-api';
 import { Post } from '../../../types';
 import CommentForm from '../../../components/CommentForm';
@@ -15,8 +13,6 @@ import RelatedPosts from '../../../components/RelatedPosts';
 import FAQ from '../../../components/FAQ';
 import FAQSchema from '../../../components/FAQSchema';
 import SEO from '../../../components/Seo';
-import InArticleAd from '../../../components/InArticleAd';
-import BananaAd from '../../../components/BananaAd';
 import JsonLd from '../../../components/JsonLd';
 
 export const revalidate = 3600; // Revalidate this page every hour
@@ -37,7 +33,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
-  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
+  const ogImageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.webp';
 
   return {
     title: `${post.title} | pH of Banana`,
@@ -76,7 +72,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
   }
 
   const postUrl = `https://phofbanana.com/${post.slug}`;
-  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.jpg';
+  const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.webp';
 
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
@@ -88,29 +84,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
     }
   }
 
-  // Function to insert ads into the content
-  const insertAds = (content: string) => {
-    const dom = new JSDOM(content);
-    const document = dom.window.document;
-    const paragraphs = document.querySelectorAll('p');
-
-    if (paragraphs.length >= 10) {
-      const adElement1 = document.createElement('div');
-      adElement1.id = 'in-article-ad';
-      paragraphs[9].insertAdjacentElement('afterend', adElement1);
-    }
-
-    if (paragraphs.length >= 20) {
-      const adElement2 = document.createElement('div');
-      adElement2.id = 'banana-ad';
-      paragraphs[19].insertAdjacentElement('afterend', adElement2);
-    }
-
-    return document.body.innerHTML;
-  };
-
-  const contentWithAds = insertAds(post.content);
-
   const articleStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -118,7 +91,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
     description: post.excerpt || '',
     image: imageUrl,
     datePublished: post.date,
-    dateModified: post.date, // Use post.date as fallback since 'modified' is not available
+    dateModified: post.date,
     author: {
       '@type': 'Person',
       name: post.author.node.name,
@@ -128,7 +101,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
       name: 'pH of Banana',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://phofbanana.com/logo.png',
+        url: 'https://phofbanana.com/logo.webp',
       },
     },
     mainEntityOfPage: {
@@ -139,11 +112,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
   return (
     <>
-      <Script
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144697979680971"
-        strategy="lazyOnload"
-        crossOrigin="anonymous"
-      />
       <SEO
         title={`${post.title} | pH of Banana`}
         description={post.excerpt || ''}
@@ -152,7 +120,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         ogImage={imageUrl}
         ogImageAlt={post.title}
         publishedTime={post.date}
-        modifiedTime={post.date} // Use post.date as fallback since 'modified' is not available
+        modifiedTime={post.date}
         author={post.author.node.name}
         siteName="pH of Banana"
       />
@@ -160,11 +128,11 @@ export default async function PostPage({ params }: { params: { slug: string } })
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
       )}
-      <div className="container mx-auto px-4 py-8 pl-12 sm:pl-16">
+      <div className="container mx-auto px-4 py-8 pl-4 sm:pl-12 lg:pl-16">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
             {post.featuredImage && (
-              <div className="relative w-full max-w-3xl mx-auto mb-8 hidden sm:block">
+              <div className="relative w-full max-w-3xl mx-auto mb-8">
                 <Image
                   src={post.featuredImage.node.sourceUrl}
                   alt={post.featuredImage.node.altText || post.title}
@@ -184,10 +152,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
             />
             <div 
               className="prose max-w-none mt-8"
-              dangerouslySetInnerHTML={{ __html: contentWithAds }}
+              dangerouslySetInnerHTML={{ __html: post.content }}
             />
-            <InArticleAd />
-            <BananaAd />
             {post.faqItems && post.faqItems.length > 0 && (
               <FAQ faqItems={post.faqItems} />
             )}
@@ -207,12 +173,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
         />
         {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
       </div>
-      <Script id="ad-script">
-        {`
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        `}
-      </Script>
     </>
   );
 }
