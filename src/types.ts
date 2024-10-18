@@ -1,37 +1,37 @@
 export interface Recipe {
   name: string;
-  description: string;
-  prepTime: string;
-  cookTime: string;
-  totalTime: string;
-  recipeYield: string;
+  description?: string;
+  prepTime?: string;
+  cookTime?: string;
+  totalTime?: string;
+  recipeYield?: string;
   ingredients: string[];
   instructions: string[];
-  recipeCategory: string;
-  recipeCuisine: string;
-  author: string;
-  image: string | {
+  recipeCategory?: string;
+  recipeCuisine?: string;
+  author?: string;
+  image?: string | {
     sourceUrl: string;
-    altText: string;
+    altText?: string;
   };
-  nutrition: RecipeNutrition;
-  recipeType: string;
-  keywords: string;
-  suitableForDiet: string;
-  recipeEquipment: string[];
-  datePublished: string;
+  nutrition?: RecipeNutrition;
+  recipeType?: string;
+  keywords?: string;
+  suitableForDiet?: string;
+  recipeEquipment?: string[];
+  datePublished?: string;
 }
 
 export interface RecipeNutrition {
-  calories: string;
-  fatContent: string;
-  saturatedFatContent: string;
-  cholesterolContent: string;
-  sodiumContent: string;
-  carbohydrateContent: string;
-  fiberContent: string;
-  sugarContent: string;
-  proteinContent: string;
+  calories?: string;
+  fatContent?: string;
+  saturatedFatContent?: string;
+  cholesterolContent?: string;
+  sodiumContent?: string;
+  carbohydrateContent?: string;
+  fiberContent?: string;
+  sugarContent?: string;
+  proteinContent?: string;
 }
 
 export interface FAQItem {
@@ -43,13 +43,13 @@ export interface Post {
   id: string;
   title: string;
   slug: string;
-  excerpt: string;
+  excerpt?: string;
   date: string;
   content: string;
   featuredImage?: {
     node: {
       sourceUrl: string;
-      altText: string;
+      altText?: string;
     };
   };
   author: {
@@ -74,7 +74,7 @@ export interface Category {
   id: string;
   name: string;
   slug: string;
-  count: number;
+  count?: number;
   description?: string;
 }
 
@@ -93,11 +93,11 @@ export interface Page {
   content: string;
   date: string;
   slug: string;
-  excerpt: string;
+  excerpt?: string;
   featuredImage?: {
     node: {
       sourceUrl: string;
-      altText: string;
+      altText?: string;
     };
   };
 }
@@ -109,7 +109,7 @@ export interface PostCardProps {
     featuredImage?: {
       node: {
         sourceUrl: string;
-        altText: string;
+        altText?: string;
       };
     };
     author: {
@@ -184,8 +184,8 @@ export interface GetAllPagesResult {
 
 export interface CommentAuthor {
   name: string;
-  email: string;
-  isRestricted: boolean;
+  email?: string;
+  isRestricted?: boolean;
   avatar?: {
     url: string;
   };
