@@ -97,7 +97,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
             question
             answer
           }
-          recipes {
+          recipeData {
             name
             description
             prepTime
@@ -110,6 +110,22 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
             recipeCuisine
             author
             image
+            nutrition {
+              calories
+              fatContent
+              saturatedFatContent
+              cholesterolContent
+              sodiumContent
+              carbohydrateContent
+              fiberContent
+              sugarContent
+              proteinContent
+            }
+            recipeType
+            keywords
+            suitableForDiet
+            recipeEquipment
+            datePublished
           }
         }
       }
@@ -397,6 +413,7 @@ export async function getAllPosts(): Promise<Post[]> {
 
   return data.posts.nodes;
 }
+
 export async function getAllPages(): Promise<Page[]> {
   const { data } = await client.query<{ pages: { nodes: Page[] } }>({
     query: gql`
