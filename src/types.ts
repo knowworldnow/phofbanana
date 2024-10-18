@@ -43,7 +43,7 @@ export interface Post {
   id: string;
   title: string;
   slug: string;
-  excerpt?: string;
+  excerpt?: string; // Make excerpt optional
   date: string;
   content: string;
   featuredImage?: {
