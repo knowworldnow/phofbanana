@@ -74,7 +74,7 @@ export default async function CategoryPage({ params, searchParams }: { params: {
   const after = page > 1 ? ((page - 1) * POSTS_PER_PAGE).toString() : null;
   const result = await getPostsByCategory(categorySlug, POSTS_PER_PAGE, after);
   const posts: Post[] = result.posts.nodes;
-  const totalPosts = category.count;
+  const totalPosts = category.count ?? 0;
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
   if (posts.length === 0 && page === 1) {
