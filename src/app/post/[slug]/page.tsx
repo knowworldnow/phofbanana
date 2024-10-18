@@ -12,8 +12,6 @@ import AuthorBox from '../../../components/AuthorBox';
 import RelatedPosts from '../../../components/RelatedPosts';
 import FAQ from '../../../components/FAQ';
 import FAQSchema from '../../../components/FAQSchema';
-import Recipe from '../../../components/Recipe';
-import RecipeSchema from '../../../components/RecipeSchema';
 import SEO from '../../../components/Seo';
 import JsonLd from '../../../components/JsonLd';
 
@@ -127,8 +125,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
         siteName="pH of Banana"
       />
       <JsonLd data={articleStructuredData} />
-      {post.recipeData && (
-        <RecipeSchema {...post.recipeData} />
+      {post.faqItems && post.faqItems.length > 0 && (
+        <FAQSchema faqItems={post.faqItems} />
       )}
       <div className="container mx-auto px-4 py-8 pl-12 sm:pl-16">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
@@ -156,9 +154,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
               className="prose max-w-none mt-8"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
-            {post.recipeData && (
-              <Recipe recipeData={post.recipeData} />
-            )}
             {post.faqItems && post.faqItems.length > 0 && (
               <FAQ faqItems={post.faqItems} />
             )}
