@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getPostBySlug(params.slug);
 
-  if  (!post) {
+  if (!post) {
     return {
       title: 'Post Not Found',
     };
@@ -130,9 +130,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
       {post.faqItems && post.faqItems.length > 0 && (
         <FAQSchema faqItems={post.faqItems} />
       )}
-      {post.recipes && post.recipes.map((recipe, index) => (
-        <RecipeSchema key={index} {...recipe} />
-      ))}
+      {post.recipeData && (
+        <RecipeSchema {...post.recipeData} />
+      )}
       <div className="container mx-auto px-4 py-8 pl-12 sm:pl-16">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <article className="lg:w-2/3">
@@ -159,9 +159,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
               className="prose max-w-none mt-8"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
-            {post.recipes && post.recipes.map((recipe, index) => (
-              <Recipe key={index} {...recipe} />
-            ))}
+            {post.recipeData && (
+              <Recipe {...post.recipeData} />
+            )}
             {post.faqItems && post.faqItems.length > 0 && (
               <FAQ faqItems={post.faqItems} />
             )}
