@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Recipe as RecipeType } from '../types';
 
 const Recipe: React.FC<RecipeType> = ({
@@ -13,7 +14,13 @@ const Recipe: React.FC<RecipeType> = ({
   recipeCategory,
   recipeCuisine,
   author,
-  image
+  image,
+  nutrition,
+  recipeType,
+  keywords,
+  suitableForDiet,
+  recipeEquipment,
+  datePublished
 }) => {
   return (
     <div className="recipe bg-white shadow-md rounded-lg p-6 my-8">
@@ -27,8 +34,21 @@ const Recipe: React.FC<RecipeType> = ({
         <p><strong>Category:</strong> {recipeCategory}</p>
         <p><strong>Cuisine:</strong> {recipeCuisine}</p>
         <p><strong>Author:</strong> {author}</p>
+        <p><strong>Type:</strong> {recipeType}</p>
+        <p><strong>Suitable for Diet:</strong> {suitableForDiet}</p>
+        <p><strong>Date Published:</strong> {datePublished}</p>
       </div>
-      {image && <img src={image} alt={name} className="w-full h-auto mb-4 rounded-lg" />}
+      {image && (
+        <div className="mb-4">
+          <Image 
+            src={image.sourceUrl} 
+            alt={image.altText || name} 
+            width={600} 
+            height={400} 
+            className="rounded-lg"
+          />
+        </div>
+      )}
       <h4 className="text-xl font-semibold mb-2">Ingredients:</h4>
       <ul className="list-disc list-inside mb-4">
         {ingredients.map((ingredient, index) => (
@@ -36,11 +56,24 @@ const Recipe: React.FC<RecipeType> = ({
         ))}
       </ul>
       <h4 className="text-xl font-semibold mb-2">Instructions:</h4>
-      <ol className="list-decimal list-inside">
+      <ol className="list-decimal list-inside mb-4">
         {instructions.map((instruction, index) => (
           <li key={index} className="mb-2">{instruction}</li>
         ))}
       </ol>
+      <h4 className="text-xl font-semibold mb-2">Equipment:</h4>
+      <ul className="list-disc list-inside mb-4">
+        {recipeEquipment.map((equipment, index) => (
+          <li key={index} className="mb-1">{equipment}</li>
+        ))}
+      </ul>
+      <h4 className="text-xl font-semibold mb-2">Nutrition Information:</h4>
+      <ul className="list-none mb-4">
+        {Object.entries(nutrition).map(([key, value]) => (
+          <li key={key} className="mb-1"><strong>{key}:</strong> {value}</li>
+        ))}
+      </ul>
+      <p className="text-sm text-gray-600">Keywords: {keywords}</p>
     </div>
   );
 };
