@@ -14,29 +14,50 @@ const RecipeSchema: React.FC<RecipeType> = ({
   recipeCategory,
   recipeCuisine,
   author,
-  image
+  image,
+  nutrition,
+  recipeType,
+  keywords,
+  suitableForDiet,
+  recipeEquipment,
+  datePublished
 }) => {
   const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'Recipe',
     name,
-    description,
-    prepTime,
-    cookTime,
-    totalTime,
-    recipeYield,
+    ...(description && { description }),
+    ...(prepTime && { prepTime }),
+    ...(cookTime && { cookTime }),
+    ...(totalTime && { totalTime }),
+    ...(recipeYield && { recipeYield }),
     recipeIngredient: ingredients,
     recipeInstructions: instructions.map(instruction => ({
       '@type': 'HowToStep',
       text: instruction
     })),
-    recipeCategory,
-    recipeCuisine,
-    author: {
-      '@type': 'Person',
-      name: author
-    },
-    image
+    ...(recipeCategory && { recipeCategory }),
+    ...(recipeCuisine && { recipeCuisine }),
+    ...(author && {
+      author: {
+        '@type': 'Person',
+        name: author
+      }
+    }),
+    ...(image && { 
+      image: typeof image === 'string' ? image : image.sourceUrl 
+    }),
+    ...(nutrition && {
+      nutrition: {
+        '@type': 'NutritionInformation',
+        ...nutrition
+      }
+    }),
+    ...(recipeType && { recipeType }),
+    ...(keywords && { keywords }),
+    ...(suitableForDiet && { suitableForDiet }),
+    ...(recipeEquipment && { recipeEquipment }),
+    ...(datePublished && { datePublished })
   };
 
   return <JsonLd data={schemaData} />;
