@@ -93,36 +93,6 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
               }
             }
           }
-          recipeData {
-            name
-            description
-            prepTime
-            cookTime
-            totalTime
-            recipeYield
-            ingredients
-            instructions
-            recipeCategory
-            recipeCuisine
-            author
-            image
-            nutrition {
-              calories
-              fatContent
-              saturatedFatContent
-              cholesterolContent
-              sodiumContent
-              carbohydrateContent
-              fiberContent
-              sugarContent
-              proteinContent
-            }
-            recipeType
-            keywords
-            suitableForDiet
-            recipeEquipment
-            datePublished
-          }
         }
       }
     `,
