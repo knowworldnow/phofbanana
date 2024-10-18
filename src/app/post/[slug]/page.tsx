@@ -127,9 +127,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
         siteName="pH of Banana"
       />
       <JsonLd data={articleStructuredData} />
-      {post.faqItems && post.faqItems.length > 0 && (
-        <FAQSchema faqItems={post.faqItems} />
-      )}
       {post.recipeData && (
         <RecipeSchema {...post.recipeData} />
       )}
@@ -161,9 +158,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
             />
             {post.recipeData && (
               <Recipe recipeData={post.recipeData} />
-            )}
-            {post.faqItems && post.faqItems.length > 0 && (
-              <FAQ faqItems={post.faqItems} />
             )}
             <AuthorBox authorName={post.author.node.name} />
             {post.comments && <CommentList comments={post.comments.nodes} />}
