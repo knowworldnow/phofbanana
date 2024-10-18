@@ -11,6 +11,24 @@ export interface Recipe {
   recipeCuisine: string;
   author: string;
   image: string;
+  nutrition: RecipeNutrition;
+  recipeType: string;
+  keywords: string;
+  suitableForDiet: string;
+  recipeEquipment: string[];
+  datePublished: string;
+}
+
+export interface RecipeNutrition {
+  calories: string;
+  fatContent: string;
+  saturatedFatContent: string;
+  cholesterolContent: string;
+  sodiumContent: string;
+  carbohydrateContent: string;
+  fiberContent: string;
+  sugarContent: string;
+  proteinContent: string;
 }
 
 export interface FAQItem {
@@ -46,7 +64,7 @@ export interface Post {
     nodes: Comment[];
   };
   faqItems?: FAQItem[];
-  recipes?: Recipe[];
+  recipeData?: Recipe;
 }
 
 export interface Category {
