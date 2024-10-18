@@ -160,7 +160,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
             {post.recipeData && (
-              <Recipe {...post.recipeData} />
+              <Recipe recipeData={post.recipeData} />
             )}
             {post.faqItems && post.faqItems.length > 0 && (
               <FAQ faqItems={post.faqItems} />
