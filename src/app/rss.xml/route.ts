@@ -25,7 +25,7 @@ export async function GET(): Promise<NextResponse> {
     posts.forEach((post: Post) => {
       feed.item({
         title: post.title,
-        description: post.excerpt,
+        description: post.excerpt || post.title, // Fallback to title if excerpt is undefined
         url: `${SITE_URL}/${post.slug}`,
         guid: post.id,
         categories: post.categories.nodes.map(cat => cat.name),
