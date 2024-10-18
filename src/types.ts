@@ -1,39 +1,3 @@
-export interface Recipe {
-  name: string;
-  description?: string;
-  prepTime?: string;
-  cookTime?: string;
-  totalTime?: string;
-  recipeYield?: string;
-  ingredients: string[];
-  instructions: string[];
-  recipeCategory?: string; 
-  recipeCuisine?: string;
-  author?: string;
-  image?: string | {
-    sourceUrl: string;
-    altText?: string;
-  };
-  nutrition?: RecipeNutrition;
-  recipeType?: string;
-  keywords?: string;
-  suitableForDiet?: string;
-  recipeEquipment?: string[];
-  datePublished?: string;
-}
-
-export interface RecipeNutrition {
-  calories?: string;
-  fatContent?: string;
-  saturatedFatContent?: string;
-  cholesterolContent?: string;
-  sodiumContent?: string;
-  carbohydrateContent?: string;
-  fiberContent?: string;
-  sugarContent?: string;
-  proteinContent?: string;
-}
-
 export interface FAQItem {
   question: string;
   answer: string;
@@ -67,7 +31,6 @@ export interface Post {
     nodes: Comment[];
   };
   faqItems?: FAQItem[];
-  recipeData?: Recipe;
 }
 
 export interface Category {
