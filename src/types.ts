@@ -34,7 +34,7 @@ export interface Post {
     };
   };
   categories: {
-    nodes: Category[];
+    nodes: Category[]; 
   };
   comments?: {
     nodes: Comment[];
