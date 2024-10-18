@@ -93,6 +93,14 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
               }
             }
           }
+          recipeData {
+            name
+            description
+            prepTime
+            cookTime
+            ingredients
+            instructions
+          }
         }
       }
     `,
@@ -145,7 +153,6 @@ export async function getRelatedPosts(categoryId: string, currentPostId: string,
   } catch (error) {
     console.error('Error fetching related posts:', error);
     return [];
-  
   }
 }
 
