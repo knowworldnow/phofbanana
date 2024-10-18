@@ -179,6 +179,7 @@ export async function getRelatedPosts(categoryId: string, currentPostId: string,
   } catch (error) {
     console.error('Error fetching related posts:', error);
     return [];
+  
   }
 }
 
