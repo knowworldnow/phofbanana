@@ -109,10 +109,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
             recipeCategory
             recipeCuisine
             author
-            image {
-              sourceUrl
-              altText
-            }
+            image
             nutrition {
               calories
               fatContent
