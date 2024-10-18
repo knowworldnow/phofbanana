@@ -10,7 +10,7 @@ export interface Recipe {
   recipeCategory: string;
   recipeCuisine: string;
   author: string;
-  image: {
+  image: string | {
     sourceUrl: string;
     altText: string;
   };
