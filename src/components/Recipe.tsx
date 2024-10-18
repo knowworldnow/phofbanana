@@ -44,11 +44,22 @@ const Recipe: React.FC<{ recipeData: RecipeType }> = ({ recipeData }) => {
         <p><strong>Suitable for Diet:</strong> {suitableForDiet}</p>
         <p><strong>Date Published:</strong> {datePublished}</p>
       </div>
-      {image && (
+      {image && typeof image === 'string' && (
         <div className="mb-4">
           <Image 
             src={image} 
-            alt={name} 
+            alt={name || 'Recipe image'} 
+            width={600} 
+            height={400} 
+            className="rounded-lg"
+          />
+        </div>
+      )}
+      {image && typeof image === 'object' && 'sourceUrl' in image && (
+        <div className="mb-4">
+          <Image 
+            src={image.sourceUrl} 
+            alt={image.altText || name || 'Recipe image'} 
             width={600} 
             height={400} 
             className="rounded-lg"
