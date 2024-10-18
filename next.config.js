@@ -91,6 +91,11 @@ const nextConfig = {
         destination: '/banana-protein',
         permanent: true,
       },
+      {
+        source: '/can-you-die-by-eating-bananas',
+        destination: '/how-many-bananas-will-kill-you',
+        permanent: true,
+      },
     ];
   },
 };
