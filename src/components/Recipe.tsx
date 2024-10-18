@@ -2,7 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import { Recipe as RecipeType } from '../types';
 
-const Recipe: React.FC<RecipeType> = ({
+interface RecipeProps extends Omit<RecipeType, 'image'> {
+  image: string | { sourceUrl: string; altText: string };
+}
+
+const Recipe: React.FC<RecipeProps> = ({
   name,
   description,
   prepTime,
@@ -22,6 +26,9 @@ const Recipe: React.FC<RecipeType> = ({
   recipeEquipment,
   datePublished
 }) => {
+  const imageUrl = typeof image === 'string' ? image : image.sourceUrl;
+  const imageAlt = typeof image === 'string' ? name : image.altText || name;
+
   return (
     <div className="recipe bg-white shadow-md rounded-lg p-6 my-8">
       <h3 className="text-2xl font-bold mb-2">{name}</h3>
@@ -38,11 +45,11 @@ const Recipe: React.FC<RecipeType> = ({
         <p><strong>Suitable for Diet:</strong> {suitableForDiet}</p>
         <p><strong>Date Published:</strong> {datePublished}</p>
       </div>
-      {image && (
+      {imageUrl && (
         <div className="mb-4">
           <Image 
-            src={image.sourceUrl} 
-            alt={image.altText || name} 
+            src={imageUrl} 
+            alt={imageAlt} 
             width={600} 
             height={400} 
             className="rounded-lg"
