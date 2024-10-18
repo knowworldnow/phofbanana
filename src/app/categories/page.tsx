@@ -15,7 +15,7 @@ export default async function CategoriesPage() {
   const categories: Category[] = await getAllCategories();
   
   // Create a mutable copy of the categories array and sort it
-  const sortedCategories = [...categories].sort((a, b) => b.count - a.count);
+  const sortedCategories = [...categories].sort((a, b) => (b.count ?? 0) - (a.count ?? 0));
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -31,7 +31,7 @@ export default async function CategoriesPage() {
                 {category.name}
               </h2>
               <p className="text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
-                {category.count} {category.count === 1 ? 'Article' : 'Articles'}
+                {category.count ?? 0} {(category.count ?? 0) === 1 ? 'Article' : 'Articles'}
               </p>
               {category.description && (
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">
