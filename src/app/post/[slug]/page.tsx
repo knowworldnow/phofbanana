@@ -159,8 +159,13 @@ export default async function PostPage({ params }: { params: { slug: string } })
             {post.recipeData && (
               <Recipe recipeData={post.recipeData} />
             )}
+            {post.faqItems && post.faqItems.length > 0 && (
+              <FAQ faqItems={post.faqItems} />
+            )}
             <AuthorBox authorName={post.author.node.name} />
-            {post.comments && <CommentList comments={post.comments.nodes} />}
+            {post.comments && post.comments.nodes.length > 0 && (
+              <CommentList comments={post.comments.nodes} />
+            )}
             <CommentForm postId={post.id} />
           </article>
           <aside className="lg:w-1/3 mt-8 lg:mt-0">
