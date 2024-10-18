@@ -7,7 +7,7 @@ export interface Recipe {
   recipeYield?: string;
   ingredients: string[];
   instructions: string[];
-  recipeCategory?: string;
+  recipeCategory?: string; 
   recipeCuisine?: string;
   author?: string;
   image?: string | {
