@@ -1,12 +1,3 @@
-export interface Recipe {
-  name: string;
-  description: string;
-  prepTime: string;
-  cookTime: string;
-  ingredients: string[];
-  instructions: string[];
-}
-
 export interface FAQItem {
   question: string;
   answer: string;
@@ -40,7 +31,6 @@ export interface Post {
     nodes: Comment[];
   };
   faqItems?: FAQItem[];
-  recipeData?: Recipe;
 }
 
 export interface Category {
