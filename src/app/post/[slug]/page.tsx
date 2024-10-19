@@ -71,17 +71,23 @@ export default async function PostPage({ params }: { params: { slug: string } })
     notFound();
   }
 
+  console.log('Post data:', post); // Debug log
+
   const postUrl = `https://phofbanana.com/${post.slug}`;
   const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.webp';
 
   let relatedPosts: Post[] = [];
   if (post.categories.nodes.length > 0) {
     const categoryId = post.categories.nodes[0].id;
+    console.log('Fetching related posts for category:', categoryId); // Debug log
     try {
       relatedPosts = await getRelatedPosts(categoryId, post.id);
+      console.log('Related posts:', relatedPosts); // Debug log
     } catch (error) {
       console.error('Error fetching related posts:', error);
     }
+  } else {
+    console.log('No categories found for this post'); // Debug log
   }
 
   const articleStructuredData = {
@@ -109,6 +115,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
       '@id': postUrl,
     },
   };
+
+  console.log('FAQ Items:', post.faqItems); // Debug log
 
   return (
     <>
