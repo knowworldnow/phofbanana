@@ -93,14 +93,6 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
               }
             }
           }
-          recipeData {
-            name
-            description
-            prepTime
-            cookTime
-            ingredients
-            instructions
-          }
         }
       }
     `,
