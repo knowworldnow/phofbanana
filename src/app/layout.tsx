@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     siteName: 'pH of Banana',
     images: [
       {
-        url: 'https://phofbanana.com/default-og-image.jpg',
+        url: 'https://phofbanana.com/default-og-image.webp',
         width: 1200,
         height: 630,
       },
@@ -93,4 +93,3 @@ export default function RootLayout({
     </html>
   );
 }
-
