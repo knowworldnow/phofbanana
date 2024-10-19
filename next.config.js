@@ -96,6 +96,16 @@ const nextConfig = {
         destination: '/how-many-bananas-will-kill-you',
         permanent: true,
       },
+      {
+        source: '/pied-banana-for-python-facts-info-price-care-guide',
+        destination: '/pied-banana-ball-python-facts-info-price-care-guide',
+        permanent: true,
+      },
+      {
+        source: '/pied-banana-ball-python',
+        destination: '/pied-banana-ball-python-facts-info-price-care-guide',
+        permanent: true,
+      },
     ];
   },
 };
