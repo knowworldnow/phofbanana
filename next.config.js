@@ -106,6 +106,11 @@ const nextConfig = {
         destination: '/pied-banana-ball-python-facts-info-price-care-guide',
         permanent: true,
       },
+      {
+        source: '/can-we-eat-banana-and-orange-together-nutrition-value-benefits-side-effects-and-more',
+        destination: '/can-we-eat-banana-and-orange-together',
+        permanent: true,
+      },
     ];
   },
 };
