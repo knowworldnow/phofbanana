@@ -310,7 +310,8 @@ export async function submitComment(postId: string, name: string, email: string,
   });
 
   if (!response.ok) {
-    throw new Error('Failed to submit comment');
+    const errorData = await response.json();
+    throw new Error(`Failed to submit comment: ${errorData.message || response.statusText}`);
   }
 
   return await response.json();
