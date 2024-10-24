@@ -304,7 +304,7 @@ export async function submitComment(postId: string, name: string, email: string,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      post: parseInt(postId, 10), // Convert postId to integer
+      post: parseInt(postId, 10),
       author_name: name,
       author_email: email,
       content: content,
