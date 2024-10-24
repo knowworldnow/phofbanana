@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { client } from './apollo-client';
-import { Post, Category, Page, GetAllPostsResult, GetPageBySlugResult, GetPostBySlugResult, GetCategoriesResult, GetPostsByCategoryResult, GetCategoryBySlugResult, GetAllCategoriesResult, SearchPostsResult } from '../types';
+import { Post, Category, Page, CommentInput, GetAllPostsResult, GetPageBySlugResult, GetPostBySlugResult, GetCategoriesResult, GetPostsByCategoryResult, GetCategoryBySlugResult, GetAllCategoriesResult, SearchPostsResult } from '../types';
 
 export async function getLatestPosts({ first = 20, after = null }: { first?: number; after?: string | null } = {}): Promise<GetAllPostsResult> {
   const { data } = await client.query<GetAllPostsResult>({
@@ -296,33 +296,27 @@ export async function searchPosts(searchTerm: string, first: number = 10): Promi
 }
 
 export async function submitComment(postId: string, name: string, email: string, content: string) {
-  console.log('Submitting comment:', { postId, name, email, content });
-  
+  const commentInput: CommentInput = {
+    post: parseInt(postId, 10),
+    author_name: name,
+    author_email: email,
+    content: content,
+  };
+
   const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/wp/v2/comments`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      post: parseInt(postId, 10),
-      author_name: name,
-      author_email: email,
-      content: content,
-    }),
+    body: JSON.stringify(commentInput),
   });
-
-  console.log('Response status:', response.status);
-  console.log('Response headers:', response.headers);
 
   if (!response.ok) {
     const errorData = await response.json();
-    console.error('Error data:', errorData);
     throw new Error(`Failed to submit comment: ${errorData.message || response.statusText}`);
   }
 
-  const responseData = await response.json();
-  console.log('Response data:', responseData);
-  return responseData;
+  return await response.json();
 }
 
 export async function getPageBySlug(slug: string): Promise<Page | null> {
