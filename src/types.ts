@@ -5,8 +5,8 @@ export interface FAQItem {
 
 export interface CommentAuthor {
   name: string;
-  email: string;
-  url?: string;
+  email?: string;
+  isRestricted?: boolean;
   avatar?: {
     url: string;
   };
@@ -14,12 +14,11 @@ export interface CommentAuthor {
 
 export interface Comment {
   id: string;
-  author: CommentAuthor;
-  content: {
-    rendered: string;
-  };
+  content: string;
   date: string;
-  status: string;
+  author: {
+    node: CommentAuthor;
+  };
 }
 
 export interface CommentInput {
@@ -57,7 +56,6 @@ export interface Post {
     nodes: Comment[];
   };
   faqItems?: FAQItem[];
-  recipeData?: Recipe;
 }
 
 export interface Category {
