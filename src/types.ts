@@ -3,11 +3,37 @@ export interface FAQItem {
   answer: string;
 }
 
+export interface CommentAuthor {
+  name: string;
+  email: string;
+  url?: string;
+  avatar?: {
+    url: string;
+  };
+}
+
+export interface Comment {
+  id: string;
+  author: CommentAuthor;
+  content: {
+    rendered: string;
+  };
+  date: string;
+  status: string;
+}
+
+export interface CommentInput {
+  post: number;
+  author_name: string;
+  author_email: string;
+  content: string;
+}
+
 export interface Post {
   id: string;
   title: string;
   slug: string;
-  excerpt?: string; // Make excerpt optional
+  excerpt?: string;
   date: string;
   content: string;
   featuredImage?: {
@@ -25,12 +51,13 @@ export interface Post {
     };
   };
   categories: {
-    nodes: Category[]; 
+    nodes: Category[];
   };
   comments?: {
     nodes: Comment[];
   };
   faqItems?: FAQItem[];
+  recipeData?: Recipe;
 }
 
 export interface Category {
@@ -39,15 +66,6 @@ export interface Category {
   slug: string;
   count?: number;
   description?: string;
-}
-
-export interface Comment {
-  id: string;
-  content: string;
-  date: string;
-  author: {
-    node: CommentAuthor;
-  };
 }
 
 export interface Page {
@@ -145,11 +163,9 @@ export interface GetAllPagesResult {
   };
 }
 
-export interface CommentAuthor {
-  name: string;
-  email?: string;
-  isRestricted?: boolean;
-  avatar?: {
-    url: string;
+export interface SubmitCommentResult {
+  createComment: {
+    success: boolean;
+    comment: Comment;
   };
 }
