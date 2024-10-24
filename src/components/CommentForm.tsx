@@ -22,6 +22,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId }) => {
     setError('');
 
     try {
+      console.log('Submitting comment with postId:', postId);
       await submitComment(postId, name, email, content);
       setMessage('Comment submitted successfully. It will appear after moderation.');
       setName('');
