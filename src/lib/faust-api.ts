@@ -293,35 +293,37 @@ export async function searchPosts(searchTerm: string, first: number = 10): Promi
   return data.posts.nodes;
 }
 
-export async function submitComment(postId: string, name: string, email: string, content: string) {
-  const commentInput = {
-    post_id: parseInt(postId, 10),
-    author_name: name,
-    author_email: email,
-    content: content,
-  };
+export async function submitComment(commentInput: CommentInput) {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/custom/v1/submit-comment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        post_id: parseInt(commentInput.post.toString(), 10),
+        author_name: commentInput.author_name,
+        author_email: commentInput.author_email,
+        content: commentInput.content,
+      }),
+    });
 
-  console.log('Submitting comment:', commentInput);
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to submit comment');
+    }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/custom/v1/submit-comment`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(commentInput),
-  });
-
-  console.log('Response status:', response.status);
-  console.log('Response headers:', response.headers);
-
-  const responseData = await response.json();
-  console.log('Response data:', responseData);
-
-  if (!response.ok) {
-    throw new Error(`Failed to submit comment: ${responseData.message || response.statusText}`);
+    return {
+      createComment: {
+        success: true,
+        comment: data
+      }
+    };
+  } catch (error) {
+    console.error('Error submitting comment:', error);
+    throw error;
   }
-
-  return responseData;
 }
 
 export async function getPageBySlug(slug: string): Promise<Page | null> {
