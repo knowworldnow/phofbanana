@@ -76,7 +76,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
               slug
             }
           }
-          comments(where: { status: "approve" }) {
+          comments(where: { status: APPROVE }) {
             nodes {
               id
               content
@@ -94,15 +94,13 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
               }
             }
           }
-          faqItems {
-            question
-            answer
-          }
         }
       }
     `,
     variables: { slug },
   });
+
+  console.log('GraphQL response:', JSON.stringify(data, null, 2));
 
   return data.post;
 }
