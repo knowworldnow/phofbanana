@@ -13,24 +13,21 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId }) => {
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage('');
-    setError('');
 
     try {
-      const result = await submitComment(postId, name, email, content);
-      console.log('Comment submission result:', result);
+      await submitComment(postId, name, email, content);
       setMessage('Comment submitted successfully. It will appear after moderation.');
       setName('');
       setEmail('');
       setContent('');
     } catch (error) {
       console.error('Error submitting comment:', error);
-      setError(error instanceof Error ? error.message : 'Failed to submit comment. Please try again.');
+      setMessage('Failed to submit comment. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -80,7 +77,6 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId }) => {
         {isSubmitting ? 'Submitting...' : 'Submit Comment'}
       </button>
       {message && <p className="mt-4 text-green-600">{message}</p>}
-      {error && <p className="mt-4 text-red-600">{error}</p>}
     </form>
   );
 };
