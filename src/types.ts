@@ -17,10 +17,9 @@ export interface Comment {
   author: {
     node: CommentAuthor;
   };
-  content: {
-    rendered: string;
-  };
+  content: string;
   date: string;
+  status: string;
 }
 
 export interface CommentInput {
