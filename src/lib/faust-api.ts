@@ -76,7 +76,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
               slug
             }
           }
-          comments(where: { status: APPROVE }) {
+          comments(where: { status: APPROVED }) {  // Changed from APPROVE to APPROVED
             nodes {
               id
               content
@@ -99,8 +99,6 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     `,
     variables: { slug },
   });
-
-  console.log('GraphQL response:', JSON.stringify(data, null, 2));
 
   return data.post;
 }
