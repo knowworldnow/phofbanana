@@ -303,6 +303,8 @@ export async function submitComment(postId: string, name: string, email: string,
     content: content,
   };
 
+  console.log('Submitting comment:', commentInput);
+
   const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/wp/v2/comments`, {
     method: 'POST',
     headers: {
@@ -311,12 +313,17 @@ export async function submitComment(postId: string, name: string, email: string,
     body: JSON.stringify(commentInput),
   });
 
+  console.log('Response status:', response.status);
+  console.log('Response headers:', response.headers);
+
+  const responseData = await response.json();
+  console.log('Response data:', responseData);
+
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(`Failed to submit comment: ${errorData.message || response.statusText}`);
+    throw new Error(`Failed to submit comment: ${responseData.message || response.statusText}`);
   }
 
-  return await response.json();
+  return responseData;
 }
 
 export async function getPageBySlug(slug: string): Promise<Page | null> {
