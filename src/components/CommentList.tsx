@@ -1,25 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-
-interface CommentAuthor {
-  name: string;
-  email?: string;
-  url?: string;
-  avatar?: {
-    url: string;
-  };
-}
-
-interface Comment {
-  id: string;
-  author: {
-    node: CommentAuthor;
-  };
-  content: {
-    rendered: string;
-  };
-  date: string;
-}
+import { Comment } from '../types';
 
 interface CommentListProps {
   comments: Comment[];
