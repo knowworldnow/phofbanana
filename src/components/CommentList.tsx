@@ -34,7 +34,7 @@ const CommentList: React.FC<CommentListProps> = ({ comments }) => {
             </div>
             <div 
               className="mt-2 text-gray-700 dark:text-gray-300"
-              dangerouslySetInnerHTML={{ __html: comment.content.rendered }} 
+              dangerouslySetInnerHTML={{ __html: comment.content }} 
             />
           </li>
         ))}
