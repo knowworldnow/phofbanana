@@ -6,7 +6,7 @@ export interface FAQItem {
 export interface CommentAuthor {
   name: string;
   email?: string;
-  isRestricted?: boolean;
+  url?: string;
   avatar?: {
     url: string;
   };
@@ -14,11 +14,13 @@ export interface CommentAuthor {
 
 export interface Comment {
   id: string;
-  content: string;
-  date: string;
   author: {
     node: CommentAuthor;
   };
+  content: {
+    rendered: string;
+  };
+  date: string;
 }
 
 export interface CommentInput {
