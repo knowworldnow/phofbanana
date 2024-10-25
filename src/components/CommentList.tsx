@@ -4,7 +4,7 @@ import Image from 'next/image';
 interface CommentAuthor {
   name: string;
   email?: string;
-  isRestricted?: boolean;
+  url?: string;
   avatar?: {
     url: string;
   };
@@ -12,11 +12,13 @@ interface CommentAuthor {
 
 interface Comment {
   id: string;
-  content: string;
-  date: string;
   author: {
     node: CommentAuthor;
   };
+  content: {
+    rendered: string;
+  };
+  date: string;
 }
 
 interface CommentListProps {
@@ -54,7 +56,7 @@ const CommentList: React.FC<CommentListProps> = ({ comments }) => {
               </div>
               <div 
                 className="mt-2 text-gray-700 dark:text-gray-300"
-                dangerouslySetInnerHTML={{ __html: comment.content }} 
+                dangerouslySetInnerHTML={{ __html: comment.content.rendered }} 
               />
             </li>
           ))}
