@@ -76,12 +76,10 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
               slug
             }
           }
-          comments(where: { status: APPROVE }) {
+          comments(where: { status: APPROVED }) {
             nodes {
               id
-              content {
-                rendered
-              }
+              content
               date
               author {
                 node {
