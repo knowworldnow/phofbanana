@@ -296,8 +296,8 @@ export async function searchPosts(searchTerm: string, first: number = 10): Promi
 }
 
 export async function submitComment(postId: string, name: string, email: string, content: string) {
-  const commentInput: CommentInput = {
-    post: parseInt(postId, 10),
+  const commentInput = {
+    post_id: parseInt(postId, 10),
     author_name: name,
     author_email: email,
     content: content,
@@ -305,7 +305,7 @@ export async function submitComment(postId: string, name: string, email: string,
 
   console.log('Submitting comment:', commentInput);
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/wp/v2/comments`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/custom/v1/submit-comment`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
