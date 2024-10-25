@@ -67,6 +67,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function PostPage({ params }: { params: { slug: string } }) {
   const post: Post | null = await getPostBySlug(params.slug);
 
+  console.log('Post data:', JSON.stringify(post, null, 2));
+
   if (!post) {
     notFound();
   }
@@ -75,13 +77,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
   const imageUrl = post.featuredImage?.node.sourceUrl || 'https://phofbanana.com/default-og-image.webp';
 
   let relatedPosts: Post[] = [];
-  if (post.categories.nodes.length > 0) {
-    const categoryId = post.categories.nodes[0].id;
-    try {
-      relatedPosts = await getRelatedPosts(categoryId, post.id);
-    } catch (error) {
-      console.error('Error fetching related posts:', error);
-    }
+  if (post.categories && post.categories.nodes.length > 0) {
+    relatedPosts = await getRelatedPosts(post.id, post.categories.nodes[0].id);
   }
 
   const articleStructuredData = {
@@ -158,13 +155,16 @@ export default async function PostPage({ params }: { params: { slug: string } })
               <FAQ faqItems={post.faqItems} />
             )}
             <AuthorBox authorName={post.author.node.name} />
-            {post.comments && post.comments.nodes.length > 0 && (
+            {post.comments && post.comments.nodes.length > 0 ? (
               <CommentList comments={post.comments.nodes} />
+            ) : (
+              <p>No comments found.</p>
             )}
-            <CommentForm postId={post.id} />
+            <CommentForm postId={post.id} onCommentSubmitted={() => {}} />
           </article>
           <aside className="lg:w-1/3 mt-8 lg:mt-0">
             <TableOfContents content={post.content} />
+            <RelatedPosts posts={relatedPosts} />
           </aside>
         </div>
         <SocialSharePanel 
@@ -173,7 +173,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
           description={post.excerpt || ''}
           imageUrl={imageUrl}
         />
-        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
       </div>
     </>
   );
