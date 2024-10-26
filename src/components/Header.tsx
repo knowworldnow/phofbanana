@@ -18,7 +18,7 @@ export default function Header() {
   return (
     <header className="w-full bg-background text-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20"> {/* Increased height to accommodate logo */}
           {/* Left section: Hamburger menu (visible on mobile) */}
           <div className="flex items-center md:hidden">
             <button 
@@ -34,19 +34,19 @@ export default function Header() {
           </div>
 
           {/* Left section: Search (visible on desktop) */}
-          <div className="hidden md:block w-1/3">
+          <div className="hidden md:flex items-center w-1/3">
             <SearchBar className="max-w-xs" />
           </div>
 
           {/* Center section: Logo */}
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1 flex justify-center items-center">
             <div className="w-[240px] h-[80px]">
               <Logo />
             </div>
           </div>
 
-          {/* Right section: Theme Toggle and Search Icon (mobile) */}
-          <div className="flex items-center">
+          {/* Right section: Theme Toggle and Navigation */}
+          <div className="flex items-center w-1/3 justify-end">
             <ToggleTheme />
             <button 
               className="md:hidden ml-2 text-foreground"
@@ -63,7 +63,6 @@ export default function Header() {
               <Link href="/about" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">About</Link>
               <Link href="/contact" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">Contact</Link>
               <Link href="/categories" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">Categories</Link>
-              <Link href="/rss.xml" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">RSS Feed</Link>
             </nav>
           </div>
         </div>
@@ -80,7 +79,6 @@ export default function Header() {
         <Link href="/about" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">About</Link>
         <Link href="/contact" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Contact</Link>
         <Link href="/categories" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Categories</Link>
-        <Link href="/rss.xml" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">RSS Feed</Link>
       </nav>
     </header>
   );
