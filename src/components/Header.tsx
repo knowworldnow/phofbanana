@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { Input } from "@/components/ui/input"
 
 const ToggleTheme = dynamic(() => import('./ToggleTheme'), { ssr: false });
 const SearchBar = dynamic(() => import('./SearchBar'));
@@ -69,11 +68,7 @@ export default function Header() {
           </div>
         </div>
         <div className="w-full max-w-md ml-auto mr-4 mt-2 sm:mt-0">
-          <Input
-            type="search"
-            placeholder="Search..."
-            className="w-full h-10 px-4 rounded-full"
-          />
+          <SearchBar />
         </div>
         <nav className="flex items-center space-x-6 text-sm font-medium mt-2 sm:mt-0">
           <Link href="/" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">Home</Link>
@@ -85,7 +80,9 @@ export default function Header() {
 
       {/* Mobile search bar */}
       <div className={`md:hidden px-4 pb-4 overflow-hidden transition-all duration-300 ease-in-out ${isSearchOpen ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <SearchBar />
+        <div className="w-full max-w-md ml-auto mr-4">
+          <SearchBar />
+        </div>
       </div>
 
       {/* Mobile menu */}
