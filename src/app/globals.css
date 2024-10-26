@@ -180,6 +180,25 @@
   .faq-section .faq-answer {
     @apply mt-2 text-foreground;
   }
+  .quote-box {
+    @apply my-6 p-6 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm;
+    @apply text-gray-700 dark:text-gray-300 italic;
+    position: relative;
+  }
+
+  .quote-box::before {
+    content: '"';
+    @apply text-4xl text-gray-400 dark:text-gray-600 absolute top-2 left-3;
+  }
+
+  .quote-box::after {
+    content: '"';
+    @apply text-4xl text-gray-400 dark:text-gray-600 absolute bottom-2 right-3;
+  }
+
+  .quote-box > * {
+    @apply relative z-10;
+  }
 }
 
 @layer utilities {
