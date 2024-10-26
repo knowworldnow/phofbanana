@@ -7,7 +7,7 @@ interface QuoteProps {
 export function Quote({ children }: QuoteProps) {
   return (
     <blockquote className="quote-box">
-      {children}
+      <div className="quote-content">{children}</div>
     </blockquote>
   );
 }
