@@ -13,22 +13,15 @@
 
 /* Gutenberg block styles */
 .wp-block-quote {
-  border-left: 4px solid #4a5568;
-  margin-left: 0;
-  padding-left: 1em;
-  font-style: italic;
-  color: #4a5568;
+  @apply quote-box;
+}
+
+.wp-block-quote p {
+  @apply quote-content;
 }
 
 .wp-block-pullquote {
-  border-top: 4px solid #4a5568;
-  border-bottom: 4px solid #4a5568;
-  margin: 2em 0;
-  padding: 1em 0;
-  text-align: center;
-  font-style: italic;
-  font-size: 1.25em;
-  color: #4a5568;
+  @apply pull-quote;
 }
 
 .wp-block-image img {
@@ -52,49 +45,22 @@
 .wp-block-table th,
 .wp-block-table td {
   padding: 0.75rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--quote-border);
 }
 
 .wp-block-table th {
   font-weight: 600;
   text-align: left;
-  background-color: #f7fafc;
-  color: #1a202c;
+  background-color: var(--quote-bg);
+  color: var(--quote-text);
 }
 
 .wp-block-table tr:nth-child(even) {
-  background-color: #f7fafc;
+  background-color: var(--quote-bg);
 }
 
 .wp-block-table tr:nth-child(odd) {
-  background-color: #ffffff;
-}
-
-/* Dark mode adjustments */
-.dark .wp-block-quote,
-.dark .wp-block-pullquote {
-  color: #a0aec0;
-  border-color: #718096;
-}
-
-.dark .wp-block-table th,
-.dark .wp-block-table td {
-  border-color: #4a5568;
-}
-
-.dark .wp-block-table th {
-  background-color: #2d3748;
-  color: #e2e8f0;
-}
-
-.dark .wp-block-table tr:nth-child(even) {
-  background-color: #2d3748;
-  color: #e2e8f0;
-}
-
-.dark .wp-block-table tr:nth-child(odd) {
-  background-color: #1a202c;
-  color: #e2e8f0;
+  background-color: var(--background);
 }
 
 /* Responsive table */
