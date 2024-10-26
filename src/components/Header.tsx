@@ -4,9 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import Logo from './Logo';
-import { Input } from './Input'; // Assuming Input component is defined elsewhere
-
+import { Input } from "@/components/ui/input"
 
 const ToggleTheme = dynamic(() => import('./ToggleTheme'), { ssr: false });
 const SearchBar = dynamic(() => import('./SearchBar'));
@@ -44,7 +42,7 @@ export default function Header() {
                 alt="pH of Banana Logo"
                 width={150}
                 height={40}
-                className="w-32 sm:w-36 md:w-40 lg:w-48"
+                className="w-24 sm:w-32 md:w-36 lg:w-40"
               />
             </Link>
           </div>
@@ -70,7 +68,7 @@ export default function Header() {
             </nav>
           </div>
         </div>
-        <div className="w-full max-w-md mx-auto lg:mx-0 mt-2 sm:mt-0">
+        <div className="w-full max-w-md ml-auto mr-4 mt-2 sm:mt-0">
           <Input
             type="search"
             placeholder="Search..."
