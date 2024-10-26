@@ -11,6 +11,12 @@
   --soft-text-color: #626262;
   --faq-bg: #f5f5f5;
   --faq-border: #e0e0e0;
+  --quote-bg: #f8f8f8;
+  --quote-border: #e0e0e0;
+  --quote-text: #4a4a4a;
+  --pull-quote-bg: #f0f0f0;
+  --pull-quote-border: #d0d0d0;
+  --pull-quote-text: #333333;
 }
 
 .dark {
@@ -22,9 +28,15 @@
   --soft-text-color: #a6a6a6;
   --faq-bg: #1a1a1a;
   --faq-border: #2a2a2a;
+  --quote-bg: #1a1a1a;
+  --quote-border: #2a2a2a;
+  --quote-text: #b0b0b0;
+  --pull-quote-bg: #222222;
+  --pull-quote-border: #3a3a3a;
+  --pull-quote-text: #d0d0d0;
 }
 
-@layer base { 
+@layer base {
   body { 
     @apply text-base text-foreground bg-background font-sans m-0 p-0; 
   }
@@ -33,41 +45,20 @@
     @apply text-foreground font-semibold mb-4;
   }
 
-  h1 {
-    @apply text-4xl;
-  }
+  h1 { @apply text-4xl; }
+  h2 { @apply text-3xl; }
+  h3 { @apply text-2xl; }
+  h4 { @apply text-xl; }
+  h5 { @apply text-lg; }
+  h6 { @apply text-base; }
 
-  h2 {
-    @apply text-3xl;
-  }
-
-  h3 {
-    @apply text-2xl;
-  }
-
-  h4 {
-    @apply text-xl;
-  }
-
-  h5 {
-    @apply text-lg;
-  }
-
-  h6 {
-    @apply text-base;
-  }
-
-  p {
-    @apply mb-4;
-  }
+  p { @apply mb-4; }
 
   a {
     @apply text-foreground transition-colors duration-200 ease-in-out;
   }
 
-  a:hover {
-    @apply underline;
-  }
+  a:hover { @apply underline; }
 
   .prose a {
     @apply font-bold text-[var(--link-color)] no-underline hover:underline;
@@ -93,10 +84,6 @@
     @apply mb-2;
   }
 
-  blockquote {
-    @apply border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic my-4;
-  }
-
   pre {
     @apply bg-soft-bg text-soft-text-color p-4 rounded-lg overflow-x-auto mb-4;
   }
@@ -106,7 +93,7 @@
   }
 }
 
-@layer components { 
+@layer components {
   .container { 
     @apply min-h-screen bg-background text-foreground; 
   }
@@ -139,7 +126,6 @@
     @apply py-2;
   }
 
-  /* Add styles for the Table of Contents */
   .table-of-contents {
     @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-6 shadow-md;
   }
@@ -160,7 +146,6 @@
     @apply text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200;
   }
 
-  /* Add styles for the FAQ section */
   .faq-section {
     @apply my-8;
   }
@@ -180,6 +165,7 @@
   .faq-section .faq-answer {
     @apply mt-2 text-foreground;
   }
+
   .quote-box {
     @apply my-8 p-6 bg-[var(--quote-bg)] border border-[var(--quote-border)] rounded-lg shadow-md;
     position: relative;
@@ -205,6 +191,21 @@
 
   .quote-content {
     @apply text-[var(--quote-text)] italic relative z-10;
+  }
+
+  .pull-quote {
+    @apply my-12 p-8 bg-[var(--pull-quote-bg)] border-l-4 border-[var(--pull-quote-border)] rounded-r-lg shadow-lg;
+    position: relative;
+  }
+
+  .pull-quote::before {
+    content: '"';
+    @apply text-6xl text-[var(--pull-quote-border)] absolute top-0 left-4;
+    font-family: Georgia, serif;
+  }
+
+  .pull-quote p {
+    @apply text-[var(--pull-quote-text)] text-xl font-semibold italic relative z-10;
   }
 }
 
