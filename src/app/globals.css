@@ -181,23 +181,30 @@
     @apply mt-2 text-foreground;
   }
   .quote-box {
-    @apply my-6 p-6 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm;
-    @apply text-gray-700 dark:text-gray-300 italic;
+    @apply my-8 p-6 bg-[var(--quote-bg)] border border-[var(--quote-border)] rounded-lg shadow-md;
     position: relative;
+  }
+
+  .quote-box::before,
+  .quote-box::after {
+    @apply text-4xl text-[var(--quote-border)] absolute;
+    font-family: Georgia, serif;
   }
 
   .quote-box::before {
     content: '"';
-    @apply text-4xl text-gray-400 dark:text-gray-600 absolute top-2 left-3;
+    top: 0;
+    left: 10px;
   }
 
   .quote-box::after {
     content: '"';
-    @apply text-4xl text-gray-400 dark:text-gray-600 absolute bottom-2 right-3;
+    bottom: -20px;
+    right: 10px;
   }
 
-  .quote-box > * {
-    @apply relative z-10;
+  .quote-content {
+    @apply text-[var(--quote-text)] italic relative z-10;
   }
 }
 
