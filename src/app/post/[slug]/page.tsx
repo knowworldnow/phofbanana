@@ -3,8 +3,6 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getPostBySlug, getAllPosts, getRelatedPosts } from '../../../lib/faust-api';
 import { Post } from '../../../types';
-import CommentForm from '../../../components/CommentForm';
-import CommentList from '../../../components/CommentList';
 import PostHeader from '../../../components/PostHeader';
 import TableOfContents from '../../../components/TableOfContents';
 import SocialSharePanel from '../../../components/SocialSharePanel';
@@ -155,12 +153,6 @@ export default async function PostPage({ params }: { params: { slug: string } })
               <FAQ faqItems={post.faqItems} />
             )}
             <AuthorBox authorName={post.author.node.name} />
-            {post.comments && post.comments.nodes.length > 0 ? (
-              <CommentList comments={post.comments.nodes} />
-            ) : (
-              <p>No comments found.</p>
-            )}
-            <CommentForm postId={post.id} onCommentSubmitted={() => {}} />
           </article>
           <aside className="lg:w-1/3 mt-8 lg:mt-0">
             <TableOfContents content={post.content} />
