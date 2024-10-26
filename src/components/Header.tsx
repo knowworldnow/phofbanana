@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Logo from './Logo';
+import { Input } from './Input'; // Assuming Input component is defined elsewhere
+
 
 const ToggleTheme = dynamic(() => import('./ToggleTheme'), { ssr: false });
 const SearchBar = dynamic(() => import('./SearchBar'));
@@ -16,9 +19,9 @@ export default function Header() {
   const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
   return (
-    <header className="w-full bg-background text-foreground">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20"> {/* Increased height to accommodate logo */}
+    <header className="bg-background sticky top-0 z-40 w-full border-b">
+      <div className="container flex flex-col items-center justify-between space-y-2 py-4 sm:flex-row sm:space-y-0 md:h-16 md:py-0">
+        <div className="flex flex-1 items-center justify-between w-full mt-2 sm:mt-0">
           {/* Left section: Hamburger menu (visible on mobile) */}
           <div className="flex items-center md:hidden">
             <button 
@@ -33,16 +36,17 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Left section: Search (visible on desktop) */}
-          <div className="hidden md:flex items-center w-1/3">
-            <SearchBar className="max-w-xs" />
-          </div>
-
           {/* Center section: Logo */}
           <div className="flex-1 flex justify-center items-center">
-            <div className="w-[240px] h-[80px]">
-              <Logo />
-            </div>
+            <Link href="/" className="flex items-center space-x-2">
+              <Image
+                src="/logo.png"
+                alt="pH of Banana Logo"
+                width={150}
+                height={40}
+                className="w-32 sm:w-36 md:w-40 lg:w-48"
+              />
+            </Link>
           </div>
 
           {/* Right section: Theme Toggle and Navigation */}
@@ -66,6 +70,19 @@ export default function Header() {
             </nav>
           </div>
         </div>
+        <div className="w-full max-w-md mx-auto lg:mx-0 mt-2 sm:mt-0">
+          <Input
+            type="search"
+            placeholder="Search..."
+            className="w-full h-10 px-4 rounded-full"
+          />
+        </div>
+        <nav className="flex items-center space-x-6 text-sm font-medium mt-2 sm:mt-0">
+          <Link href="/" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">Home</Link>
+          <Link href="/about" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">About</Link>
+          <Link href="/contact" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">Contact</Link>
+          <Link href="/categories" className="font-bold hover:text-gray-600 dark:hover:text-gray-300">Categories</Link>
+        </nav>
       </div>
 
       {/* Mobile search bar */}
